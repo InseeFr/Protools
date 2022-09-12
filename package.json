@@ -1,0 +1,86 @@
+{
+	"name": "maquette-protools",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@bpmn-io/properties-panel": "^0.16.0",
+		"@emotion/react": "^11.9.3",
+		"@emotion/styled": "^11.9.3",
+		"@mui/icons-material": "^5.8.4",
+		"@mui/lab": "^5.0.0-alpha.87",
+		"@mui/material": "^5.8.5",
+		"@mui/styles": "^5.8.4",
+		"@mui/x-data-grid": "^5.12.3",
+		"@testing-library/jest-dom": "^5.16.4",
+		"@testing-library/react": "^13.3.0",
+		"@testing-library/user-event": "^14.2.1",
+		"apexcharts": "^3.35.3",
+		"axios": "^0.27.2",
+		"bpmn-js": "^9.2.2",
+		"bpmn-js-collapse-subprocess": "^0.1.1",
+		"bpmn-js-properties-panel": "^1.3.0",
+		"chart.js": "^3.8.0",
+		"date-fns": "^2.28.0",
+		"diagram-js-minimap": "^2.1.1",
+		"dotenv": "^16.0.1",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-plugin-prettier": "^4.1.0",
+		"immer": "^9.0.15",
+		"moment": "^2.29.3",
+		"mui-datatables": "^4.2.2",
+		"react": "^18.2.0",
+		"react-bpmn": "^0.2.0",
+		"react-chartjs-2": "^4.2.0",
+		"react-data-table-component": "^7.5.2",
+		"react-date-fns-hooks": "^0.9.4",
+		"react-dom": "^18.2.0",
+		"react-donut-chart": "^1.3.0",
+		"react-error-boundary": "^3.1.4",
+		"react-hook-form": "^7.33.0",
+		"react-hook-form-mui": "^3.9.0",
+		"react-icons": "^4.4.0",
+		"react-minimal-pie-chart": "^8.3.0",
+		"react-router-dom": "^6.3.0",
+		"react-scripts": "^5.0.1",
+		"styled-components": "^5.3.5",
+		"tss-react": "^3.7.0",
+		"validator": "^13.7.0",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix",
+		"format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"eslint": "^8.18.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-mui-unused-classes": "^1.0.3",
+		"eslint-plugin-react": "^7.30.1",
+		"file-loader": "^6.2.0",
+		"lint-staged": "^13.0.3",
+		"prettier": "^2.7.1"
+	}
+}
