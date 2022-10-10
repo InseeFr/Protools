@@ -1,0 +1,18 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: protools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: protools
+  template:
+    metadata:
+      labels:
+        app: protools
+    spec:
+      containers:
+        - name: protools
+          image: inseefr/protools:latest
+          imagePullPolicy: Always
