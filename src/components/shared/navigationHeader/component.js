@@ -164,7 +164,7 @@ const NavigationHeader = () => {
 							</Typography>
 						</Box>
 						<a
-							href='https://protools-flowable-demo.dev.insee.io/swagger-ui/index.html'
+							href='https://protools-back-office.demo.insee.io/swagger-ui/index.html'
 							target='_blank'
 							style={{ textDecoration: 'none' }}
 							rel='noreferrer'

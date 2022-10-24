@@ -4,13 +4,13 @@ import Moment from 'moment';
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
 		case 'EnqueteTest':
-			return 'https://raw.githubusercontent.com/POCProtools/Protools-Flowable/protools-demo/src/main/resources/processes/casUsageTest.bpmn20.xml';
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/casUsageTest.bpmn20.xml';
 		case 'EnqueteWeb2':
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/bpmn-live-deploy/src/main/resources/processes/TestPQVWithMessages.bpmn20.xml';
 		case 'EnqueteWeb':
-			return 'https://raw.githubusercontent.com/POCProtools/Protools-Flowable/protools-demo/src/main/resources/processes/TestPQVWoMessages.bpmn20.xml';
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/TestPQVWoMessages.bpmn20.xml';
 		case 'EnqueteWebContinue':
-			return 'https://raw.githubusercontent.com/POCProtools/Protools-Flowable/protools-demo/src/main/resources/processes/EnqueteFamille.bpmn20.xml';
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/EnqueteFamille.bpmn20.xml';
 		default:
 			console.log('Error: BPMN file not found');
 			return 'https://raw.githubusercontent.com/bpmn-io/bpmn-js-examples/master/modeler/resources/newDiagram.bpmn';
