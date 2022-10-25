@@ -12,19 +12,7 @@ import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 // Visual dependencies
 import { makeStyles } from 'tss-react/mui';
 import { GlobalStyles } from 'tss-react';
-import {
-	Box,
-	Breadcrumbs,
-	Link,
-	Typography,
-	Grid,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Button,
-} from '@mui/material';
+import { Box, Breadcrumbs, Link, Typography, Grid } from '@mui/material';
 // Custom Components
 import Logo from 'components/shared/logo/logo';
 import TabBarWorkflow from './tabBar';
@@ -115,21 +103,15 @@ const BPMNViewer = (props) => {
 	const [allTasks, setAllTasks] = useState(defaultBpmnElement);
 	const processInformations = useLocation().state;
 	const [rendered, setRendered] = useState(false);
-	const [open, setOpen] = useState(false);
-
-	const handleClose = () => {
-		setOpen(false);
-		window.location.reload(false);
-	};
 
 	useEffect(() => {
 		const url = getUrlBPMNByProcessName(processKey);
-		const pls = getCurrentActivityName(id).then((res) => {
+		const currentActivity = getCurrentActivityName(id).then((res) => {
 			setActivities(res);
 		});
 		setVariables(getVariables(id));
 		setManualTasks(getManualTasks(id));
-		const pls2 = getAllTasksProcess(id).then((res) => {
+		const allTask = getAllTasksProcess(id).then((res) => {
 			setAllTasks(res);
 		});
 
@@ -138,6 +120,7 @@ const BPMNViewer = (props) => {
 				.get(url)
 				.then((r) => {
 					setDiagram(r.data);
+					console.log('Diagram : ', r.data);
 				})
 				.catch((e) => {
 					console.log(e);
@@ -150,7 +133,6 @@ const BPMNViewer = (props) => {
 				console.log('Previous activity: ', activities);
 				if (!(res === activities)) {
 					setActivities(res);
-					setOpen(true);
 				}
 			});
 		}, 600000); // Update every 60 minutes
@@ -258,23 +240,6 @@ const BPMNViewer = (props) => {
 						processKey={processKey}
 					/>
 				</Box>
-				{/* <Dialog open={open} onClose={handleClose}>
-					<DialogTitle>
-						<Typography variant='h4'>
-							Solution Temporaire de suivi temps réel
-						</Typography>
-					</DialogTitle>
-					<DialogContent>
-						<DialogContentText>
-							Le processus est passé à l'étape suivante: {activities}
-						</DialogContentText>
-					</DialogContent>
-					<DialogActions>
-						<Button variant='contained' onClick={handleClose} autoFocus>
-							Recharger la page
-						</Button>
-					</DialogActions>
-				</Dialog> */}
 			</>
 		);
 	}

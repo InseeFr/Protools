@@ -17,6 +17,21 @@ export const getUrlBPMNByProcessName = (selected) => {
 	}
 };
 
+export const getBPMNByProcessName = (selected) => {
+	const urlEndpoint = 'getBPMNFile/';
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
+	console.log('apiUrl: ' + apiUrl);
+	const BpmnFile = fetcherGet(apiUrl)
+		.then((r) => {
+			console.log('Get BPMN File : ', r.data);
+			return r.data;
+		})
+		.catch((e) => {
+			console.log('error', e);
+		});
+	return BpmnFile;
+};
+
 // Retrieve all available task of the current process
 export const getAvailableTasks = (processInstanceId) => {
 	const urlEndpoint = 'tasksProcessID/';
@@ -94,7 +109,7 @@ export const getCurrentActivityName = (id) => {
 	const urlEndpoint = 'executionActivities/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 
-	const RAAAAAAAH = fetcherGet(apiUrl)
+	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			//console.log('Current activities : ', r.data);
 			return r.data;
@@ -102,7 +117,7 @@ export const getCurrentActivityName = (id) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	return RAAAAAAAH;
+	return response;
 };
 
 export const getVariables = (processInstanceID) => {
@@ -160,7 +175,7 @@ export const getAllTasksProcess = (id) => {
 	const urlEndpoint = 'processDefinition/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 
-	const ILFAITCHO = fetcherGet(apiUrl)
+	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
 			const apiUrl2 = process.env.REACT_APP_API_URL + urlEndpoint2 + r.data;
@@ -187,5 +202,5 @@ export const getAllTasksProcess = (id) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	return ILFAITCHO;
+	return response;
 };

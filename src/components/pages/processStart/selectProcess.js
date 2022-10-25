@@ -112,11 +112,8 @@ const SelectProcess = () => {
 						onChange={handleChange}
 					>
 						<MenuItem value={'EnquêteTest'}>Enquête de Test</MenuItem>
-						<MenuItem value={'EnqueteWeb'}>Enquête Web Sans Message</MenuItem>
-						<MenuItem value={'EnqueteWeb2'}>Enquête Web Avec Message</MenuItem>
-						<MenuItem value={'EnqueteWebContinue'}>
-							Enquête Web Continue
-						</MenuItem>
+						<MenuItem value={'EnqueteWeb'}>Proto Qualité Volaille</MenuItem>
+						<MenuItem value={'EnqueteWebContinue'}>Enquête Famille</MenuItem>
 					</Select>
 				</FormControl>
 				<Button variant='contained' onClick={navigationHandler}>

@@ -161,7 +161,7 @@ const ProtocolInfo = (props) => {
 										variant='body2'
 										sx={{ marginLeft: 1 }}
 									>
-										.{Object.entries(data)[0][1].tachesManu}
+										{Object.entries(data)[0][1].tachesManu}
 									</Typography>
 								</Grid>
 								<Grid item container xs={12} direction='row'>
