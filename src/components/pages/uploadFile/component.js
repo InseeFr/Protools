@@ -1,6 +1,6 @@
-import React, { useState, useLocation } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
 	Grid,
 	Box,
@@ -121,7 +121,7 @@ const UploadFile = () => {
 							<Button
 								variant='contained'
 								sx={{ marginTop: 3 }}
-								onClick={() => handleSubmit()}
+								onClick={handleSubmit}
 							>
 								<Typography value='h3'>Envoyer (coucou c'est sale) </Typography>
 							</Button>
