@@ -1,10 +1,23 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useLocation } from 'react';
 import { makeStyles } from 'tss-react/mui';
-import { Grid, Box, Typography, CardContent, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import {
+	Grid,
+	Box,
+	Typography,
+	CardContent,
+	Button,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	DialogContentText,
+} from '@mui/material';
 import CustomCard from 'components/shared/styledComponents/card/card';
 import Logo from 'components/shared/logo/logo';
 import { GlobalStyles } from 'tss-react';
 import SideBar from 'components/shared/sidepanel/sidepanel';
+import { uploadFileToProcess } from 'utils/dataProcess/processExecution';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -58,29 +71,26 @@ const useStyles = makeStyles()((theme) => {
 // TODO : Refaire le form en MUI, pour l'instant ça marche pas...
 const UploadFile = () => {
 	const { classes } = useStyles();
+	const navigate = useNavigate();
 
 	const [files, setFiles] = useState(null);
-	const inputRef = useRef();
+	const [open, setOpen] = useState(false);
+	const state = useLocation().state;
+	const taskID = state.taskID;
 
-	function handleSubmit(event) {
+	const handleClose = () => {
+		setOpen(false);
+		navigate(-1);
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
 		console.log('File submit');
 		console.log('file uploaded : ', files);
-	}
-	function handleChange(event) {
+		uploadFileToProcess(files, taskID);
+	};
+	const handleChange = (event) => {
 		setFiles(event.target.files[0]);
-	}
-
-	// send files to the server // learn from my other video
-	const handleUpload = () => {
-		const formData = new FormData();
-		formData.append('Files', files);
-		console.log(formData.getAll());
-		// fetch(
-		//   "link", {
-		//     method: "POST",
-		//     body: formData
-		//   }
-		// )
 	};
 
 	return (
@@ -119,6 +129,21 @@ const UploadFile = () => {
 					</CardContent>
 				</CustomCard>
 			</Grid>
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle>
+					<Typography variant='h4'>Task Service</Typography>
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						Tâche exécutée avec succès, retour au suivi du processus.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button variant='contained' onClick={handleClose} autoFocus>
+						Ok
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</>
 	);
 };

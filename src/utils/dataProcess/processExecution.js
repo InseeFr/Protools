@@ -1,4 +1,5 @@
 import { fetcherPost } from 'core/fetchData/fetchData';
+import axios from 'axios';
 
 export const claimTask = (user, taskID) => {
 	const urlEndpoint = 'get-tasks/';
@@ -99,4 +100,20 @@ export const relaunchProcess = (processID) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
+};
+
+export const uploadFileToProcess = (file, taskID) => {
+	const urlEndpoint = 'upload-file/';
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const formData = new FormData();
+	formData.append('file', file);
+	formData.append('taskID', taskID);
+	const config = {
+		headers: {
+			'content-type': 'multipart/form-data',
+		},
+	};
+	axios.post(apiUrl, formData, config).then((response) => {
+		console.log(response.data);
+	});
 };
