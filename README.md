@@ -22,4 +22,4 @@ npm install --legacy-peer-deps
 
 #### Environment Variables
 
-`REACT_APP_API_URL`: Url of the Protools Back-end API (example : `'http://localhost:8080/'`)
+`REACT_APP_API_URL`: Protools Back-end API URL (example : `'http://localhost:8080/'`)
