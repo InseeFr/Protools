@@ -8,6 +8,7 @@ import FormVariables from 'components/pages/formVariables/component';
 import History from 'components/pages/history/component';
 import Visualizer from '../components/pages/visuTypes/component';
 import ProtocolTypeViwer from '../components/pages/visuTypes/protocoleDisplay';
+import UploadFile from 'components/pages/uploadFile/component';
 const RoutesWeb = () => {
 	return (
 		<Router>
@@ -20,6 +21,7 @@ const RoutesWeb = () => {
 				<Route path={'/history'} element={<History />} />
 				<Route path={'/protocol-types'} element={<Visualizer />} />
 				<Route path={'/protocol-display'} element={<ProtocolTypeViwer />} />
+				<Route path={'/upload-context'} element={<UploadFile />} />
 			</Routes>
 		</Router>
 	);
