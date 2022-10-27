@@ -75,8 +75,8 @@ const UploadFile = () => {
 
 	const [files, setFiles] = useState(null);
 	const [open, setOpen] = useState(false);
-	const state = useLocation().state;
-	const taskID = state.taskID;
+	//const state = useLocation().state;
+	//const taskID = state.taskID;
 
 	const handleClose = () => {
 		setOpen(false);
@@ -87,7 +87,7 @@ const UploadFile = () => {
 		event.preventDefault();
 		console.log('File submit');
 		console.log('file uploaded : ', files);
-		uploadFileToProcess(files, taskID);
+		uploadFileToProcess(files, 'taskID');
 	};
 	const handleChange = (event) => {
 		setFiles(event.target.files[0]);

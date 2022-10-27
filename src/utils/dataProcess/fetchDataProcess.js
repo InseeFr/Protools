@@ -42,16 +42,16 @@ export const getAvailableTasks = (processInstanceId) => {
 	fetcherGet(apiUrl)
 		.then((r) => {
 			const datatmp = r.data;
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
-					id: datatmp[i].TaskId,
-					name: datatmp[i].name,
-					description: datatmp[i].description,
-					processInstance: datatmp[i].processInstance,
-					createTime: datatmp[i].createTime,
-					processDefinitionID: datatmp[i].processDefinitionID,
+					id: element.TaskId,
+					name: element.name,
+					description: element.description,
+					processInstance: element.processInstance,
+					createTime: element.createTime,
+					processDefinitionID: element.processDefinitionID,
 				});
-				listName.push(datatmp[i].name);
+				listName.push(element.name);
 			}
 		})
 		.catch((e) => {
@@ -71,7 +71,6 @@ export const getProcessDefinitionID = async (id) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	//console.log('ProcessDefinitionId', result);
 };
 
 // Retrieve the id of a task from task name
@@ -96,7 +95,6 @@ export const getBPMNInfo = (id, listName) => {
 	fetcherGet(apiUrl)
 		.then((r) => {
 			response = getCorrespondingBpmnElement(r.data, listName);
-			//console.log('getBPMNInfo: ', response);
 			return response;
 		})
 		.catch((e) => {
@@ -154,13 +152,12 @@ export const getManualTasks = (processInstanceID) => {
 		.then((r) => {
 			const datatmp = r.data;
 
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
-					id: datatmp[i].TaskId,
-					name: datatmp[i].name,
-					createTime: Moment(datatmp[i].createTime).format(
-						'DD/MM/YYYY - HH:mm'
-					),
+					id: element.TaskId,
+					name: element.name,
+					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
+					category: element.category,
 				});
 			}
 		})

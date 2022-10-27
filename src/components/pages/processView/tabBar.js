@@ -112,6 +112,13 @@ const TabBarWorkflow = (props) => {
 			description: 'Date de création de la tâche',
 		},
 		{
+			field: 'category',
+			headerName: 'Type',
+			flex: 0.3,
+			minWidth: 150,
+			description: 'Type de tâche manuelle',
+		},
+		{
 			field: 'action',
 			headerName: ' ',
 			align: 'center',
@@ -130,6 +137,7 @@ const TabBarWorkflow = (props) => {
 							taskName: params.row.name,
 							taskID: params.row.id,
 							variables: dataVariables,
+							taskCategory: params.row.category,
 						}}
 					>
 						<FiUserPlus />

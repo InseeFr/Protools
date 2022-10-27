@@ -19,7 +19,7 @@ export const fetchProcessData = () => {
 	const urlEndpoint = 'processInstances/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
-	var pieProcessdata = {
+	let pieProcessdata = {
 		labels: ['Enquête Famille', 'Qualité Poulet', 'Test'],
 		datasets: [
 			{
@@ -69,7 +69,7 @@ export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
-	var pieProcessdata = {
+	let pieProcessdata = {
 		labels: ['Demande Information', 'Vérification avant Validation', 'Autres'],
 		datasets: [
 			{
@@ -84,15 +84,13 @@ export const fetchTaskData = () => {
 	fetcherGet(apiUrl)
 		.then((r) => {
 			const datatmp = r.data;
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
-					id: datatmp[i].TaskId,
-					name: datatmp[i].name,
-					description: datatmp[i].description,
-					processInstance: datatmp[i].processInstance,
-					createTime: Moment(datatmp[i].createTime).format(
-						'DD/MM/YYYY - HH:mm'
-					),
+					id: element.TaskId,
+					name: element.name,
+					description: element.description,
+					processInstance: element.processInstance,
+					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
 					action: '',
 				});
 			}
@@ -143,7 +141,7 @@ export const fetchIncidentsData = () => {
 	const urlEndpointDead = 'history/deadLetter'; // Deadletter jobs process
 	const apiUrlDead = process.env.REACT_APP_API_URL + urlEndpointDead;
 
-	var pieIncidentdata = {
+	let pieIncidentdata = {
 		labels: ['Suspendu', 'Échecs', 'Externes'],
 		datasets: [
 			{
@@ -158,14 +156,14 @@ export const fetchIncidentsData = () => {
 	fetcherGet(apiUrl)
 		.then((r) => {
 			const datatmp = r.data;
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
 					typeIncident: 'Suspended',
-					id: datatmp[i].elementId,
-					name: datatmp[i].elementName,
-					type: datatmp[i].jobType,
-					processID: datatmp[i].processDefinitionId,
-					retries: datatmp[i].retries,
+					id: element.elementId,
+					name: element.elementName,
+					type: element.jobType,
+					processID: element.processDefinitionId,
+					retries: element.retries,
 				});
 				pieIncidentdata.datasets[0].data[0] += 1;
 			}
@@ -178,18 +176,17 @@ export const fetchIncidentsData = () => {
 	fetcherGet(apiUrlDead)
 		.then((r) => {
 			const datatmp = r.data;
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
 					typeIncident: 'Deadletter',
-					id: datatmp[i].correlationId,
-					name: datatmp[i].elementName,
-					type: datatmp[i].jobType,
-					processID: datatmp[i].processDefinitionId,
-					retries: datatmp[i].retries,
+					id: element.correlationId,
+					name: element.elementName,
+					type: element.jobType,
+					processID: element.processDefinitionId,
+					retries: element.retries,
 				});
 				pieIncidentdata.datasets[0].data[1] += 1;
 			}
-			//console.log('dataUrlDead', dataUrl);
 		})
 		.catch((e) => {
 			console.log(e);

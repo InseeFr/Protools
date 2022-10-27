@@ -25,7 +25,6 @@ import {
 	getVariables,
 	getManualTasks,
 	getAllTasksProcess,
-	getProcessDefinitionID,
 } from 'utils/dataProcess/fetchDataProcess';
 import {
 	defaultDataVariables,
@@ -100,20 +99,14 @@ const BPMNViewer = (props) => {
 	const [activities, setActivities] = useState([]);
 	const [variables, setVariables] = useState([]);
 	const [manualTasks, setManualTasks] = useState([]);
-	const [allTasks, setAllTasks] = useState(defaultBpmnElement);
+	const [allTasks] = useState(defaultBpmnElement);
 	const processInformations = useLocation().state;
 	const [rendered, setRendered] = useState(false);
 
 	useEffect(() => {
 		const url = getUrlBPMNByProcessName(processKey);
-		const currentActivity = getCurrentActivityName(id).then((res) => {
-			setActivities(res);
-		});
 		setVariables(getVariables(id));
 		setManualTasks(getManualTasks(id));
-		const allTask = getAllTasksProcess(id).then((res) => {
-			setAllTasks(res);
-		});
 
 		setTimeout(() => {
 			axios
@@ -127,15 +120,7 @@ const BPMNViewer = (props) => {
 				});
 			setLoading(false);
 		}, 200);
-		const interval = setInterval(() => {
-			const pls = getCurrentActivityName(id).then((res) => {
-				console.log('Current activity: ', res);
-				console.log('Previous activity: ', activities);
-				if (!(res === activities)) {
-					setActivities(res);
-				}
-			});
-		}, 600000); // Update every 60 minutes
+		const interval = setInterval(() => {}, 600000); // Update every 60 minutes
 		return () => clearInterval(interval);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -153,10 +138,10 @@ const BPMNViewer = (props) => {
 				viewer.get('canvas').zoom('fit-viewport');
 				// add visual token to the diagram
 				const overlays = viewer.get('overlays');
-				for (let i = 0; i < activities.length; i++) {
-					console.log('activity', activities[i]);
+				for (const element of activities) {
+					console.log('activity', element);
 
-					overlays.add(activities[i], 'note', {
+					overlays.add(element, 'note', {
 						position: {
 							bottom: 18,
 							right: 18,
