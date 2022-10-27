@@ -99,30 +99,44 @@ const BPMNViewer = (props) => {
 	const [activities, setActivities] = useState([]);
 	const [variables, setVariables] = useState([]);
 	const [manualTasks, setManualTasks] = useState([]);
-	const [allTasks] = useState(defaultBpmnElement);
+	const [allTasks, setAllTasks] = useState(defaultBpmnElement);
 	const processInformations = useLocation().state;
 	const [rendered, setRendered] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		const url = getUrlBPMNByProcessName(processKey);
+		const pls = getCurrentActivityName(id).then((res) => {
+			setActivities(res);
+		});
 		setVariables(getVariables(id));
 		setManualTasks(getManualTasks(id));
+		const pls2 = getAllTasksProcess(id).then((res) => {
+			setAllTasks(res);
+		});
 
 		setTimeout(() => {
 			axios
 				.get(url)
 				.then((r) => {
 					setDiagram(r.data);
-					console.log('Diagram : ', r.data);
 				})
 				.catch((e) => {
 					console.log(e);
 				});
 			setLoading(false);
 		}, 200);
-		const interval = setInterval(() => {}, 600000); // Update every 60 minutes
+		const interval = setInterval(() => {
+			const pls = getCurrentActivityName(id).then((res) => {
+				console.log('Current activity: ', res);
+				console.log('Previous activity: ', activities);
+				if (!(res === activities)) {
+					setActivities(res);
+					setOpen(true);
+				}
+			});
+		}, 600000); // Update every 60 minutes
 		return () => clearInterval(interval);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (diagram.length > 0 && !rendered) {
