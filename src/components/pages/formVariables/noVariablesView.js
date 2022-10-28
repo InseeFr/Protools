@@ -60,7 +60,7 @@ const NoVariablesViews = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Tâche exécutée avec succès, retour au menu principal.
+						Commande lancée avec succès, retour au menu principal.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

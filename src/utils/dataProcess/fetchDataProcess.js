@@ -11,10 +11,27 @@ export const getUrlBPMNByProcessName = (selected) => {
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/TestPQVWoMessages.bpmn20.xml';
 		case 'EnqueteWebContinue':
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/EnqueteFamille.bpmn20.xml';
+		case 'ProcessTestFeature':
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/File-Upload/src/main/resources/processes/ProcessTestFeatures.bpmn20.xml';
 		default:
 			console.log('Error: BPMN file not found');
 			return 'https://raw.githubusercontent.com/bpmn-io/bpmn-js-examples/master/modeler/resources/newDiagram.bpmn';
 	}
+};
+
+export const getBPMNByProcessName = (selected) => {
+	const urlEndpoint = 'getBPMNFile/';
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
+	console.log('apiUrl: ' + apiUrl);
+	const BpmnFile = fetcherGet(apiUrl)
+		.then((r) => {
+			console.log('Get BPMN File : ', r.data);
+			return r.data;
+		})
+		.catch((e) => {
+			console.log('error', e);
+		});
+	return BpmnFile;
 };
 
 // Retrieve all available task of the current process
@@ -27,16 +44,16 @@ export const getAvailableTasks = (processInstanceId) => {
 	fetcherGet(apiUrl)
 		.then((r) => {
 			const datatmp = r.data;
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
-					id: datatmp[i].TaskId,
-					name: datatmp[i].name,
-					description: datatmp[i].description,
-					processInstance: datatmp[i].processInstance,
-					createTime: datatmp[i].createTime,
-					processDefinitionID: datatmp[i].processDefinitionID,
+					id: element.TaskId,
+					name: element.name,
+					description: element.description,
+					processInstance: element.processInstance,
+					createTime: element.createTime,
+					processDefinitionID: element.processDefinitionID,
 				});
-				listName.push(datatmp[i].name);
+				listName.push(element.name);
 			}
 		})
 		.catch((e) => {
@@ -56,7 +73,6 @@ export const getProcessDefinitionID = async (id) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	//console.log('ProcessDefinitionId', result);
 };
 
 // Retrieve the id of a task from task name
@@ -81,7 +97,6 @@ export const getBPMNInfo = (id, listName) => {
 	fetcherGet(apiUrl)
 		.then((r) => {
 			response = getCorrespondingBpmnElement(r.data, listName);
-			//console.log('getBPMNInfo: ', response);
 			return response;
 		})
 		.catch((e) => {
@@ -94,7 +109,7 @@ export const getCurrentActivityName = (id) => {
 	const urlEndpoint = 'executionActivities/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 
-	const RAAAAAAAH = fetcherGet(apiUrl)
+	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			//console.log('Current activities : ', r.data);
 			return r.data;
@@ -102,7 +117,7 @@ export const getCurrentActivityName = (id) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	return RAAAAAAAH;
+	return response;
 };
 
 export const getVariables = (processInstanceID) => {
@@ -139,19 +154,20 @@ export const getManualTasks = (processInstanceID) => {
 		.then((r) => {
 			const datatmp = r.data;
 
-			for (let i = 0; i < datatmp.length; i++) {
+			for (const element of datatmp) {
 				dataUrl.push({
-					id: datatmp[i].TaskId,
-					name: datatmp[i].name,
-					createTime: Moment(datatmp[i].createTime).format(
-						'DD/MM/YYYY - HH:mm'
-					),
+					id: element.TaskId,
+					name: element.name,
+					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
+					category: element.category,
+					link: getManualTaskCategoryLink(element.category),
 				});
 			}
 		})
 		.catch((e) => {
 			console.log('error', e);
 		});
+	console.log('Manual Tasks : ', dataUrl);
 	return dataUrl;
 };
 
@@ -160,7 +176,7 @@ export const getAllTasksProcess = (id) => {
 	const urlEndpoint = 'processDefinition/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 
-	const ILFAITCHO = fetcherGet(apiUrl)
+	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
 			const apiUrl2 = process.env.REACT_APP_API_URL + urlEndpoint2 + r.data;
@@ -187,5 +203,16 @@ export const getAllTasksProcess = (id) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	return ILFAITCHO;
+	return response;
+};
+
+const getManualTaskCategoryLink = (category) => {
+	switch (category) {
+		case 'upload':
+			return '/upload-context';
+		case 'review':
+			return '/review-variable';
+		default:
+			return '/form';
+	}
 };

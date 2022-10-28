@@ -12,13 +12,14 @@ import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 // Visual dependencies
 import { makeStyles } from 'tss-react/mui';
 import { GlobalStyles } from 'tss-react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 // Custom Components
 import Logo from 'components/shared/logo/logo';
 import SideBar from 'components/shared/sidepanel/sidepanel';
 import CustomCard from 'components/shared/styledComponents/card/card';
+import Loader from 'components/shared/loader/loader';
 // Data retrieve functions
-
+import { getBPMNByProcessName } from 'utils/dataProcess/fetchDataProcess';
 import ProtocolInfo from './protocolInfo';
 
 const useStyles = makeStyles()((theme) => {
@@ -91,10 +92,13 @@ const useStyles = makeStyles()((theme) => {
 
 const ProtocolTypeViwer = (props) => {
 	const { classes } = useStyles();
-	const [diagram, setDiagram] = useState('');
 	const [rendered, setRendered] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
-	const url = params.state.selected;
+	const urlEndpoint = 'getBPMNFile/';
+	const url =
+		process.env.REACT_APP_API_URL + urlEndpoint + params.state.selected;
 	const processInfo = params.state.processInfo;
 
 	useEffect(() => {
@@ -103,12 +107,12 @@ const ProtocolTypeViwer = (props) => {
 				.get(url)
 				.then((r) => {
 					setDiagram(r.data);
-					console.log('processInformationsDoc : ', processInfo);
+					console.log('Diagram : ', r.data);
 				})
 				.catch((e) => {
 					console.log(e);
 				});
-		}, 200);
+		}, 800);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -124,16 +128,16 @@ const ProtocolTypeViwer = (props) => {
 			.then(() => {
 				viewer.get('canvas').zoom('fit-viewport');
 				setRendered(true);
+				//setActivities(activities);
 			})
+
 			.catch((err) => {
 				console.log('error', err);
 			});
 	}
-
-	return (
-		<>
-			<SideBar page='design' />
-			<Box justifyContent='center'>
+	if (loading) {
+		return (
+			<>
 				<GlobalStyles
 					styles={{
 						body: {
@@ -141,19 +145,44 @@ const ProtocolTypeViwer = (props) => {
 						},
 					}}
 				/>
-				<Box className={classes.TitleHeader}>
-					<Logo className={classes.logo} />
-					<Typography variant='h3' className={classes.title}>
-						Visualisation Protocoles
-					</Typography>
+				<SideBar />
+				<Grid justifyContent='center'>
+					<Box className={classes.TitleHeader}>
+						<Logo className={classes.logo} />
+						<Typography variant='h3' className={classes.title}>
+							Workflows
+						</Typography>
+					</Box>
+					<Loader />
+				</Grid>
+			</>
+		);
+	} else {
+		return (
+			<>
+				<SideBar page='design' />
+				<Box justifyContent='center'>
+					<GlobalStyles
+						styles={{
+							body: {
+								backgroundColor: '#F9FAFC',
+							},
+						}}
+					/>
+					<Box className={classes.TitleHeader}>
+						<Logo className={classes.logo} />
+						<Typography variant='h3' className={classes.title}>
+							Visualisation Protocoles
+						</Typography>
+					</Box>
+					<div id='containerBPMN' className={classes.viewerStyle} />
+					<CustomCard className={classes.cardTab}>
+						<ProtocolInfo processInfo={processInfo} />
+					</CustomCard>
 				</Box>
-				<div id='containerBPMN' className={classes.viewerStyle} />
-				<CustomCard className={classes.cardTab}>
-					<ProtocolInfo processInfo={processInfo} />
-				</CustomCard>
-			</Box>
-		</>
-	);
+			</>
+		);
+	}
 };
 
 export default ProtocolTypeViwer;

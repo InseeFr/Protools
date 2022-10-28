@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { CardContent, Box } from '@mui/material';
+import { CardContent } from '@mui/material';
 import {
 	StyledTabs,
 	StyledTab,
@@ -8,7 +8,6 @@ import {
 import { makeStyles } from 'tss-react/mui';
 import CustomCard from 'components/shared/styledComponents/card/card';
 import { tabPropIndex, TabPanel } from 'components/shared/tabPanel/tabPanel';
-import theme from 'theme';
 import {
 	columnsManu,
 	columnsProcessData,

@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import { temporaryExecuteTask } from 'utils/dataProcess/processExecution';
 
+// Ceci est juste un test => à supprimer
 const getVariablesObject = (variables) => {
 	const variablesObject = {};
 	for (let i = 0; i < variables.length; i++) {
@@ -118,7 +119,7 @@ const FormContentPQV = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Tâche exécutée avec succès, retour au menu principal.
+						Commande lancée avec succès, retour au menu principal.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
