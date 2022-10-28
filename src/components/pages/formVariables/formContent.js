@@ -137,7 +137,7 @@ const FormComponent = (props) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Tâche exécutée avec succès, retour au suivi du processus.
+						Commande lancée avec succès, retour au suivi du processus.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

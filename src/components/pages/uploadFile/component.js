@@ -75,8 +75,8 @@ const UploadFile = () => {
 
 	const [files, setFiles] = useState(null);
 	const [open, setOpen] = useState(false);
-	//const state = useLocation().state;
-	//const taskID = state.taskID;
+	const state = useLocation().state;
+	const taskID = state.taskID;
 
 	const handleClose = () => {
 		setOpen(false);
@@ -85,9 +85,9 @@ const UploadFile = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log('File submit');
 		console.log('file uploaded : ', files);
-		uploadFileToProcess(files, 'taskID');
+		uploadFileToProcess(files, taskID);
+		setOpen(true);
 	};
 	const handleChange = (event) => {
 		setFiles(event.target.files[0]);
@@ -123,7 +123,7 @@ const UploadFile = () => {
 								sx={{ marginTop: 3 }}
 								onClick={handleSubmit}
 							>
-								<Typography value='h3'>Envoyer (coucou c'est sale) </Typography>
+								<Typography value='h3'>Envoyer</Typography>
 							</Button>
 						</form>
 					</CardContent>
@@ -135,7 +135,7 @@ const UploadFile = () => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Tâche exécutée avec succès, retour au suivi du processus.
+						Commande lancée avec succès, retour au suivi du processus.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

@@ -103,7 +103,7 @@ export const relaunchProcess = (processID) => {
 };
 
 export const uploadFileToProcess = (file, taskID) => {
-	const urlEndpoint = 'upload-file/';
+	const urlEndpoint = 'upload-context/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const formData = new FormData();
 	formData.append('file', file);
@@ -114,6 +114,6 @@ export const uploadFileToProcess = (file, taskID) => {
 		},
 	};
 	axios.post(apiUrl, formData, config).then((response) => {
-		console.log(response.data);
+		console.log('File upload response code : ', response.status);
 	});
 };
