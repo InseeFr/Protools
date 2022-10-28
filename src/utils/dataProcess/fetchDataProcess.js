@@ -11,6 +11,8 @@ export const getUrlBPMNByProcessName = (selected) => {
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/TestPQVWoMessages.bpmn20.xml';
 		case 'EnqueteWebContinue':
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/EnqueteFamille.bpmn20.xml';
+		case 'ProcessTestFeature':
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/File-Upload/src/main/resources/processes/ProcessTestFeatures.bpmn20.xml';
 		default:
 			console.log('Error: BPMN file not found');
 			return 'https://raw.githubusercontent.com/bpmn-io/bpmn-js-examples/master/modeler/resources/newDiagram.bpmn';
@@ -158,12 +160,14 @@ export const getManualTasks = (processInstanceID) => {
 					name: element.name,
 					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
 					category: element.category,
+					link: getManualTaskCategoryLink(element.category),
 				});
 			}
 		})
 		.catch((e) => {
 			console.log('error', e);
 		});
+	console.log('Manual Tasks : ', dataUrl);
 	return dataUrl;
 };
 
@@ -200,4 +204,15 @@ export const getAllTasksProcess = (id) => {
 			console.log('error', e);
 		});
 	return response;
+};
+
+const getManualTaskCategoryLink = (category) => {
+	switch (category) {
+		case 'upload':
+			return '/upload-context';
+		case 'review':
+			return '/review-variable';
+		default:
+			return '/form';
+	}
 };

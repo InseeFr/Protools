@@ -18,6 +18,7 @@ import {
 	processBPMNElementColumn,
 } from 'utils/dataProcess/mockDataProcess';
 import ProcessGlobalInfo from './processGlobalInfo';
+import { getManualTasks } from '../../../utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -129,7 +130,7 @@ const TabBarWorkflow = (props) => {
 				<>
 					<Link
 						to={{
-							pathname: `/form`,
+							pathname: params.row.link,
 						}}
 						underline='none'
 						state={{
