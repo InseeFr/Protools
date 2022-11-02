@@ -69,8 +69,8 @@ export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
-	let pieProcessdata = {
-		labels: ['Demande Information', 'Vérification avant Validation', 'Autres'],
+	let pieTaskdata = {
+		labels: ['Upload de fichier', 'Review informations', 'Autres'],
 		datasets: [
 			{
 				label: 'processus',
@@ -88,19 +88,21 @@ export const fetchTaskData = () => {
 				dataUrl.push({
 					id: element.TaskId,
 					name: element.name,
+					category: element.category,
 					description: element.description,
 					processInstance: element.processInstance,
 					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
 					action: '',
 				});
+				const indexColor = getPieTaskCategoryIndex(element.category);
+				pieTaskdata.datasets[0].data[indexColor] =
+					pieTaskdata.datasets[0].data[indexColor] + 1;
 			}
-			const pieData = getTaskPieColorIndex(datatmp.map((task) => task.name));
-			pieProcessdata.datasets[0].data = pieData;
 		})
 		.catch((e) => {
 			console.log(e);
 		});
-	return [dataUrl, pieProcessdata];
+	return [dataUrl, pieTaskdata];
 };
 
 const getPieProcessColorIndex = (BusinessKey) => {
@@ -114,6 +116,17 @@ const getPieProcessColorIndex = (BusinessKey) => {
 
 		default:
 			return 4;
+	}
+};
+
+const getPieTaskCategoryIndex = (taskCategory) => {
+	switch (taskCategory) {
+		case 'Upload':
+			return 0;
+		case 'Review':
+			return 1;
+		default:
+			return 2;
 	}
 };
 

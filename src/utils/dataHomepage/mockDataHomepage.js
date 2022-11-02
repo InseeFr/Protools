@@ -113,6 +113,14 @@ export const columnsManu = [
 		description: 'Description de la tâche manuelle',
 	},
 	{
+		field: 'category',
+		headerName: 'Catégorie',
+		headerClassName: 'columns--header',
+		flex: 0.2,
+		minWidth: 170,
+		description: 'Type de tâche manuelle',
+	},
+	{
 		field: 'createTime',
 		headerName: 'Date début',
 		headerClassName: 'columns--header',
@@ -127,22 +135,6 @@ export const columnsManu = [
 		flex: 0.4,
 		minWidth: 150,
 		description: 'Processus pour lequel la tâche manuelle est associée',
-	},
-];
-
-// Mock data for available usertasks
-export const dataManu = [
-	{
-		id: 'TaskID1',
-		state: true,
-		name: 'Select Sample',
-		date: '04/02/2022-10:20:45',
-	},
-	{
-		id: 'TaskID2',
-		state: false,
-		name: '[nomTacheManu]',
-		date: '04/02/2022-10:20:45',
 	},
 ];
 
