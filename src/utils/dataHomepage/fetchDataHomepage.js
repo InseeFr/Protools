@@ -2,7 +2,6 @@
 import { fetcherGet } from 'core/fetchData/fetchData';
 import theme from 'theme';
 import Moment from 'moment';
-import { taskDictionary } from 'utils/mockData';
 
 const getProcessState = (datatmp, i) => {
 	if (datatmp[i].isSuspended) {
@@ -70,12 +69,17 @@ export const fetchTaskData = () => {
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {
-		labels: ['Upload de fichier', 'Review informations', 'Autres'],
+		labels: [
+			'Upload de fichier',
+			'Review informations',
+			'Action sur enquête',
+			'Autre',
+		],
 		datasets: [
 			{
 				label: 'processus',
 				data: [0, 0, 0],
-				backgroundColor: ['#555b6e', '#ffd6ba', '#89b0ae'],
+				backgroundColor: ['#555b6e', '#ffd6ba', '#89b0ae', '#81A4CD'],
 				borderColor: [theme.palette.background.default],
 				borderWidth: 2,
 			},
@@ -125,25 +129,11 @@ const getPieTaskCategoryIndex = (taskCategory) => {
 			return 0;
 		case 'Review':
 			return 1;
+		case 'SurveyAction':
+			return 2;
 		default:
 			return 2;
 	}
-};
-
-export const getTaskPieColorIndex = (liste) => {
-	const keys = Object.keys(taskDictionary).reduce((accumulator, value) => {
-		return { ...accumulator, [value]: 0 };
-	}, {});
-
-	const obj = Object.entries(taskDictionary).reduce(
-		(accumulator, [key, value]) => [
-			...accumulator,
-			liste.filter((task) => value.includes(task)).length,
-		],
-		[]
-	);
-
-	return obj;
 };
 
 export const fetchIncidentsData = () => {
