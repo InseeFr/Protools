@@ -2,7 +2,6 @@
 import { fetcherGet } from 'core/fetchData/fetchData';
 import theme from 'theme';
 import Moment from 'moment';
-import { taskDictionary } from 'utils/mockData';
 
 const getProcessState = (datatmp, i) => {
 	if (datatmp[i].isSuspended) {
@@ -69,13 +68,18 @@ export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
-	let pieProcessdata = {
-		labels: ['Demande Information', 'Vérification avant Validation', 'Autres'],
+	let pieTaskdata = {
+		labels: [
+			'Upload de fichier',
+			'Review informations',
+			'Action sur enquête',
+			'Autre',
+		],
 		datasets: [
 			{
 				label: 'processus',
 				data: [0, 0, 0],
-				backgroundColor: ['#555b6e', '#ffd6ba', '#89b0ae'],
+				backgroundColor: ['#555b6e', '#ffd6ba', '#89b0ae', '#81A4CD'],
 				borderColor: [theme.palette.background.default],
 				borderWidth: 2,
 			},
@@ -88,19 +92,21 @@ export const fetchTaskData = () => {
 				dataUrl.push({
 					id: element.TaskId,
 					name: element.name,
+					category: element.category,
 					description: element.description,
 					processInstance: element.processInstance,
 					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
 					action: '',
 				});
+				const indexColor = getPieTaskCategoryIndex(element.category);
+				pieTaskdata.datasets[0].data[indexColor] =
+					pieTaskdata.datasets[0].data[indexColor] + 1;
 			}
-			const pieData = getTaskPieColorIndex(datatmp.map((task) => task.name));
-			pieProcessdata.datasets[0].data = pieData;
 		})
 		.catch((e) => {
 			console.log(e);
 		});
-	return [dataUrl, pieProcessdata];
+	return [dataUrl, pieTaskdata];
 };
 
 const getPieProcessColorIndex = (BusinessKey) => {
@@ -117,20 +123,17 @@ const getPieProcessColorIndex = (BusinessKey) => {
 	}
 };
 
-export const getTaskPieColorIndex = (liste) => {
-	const keys = Object.keys(taskDictionary).reduce((accumulator, value) => {
-		return { ...accumulator, [value]: 0 };
-	}, {});
-
-	const obj = Object.entries(taskDictionary).reduce(
-		(accumulator, [key, value]) => [
-			...accumulator,
-			liste.filter((task) => value.includes(task)).length,
-		],
-		[]
-	);
-
-	return obj;
+const getPieTaskCategoryIndex = (taskCategory) => {
+	switch (taskCategory) {
+		case 'Upload':
+			return 0;
+		case 'Review':
+			return 1;
+		case 'SurveyAction':
+			return 2;
+		default:
+			return 2;
+	}
 };
 
 export const fetchIncidentsData = () => {
