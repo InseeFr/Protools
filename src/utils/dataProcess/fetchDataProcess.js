@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetchData';
+import { getConfigFile } from 'core/config/configuration';
 import Moment from 'moment';
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
@@ -21,7 +22,8 @@ export const getUrlBPMNByProcessName = (selected) => {
 
 export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + selected;
 	console.log('apiUrl: ' + apiUrl);
 	const BpmnFile = fetcherGet(apiUrl)
 		.then((r) => {
@@ -34,11 +36,10 @@ export const getBPMNByProcessName = (selected) => {
 	return BpmnFile;
 };
 
-// Retrieve all available task of the current process
 export const getAvailableTasks = (processInstanceId) => {
 	const urlEndpoint = 'tasksProcessID/';
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceId;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + processInstanceId;
 	const dataUrl = [];
 	const listName = [];
 	fetcherGet(apiUrl)
@@ -65,7 +66,8 @@ export const getAvailableTasks = (processInstanceId) => {
 // Retrieve processDefinition ID from Process Instance ID
 export const getProcessDefinitionID = async (id) => {
 	const urlEndpoint = 'processDefinition/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + id;
 	fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -92,7 +94,8 @@ export const getCorrespondingBpmnElement = (BpmnResponse, liste) => {
 // Retrieve all BPMN elements from a processDefinitionID
 export const getBPMNInfo = (id, listName) => {
 	const urlEndpoint = 'bpmnInfo/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + id;
 	let response = {};
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -107,8 +110,8 @@ export const getBPMNInfo = (id, listName) => {
 export const getCurrentActivityName = (id) => {
 	// Fetch currents activities
 	const urlEndpoint = 'executionActivities/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
-
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + id;
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -121,8 +124,8 @@ export const getCurrentActivityName = (id) => {
 
 export const getVariables = (processInstanceID) => {
 	const urlEndpoint = 'variables/';
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -146,8 +149,8 @@ export const getVariables = (processInstanceID) => {
 
 export const getManualTasks = (processInstanceID) => {
 	const urlEndpoint = 'tasksProcessID/';
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -173,12 +176,13 @@ export const getManualTasks = (processInstanceID) => {
 export const getAllTasksProcess = (id) => {
 	//TODO : Refactor cette fonction pour ne faire qu'une requête pour les deux usages
 	const urlEndpoint = 'processDefinition/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + id;
 
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
-			const apiUrl2 = process.env.REACT_APP_API_URL + urlEndpoint2 + r.data;
+			const apiUrl2 = config['API_URL'] + urlEndpoint2 + r.data;
 			const HELPME = fetcherGet(apiUrl2).then((r) => {
 				const dataUrl = [];
 				const datatmp = r.data;
@@ -207,9 +211,9 @@ export const getAllTasksProcess = (id) => {
 
 const getManualTaskCategoryLink = (category) => {
 	switch (category) {
-		case 'upload':
+		case 'Upload':
 			return '/upload-context';
-		case 'review':
+		case 'Review':
 			return '/review-variable';
 		default:
 			return '/form';

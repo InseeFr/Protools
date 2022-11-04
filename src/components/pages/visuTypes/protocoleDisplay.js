@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 // React dependencies
 import React, { useState, useEffect } from 'react';
+import { getConfigFile } from 'core/config/configuration';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 // BPMN dependencies
@@ -19,7 +20,6 @@ import SideBar from 'components/shared/sidepanel/sidepanel';
 import CustomCard from 'components/shared/styledComponents/card/card';
 import Loader from 'components/shared/loader/loader';
 // Data retrieve functions
-import { getBPMNByProcessName } from 'utils/dataProcess/fetchDataProcess';
 import ProtocolInfo from './protocolInfo';
 
 const useStyles = makeStyles()((theme) => {
@@ -97,14 +97,14 @@ const ProtocolTypeViwer = (props) => {
 	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
 	const urlEndpoint = 'getBPMNFile/';
-	const url =
-		process.env.REACT_APP_API_URL + urlEndpoint + params.state.selected;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint + params.state.selected;
 	const processInfo = params.state.processInfo;
 
 	useEffect(() => {
 		setTimeout(() => {
 			axios
-				.get(url)
+				.get(apiUrl)
 				.then((r) => {
 					setDiagram(r.data);
 					console.log('Diagram : ', r.data);

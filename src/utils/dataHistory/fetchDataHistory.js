@@ -1,4 +1,5 @@
 import { fetcherGet } from 'core/fetchData/fetchData';
+import { getConfigFile } from 'core/config/configuration';
 import Moment from 'moment';
 import { setAutoFreeze } from 'immer';
 
@@ -27,7 +28,8 @@ function msToHMS(ms) {
 export const fetchTaskDataHistory = () => {
 	setAutoFreeze(false);
 	const urlEndpoint = 'history/activity/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint;
 	const dataUrlTask = [];
 	const dataUrlActivities = [];
 	fetcherGet(apiUrl)
@@ -104,7 +106,8 @@ export const fetchTaskDataHistory = () => {
 export const fetchProcessDataHistory = () => {
 	setAutoFreeze(false);
 	const urlEndpoint = 'history/process/';
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const config = getConfigFile();
+	const apiUrl = config['API_URL'] + urlEndpoint;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
