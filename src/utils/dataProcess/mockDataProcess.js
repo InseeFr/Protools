@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { FiEdit3, FiCheck, FiXCircle } from 'react-icons/fi';
+import { FiCheck, FiXCircle } from 'react-icons/fi';
 
 export const processVariablesColumns = [
 	{
@@ -22,15 +22,6 @@ export const processVariablesColumns = [
 		flex: 0.6,
 		minWidth: 200,
 		description: 'Valeur stockée en base de données',
-	},
-	{
-		field: 'action',
-		headerName: ' ',
-		align: 'center',
-		flex: 0.1,
-		minWidth: 90,
-		renderCell: (value) => <FiEdit3 />,
-		description: 'Modifier ou supprimer la variable',
 	},
 ];
 

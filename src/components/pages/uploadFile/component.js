@@ -118,14 +118,14 @@ const UploadFile = () => {
 
 						<form onSubmit={handleSubmit}>
 							<input type='file' onChange={handleChange} />
-							<Button
-								variant='contained'
-								sx={{ marginTop: 3 }}
-								onClick={handleSubmit}
-							>
-								<Typography value='h3'>Envoyer</Typography>
-							</Button>
 						</form>
+						<Button
+							variant='contained'
+							sx={{ marginTop: 3 }}
+							onClick={handleSubmit}
+						>
+							<Typography value='h3'>Envoyer</Typography>
+						</Button>
 					</CardContent>
 				</CustomCard>
 			</Grid>
