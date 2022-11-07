@@ -12,7 +12,7 @@ export const getUrlBPMNByProcessName = (selected) => {
 		case 'EnqueteWebContinue':
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/EnqueteFamille.bpmn20.xml';
 		case 'ProcessTestFeature':
-			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/File-Upload/src/main/resources/processes/ProcessTestFeatures.bpmn20.xml';
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/develop/src/main/resources/processes/ProcessTestFeatures.bpmn20.xml';
 		default:
 			console.log('Error: BPMN file not found');
 			return 'https://raw.githubusercontent.com/bpmn-io/bpmn-js-examples/master/modeler/resources/newDiagram.bpmn';
