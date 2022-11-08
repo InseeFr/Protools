@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import logoProtools from 'assets/logoProtools.svg';
-import { makeStyles } from 'tss-react/mui';
 import { Box } from '@mui/material';
 
 export default function Logo() {
