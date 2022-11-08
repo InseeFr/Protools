@@ -23,7 +23,7 @@ export const getUrlBPMNByProcessName = (selected) => {
 export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + selected;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
 	console.log('apiUrl: ' + apiUrl);
 	const BpmnFile = fetcherGet(apiUrl)
 		.then((r) => {
@@ -39,7 +39,8 @@ export const getBPMNByProcessName = (selected) => {
 export const getAvailableTasks = (processInstanceId) => {
 	const urlEndpoint = 'tasksProcessID/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + processInstanceId;
+	const apiUrl =
+		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceId;
 	const dataUrl = [];
 	const listName = [];
 	fetcherGet(apiUrl)
@@ -67,7 +68,7 @@ export const getAvailableTasks = (processInstanceId) => {
 export const getProcessDefinitionID = async (id) => {
 	const urlEndpoint = 'processDefinition/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + id;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 	fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -95,7 +96,7 @@ export const getCorrespondingBpmnElement = (BpmnResponse, liste) => {
 export const getBPMNInfo = (id, listName) => {
 	const urlEndpoint = 'bpmnInfo/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + id;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 	let response = {};
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -111,7 +112,7 @@ export const getCurrentActivityName = (id) => {
 	// Fetch currents activities
 	const urlEndpoint = 'executionActivities/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + id;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -125,7 +126,8 @@ export const getCurrentActivityName = (id) => {
 export const getVariables = (processInstanceID) => {
 	const urlEndpoint = 'variables/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + processInstanceID;
+	const apiUrl =
+		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -150,7 +152,8 @@ export const getVariables = (processInstanceID) => {
 export const getManualTasks = (processInstanceID) => {
 	const urlEndpoint = 'tasksProcessID/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + processInstanceID;
+	const apiUrl =
+		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -177,12 +180,12 @@ export const getAllTasksProcess = (id) => {
 	//TODO : Refactor cette fonction pour ne faire qu'une requête pour les deux usages
 	const urlEndpoint = 'processDefinition/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + id;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
-			const apiUrl2 = config['API_URL'] + urlEndpoint2 + r.data;
+			const apiUrl2 = process.env.REACT_APP_API_URL + urlEndpoint2 + r.data;
 			const HELPME = fetcherGet(apiUrl2).then((r) => {
 				const dataUrl = [];
 				const datatmp = r.data;

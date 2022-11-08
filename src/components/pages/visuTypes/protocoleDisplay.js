@@ -98,7 +98,8 @@ const ProtocolTypeViwer = (props) => {
 	const params = useLocation();
 	const urlEndpoint = 'getBPMNFile/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint + params.state.selected;
+	const apiUrl =
+		process.env.REACT_APP_API_URL + urlEndpoint + params.state.selected;
 	const processInfo = params.state.processInfo;
 
 	useEffect(() => {

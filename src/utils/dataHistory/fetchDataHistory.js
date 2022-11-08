@@ -29,7 +29,7 @@ export const fetchTaskDataHistory = () => {
 	setAutoFreeze(false);
 	const urlEndpoint = 'history/activity/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrlTask = [];
 	const dataUrlActivities = [];
 	fetcherGet(apiUrl)
@@ -107,7 +107,7 @@ export const fetchProcessDataHistory = () => {
 	setAutoFreeze(false);
 	const urlEndpoint = 'history/process/';
 	const config = getConfigFile();
-	const apiUrl = config['API_URL'] + urlEndpoint;
+	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
