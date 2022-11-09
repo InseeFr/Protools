@@ -137,7 +137,7 @@ const BPMNViewer = (props) => {
 			});
 		}, 600000); // Update every 60 minutes
 		return () => clearInterval(interval);
-	}, []);
+	}, [activities, id, processKey]);
 
 	if (diagram.length > 0 && !rendered) {
 		// Define BPMN Viewer
