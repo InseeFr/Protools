@@ -126,18 +126,7 @@ const BPMNViewer = (props) => {
 				});
 			setLoading(false);
 		}, 200);
-		const interval = setInterval(() => {
-			const pls = getCurrentActivityName(id).then((res) => {
-				console.log('Current activity: ', res);
-				console.log('Previous activity: ', activities);
-				if (!(res === activities)) {
-					setActivities(res);
-					setOpen(true);
-				}
-			});
-		}, 600000); // Update every 60 minutes
-		return () => clearInterval(interval);
-	}, [activities, id, processKey]);
+	}, [id, processKey]);
 
 	if (diagram.length > 0 && !rendered) {
 		// Define BPMN Viewer
