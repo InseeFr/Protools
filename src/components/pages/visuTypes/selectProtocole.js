@@ -8,7 +8,6 @@ import {
 	Stack,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getBPMNByProcessName } from 'utils/dataProcess/fetchDataProcess';
 import { getProcessDataVisuTypes } from '../../../utils/dataVisuTypes/fetchDataVisuTypes';
 
 const SelectProtocole = () => {

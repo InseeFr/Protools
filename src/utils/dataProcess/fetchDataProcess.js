@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetchData';
-import { getConfigFile } from 'core/config/configuration';
+
 import Moment from 'moment';
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
@@ -22,7 +22,7 @@ export const getUrlBPMNByProcessName = (selected) => {
 
 export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
 	console.log('apiUrl: ' + apiUrl);
 	const BpmnFile = fetcherGet(apiUrl)
@@ -38,7 +38,7 @@ export const getBPMNByProcessName = (selected) => {
 
 export const getAvailableTasks = (processInstanceId) => {
 	const urlEndpoint = 'tasksProcessID/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceId;
 	const dataUrl = [];
@@ -67,7 +67,7 @@ export const getAvailableTasks = (processInstanceId) => {
 // Retrieve processDefinition ID from Process Instance ID
 export const getProcessDefinitionID = async (id) => {
 	const urlEndpoint = 'processDefinition/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -95,7 +95,7 @@ export const getCorrespondingBpmnElement = (BpmnResponse, liste) => {
 // Retrieve all BPMN elements from a processDefinitionID
 export const getBPMNInfo = (id, listName) => {
 	const urlEndpoint = 'bpmnInfo/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 	let response = {};
 	fetcherGet(apiUrl)
@@ -111,7 +111,7 @@ export const getBPMNInfo = (id, listName) => {
 export const getCurrentActivityName = (id) => {
 	// Fetch currents activities
 	const urlEndpoint = 'executionActivities/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
@@ -125,7 +125,7 @@ export const getCurrentActivityName = (id) => {
 
 export const getVariables = (processInstanceID) => {
 	const urlEndpoint = 'variables/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
@@ -151,7 +151,7 @@ export const getVariables = (processInstanceID) => {
 
 export const getManualTasks = (processInstanceID) => {
 	const urlEndpoint = 'tasksProcessID/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
@@ -179,7 +179,7 @@ export const getManualTasks = (processInstanceID) => {
 export const getAllTasksProcess = (id) => {
 	//TODO : Refactor cette fonction pour ne faire qu'une requête pour les deux usages
 	const urlEndpoint = 'processDefinition/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
 
 	const response = fetcherGet(apiUrl)

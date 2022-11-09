@@ -1,10 +1,9 @@
 import { fetcherPost } from 'core/fetchData/fetchData';
 import axios from 'axios';
-import { getConfigFile } from 'core/config/configuration';
 
 export const claimTask = (user, taskID) => {
 	const urlEndpoint = 'get-tasks/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL + urlEndpoint + user + '/' + taskID;
 	return fetcherPost(apiUrl)
@@ -19,7 +18,7 @@ export const claimTask = (user, taskID) => {
 export const executeTask = (user, taskID, variables) => {
 	const urlEndpoint = 'complete-task/';
 
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL + urlEndpoint + user + '/' + taskID;
 
@@ -31,7 +30,7 @@ export const executeTask = (user, taskID, variables) => {
 // Temporary solution to execute task, depend on forms type
 export const temporaryExecuteTask = (taskID, variables) => {
 	const urlEndpoint = 'complete-task/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + 'user/' + taskID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -45,7 +44,7 @@ export const temporaryExecuteTask = (taskID, variables) => {
 
 export const startProcess = (processKey, businessKey, variables) => {
 	const urlEndpoint = 'start-process/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL +
 		urlEndpoint +
@@ -66,7 +65,7 @@ export const startProcess = (processKey, businessKey, variables) => {
 
 export const deleteProcess = (processID) => {
 	const urlEndpoint = 'deleteProcess/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -79,7 +78,7 @@ export const deleteProcess = (processID) => {
 
 export const suspendProcess = (processID) => {
 	const urlEndpoint = 'suspendProcess/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -92,7 +91,7 @@ export const suspendProcess = (processID) => {
 
 export const relaunchProcess = (processID) => {
 	const urlEndpoint = 'restart/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -105,7 +104,7 @@ export const relaunchProcess = (processID) => {
 
 export const uploadFileToProcess = (file, taskID) => {
 	const urlEndpoint = 'upload-context/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const formData = new FormData();
 	formData.append('file', file);

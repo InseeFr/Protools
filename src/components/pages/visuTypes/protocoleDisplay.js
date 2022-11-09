@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 // React dependencies
 import React, { useState, useEffect } from 'react';
-import { getConfigFile } from 'core/config/configuration';
+
 import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 // BPMN dependencies
@@ -97,7 +97,7 @@ const ProtocolTypeViwer = (props) => {
 	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
 	const urlEndpoint = 'getBPMNFile/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl =
 		process.env.REACT_APP_API_URL + urlEndpoint + params.state.selected;
 	const processInfo = params.state.processInfo;
