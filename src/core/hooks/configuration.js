@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useConfiguration = () => {
+const useConfiguration = () => {
 	const [configuration, setConfiguration] = useState(null);
 
 	useEffect(() => {
@@ -19,3 +19,5 @@ export const useConfiguration = () => {
 
 	return { configuration };
 };
+
+export default useConfiguration;

@@ -217,7 +217,7 @@ const getManualTaskCategoryLink = (category) => {
 		case 'Upload':
 			return '/upload-context';
 		case 'Review':
-			return '/review-variable';
+			return '/review-task';
 		default:
 			return '/form';
 	}

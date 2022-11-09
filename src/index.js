@@ -7,7 +7,7 @@ import theme from 'theme';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import RoutesWeb from 'routes/routes';
-import { useConfiguration } from 'core/hooks';
+import useConfiguration from 'core/hooks';
 import Preloader from 'components/shared/preloader/component';
 
 export const muiCache = createCache({
