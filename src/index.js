@@ -7,6 +7,8 @@ import theme from 'theme';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import RoutesWeb from 'routes/routes';
+import { useConfiguration } from 'core/hooks';
+import Preloader from 'components/shared/preloader/component';
 
 export const muiCache = createCache({
 	key: 'mui',
@@ -22,7 +24,25 @@ root.render(
 	</CacheProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+export const AppContext = React.createContext();
+
+const App = () => {
+	const { configuration } = useConfiguration();
+
+	return (
+		<root.div id='root'>
+			{configuration && (
+				<CacheProvider value={muiCache}>
+					<ThemeProvider theme={theme}>
+						<RoutesWeb />
+					</ThemeProvider>
+				</CacheProvider>
+			)}
+			{!configuration && <Preloader />}
+		</root.div>
+	);
+};
+
+export default App;

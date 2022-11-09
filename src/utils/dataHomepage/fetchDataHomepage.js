@@ -2,7 +2,7 @@
 import { fetcherGet } from 'core/fetchData/fetchData';
 import theme from 'theme';
 import Moment from 'moment';
-import { getConfigFile } from 'core/config/configuration';
+
 const getProcessState = (datatmp, i) => {
 	if (datatmp[i].isSuspended) {
 		return 'suspended';
@@ -16,7 +16,7 @@ const getProcessState = (datatmp, i) => {
 // Retrive all process currently running
 export const fetchProcessData = () => {
 	const urlEndpoint = 'processInstances/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 
 	const dataUrl = [];
@@ -68,7 +68,7 @@ export const fetchProcessData = () => {
 // Retrieve all available tasks
 export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {
@@ -141,7 +141,7 @@ const getPieTaskCategoryIndex = (taskCategory) => {
 
 export const fetchIncidentsData = () => {
 	const urlEndpoint = 'history/suspended'; // ATM only suspended process
-	const config = getConfigFile();
+	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
 	const dataUrl = [];
 
