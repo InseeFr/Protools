@@ -219,6 +219,6 @@ const getManualTaskCategoryLink = (category) => {
 		case 'Review':
 			return '/review-task';
 		default:
-			return '/form';
+			return '/review-task';
 	}
 };
