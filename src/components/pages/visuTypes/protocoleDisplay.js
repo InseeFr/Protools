@@ -21,6 +21,7 @@ import CustomCard from 'components/shared/styledComponents/card/card';
 import Loader from 'components/shared/loader/loader';
 // Data retrieve functions
 import ProtocolInfo from './protocolInfo';
+import { getUrlBPMNByProcessName } from 'utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -96,26 +97,22 @@ const ProtocolTypeViwer = (props) => {
 	const [loading, setLoading] = useState(true);
 	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
+	const url = getUrlBPMNByProcessName(params.state.selected);
 	const urlEndpoint = 'getBPMNFile/';
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + params.state.selected;
+
 	const processInfo = params.state.processInfo;
 
-	useEffect(() => {
-		setTimeout(() => {
-			axios
-				.get(apiUrl)
-				.then((r) => {
-					setDiagram(r.data);
-					console.log('Diagram : ', r.data);
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-		}, 800);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	setTimeout(() => {
+		axios
+			.get(url)
+			.then((r) => {
+				setDiagram(r.data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+		setLoading(false);
+	}, 200);
 
 	if (diagram.length > 0 && !rendered) {
 		// Define BPMN Viewer

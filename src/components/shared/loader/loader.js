@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { CardContent, Grid, LinearProgress, Typography } from '@mui/material';
 import CustomCard from '../styledComponents/card/card';
 import { makeStyles } from 'tss-react/mui';

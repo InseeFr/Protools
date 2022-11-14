@@ -25,32 +25,8 @@ const SelectProcess = () => {
 
 	const getProcessKey = (selected, callback) => {
 		switch (selected) {
-			case 'EnquêteTest':
-				return ['EnqueteTest', {}];
-			case 'EnqueteWeb2':
-				return [
-					'EnqueteWeb2',
-					{
-						idSurvey: '0',
-						name: 'SurveyQualitéVolaille',
-						dateDeb: '01-01-2022',
-						dateEnd: '01-12-2022',
-						state_survey: 'notReady',
-						sampleSize: '5000',
-					},
-				];
-			case 'EnqueteWeb':
-				return [
-					'EnqueteWeb',
-					{
-						idSurvey: '0',
-						name: 'SurveyQualitéVolaille',
-						dateDeb: '01-01-2022',
-						dateEnd: '01-12-2022',
-						state_survey: 'notReady',
-						sampleSize: '1000',
-					},
-				];
+			case 'ProcessTestFeature':
+				return ['ProcessTestFeature', {}];
 			case 'EnqueteWebContinue':
 				return ['EnqueteWebContinue', {}];
 			default:
@@ -89,21 +65,7 @@ const SelectProcess = () => {
 		<>
 			<Stack spacing={3}>
 				<FormControl size='small' fullWidth sx={{ marginTop: 3 }}>
-					<InputLabel color='primary'>Nom d'enquête :</InputLabel>
-					<Select
-						color='primary'
-						labelId='SelectBusinessKey'
-						value={selectedKey}
-						label='Select BusinessKey'
-						onChange={handleChangeKey}
-					>
-						<MenuItem value={'Famille'}>Famille</MenuItem>
-						<MenuItem value={'PQV'}>Qualité Volaille</MenuItem>
-						<MenuItem value={'Test'}>Test</MenuItem>
-					</Select>
-				</FormControl>
-				<FormControl size='small' fullWidth sx={{ marginTop: 3 }}>
-					<InputLabel color='primary'> Type d'enquête :</InputLabel>
+					<InputLabel color='primary'> Nom d'enquête :</InputLabel>
 					<Select
 						color='primary'
 						labelId='SelectBPMN'
@@ -111,9 +73,24 @@ const SelectProcess = () => {
 						label='Select BPMN'
 						onChange={handleChange}
 					>
-						<MenuItem value={'EnquêteTest'}>Enquête de Test</MenuItem>
-						<MenuItem value={'EnqueteWeb'}>Proto Qualité Volaille</MenuItem>
 						<MenuItem value={'EnqueteWebContinue'}>Enquête Famille</MenuItem>
+						<MenuItem value={'ProcessTestFeature'}>
+							Enquête de Test {'(expérimental)'}
+						</MenuItem>
+					</Select>
+				</FormControl>
+				<FormControl size='small' fullWidth sx={{ marginTop: 3 }}>
+					<InputLabel color='primary'>Type de processus :</InputLabel>
+					<Select
+						color='primary'
+						labelId='SelectBusinessKey'
+						value={selectedKey}
+						label='Select BusinessKey'
+						onChange={handleChangeKey}
+					>
+						<MenuItem value={'Prod'}>"Prod" {'(ou autre nom)'}</MenuItem>
+						<MenuItem value={'Integration'}>Test Intégration</MenuItem>
+						<MenuItem value={'Test'}>Test Features</MenuItem>
 					</Select>
 				</FormControl>
 				<Button variant='contained' onClick={navigationHandler}>

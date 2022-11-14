@@ -7,7 +7,7 @@ import { Grid, CardContent, Box, Typography } from '@mui/material';
 import CustomCard from 'components/shared/styledComponents/card/card';
 import Logo from 'components/shared/logo/logo';
 import SideBar from '../../shared/sidepanel/sidepanel';
-import SelectProtocole from './selectProtocole';
+import SelectProtocol from './selectProtocol';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -85,7 +85,7 @@ const Visualizer = () => {
 						<Typography value='h3' className={classes.titleCard}>
 							Sélectionner un protocole type:
 						</Typography>
-						<SelectProtocole />
+						<SelectProtocol />
 					</CardContent>
 				</CustomCard>
 			</Grid>

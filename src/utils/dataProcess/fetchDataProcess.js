@@ -4,14 +4,10 @@ import { fetcherGet } from 'core/fetchData/fetchData';
 import Moment from 'moment';
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
-		case 'EnqueteTest':
-			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/casUsageTest.bpmn20.xml';
-		case 'EnqueteWeb2':
-			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/bpmn-live-deploy/src/main/resources/processes/TestPQVWithMessages.bpmn20.xml';
 		case 'EnqueteWeb':
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/TestPQVWoMessages.bpmn20.xml';
 		case 'EnqueteWebContinue':
-			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/main/src/main/resources/processes/EnqueteFamille.bpmn20.xml';
+			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/develop/src/main/resources/processes/Processus_famille.bpmn20.xml';
 		case 'ProcessTestFeature':
 			return 'https://raw.githubusercontent.com/InseeFr/Protools-Back-Office/develop/src/main/resources/processes/ProcessTestFeatures.bpmn20.xml';
 		default:

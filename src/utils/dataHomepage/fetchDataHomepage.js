@@ -21,7 +21,7 @@ export const fetchProcessData = () => {
 
 	const dataUrl = [];
 	let pieProcessdata = {
-		labels: ['Enquête Famille', 'Qualité Poulet', 'Test'],
+		labels: ['Production', 'Tests Intégration', 'Test Features'],
 		datasets: [
 			{
 				label: 'processus',
@@ -114,9 +114,9 @@ export const fetchTaskData = () => {
 
 const getPieProcessColorIndex = (BusinessKey) => {
 	switch (BusinessKey) {
-		case 'Famille':
+		case 'Prod':
 			return 0;
-		case 'PQV':
+		case 'Integration':
 			return 1;
 		case 'Test':
 			return 2;

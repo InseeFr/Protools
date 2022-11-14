@@ -1,29 +1,12 @@
 export const enquetesDico = {
-	EnqueteTest: {
+	ProcessTestFeature: {
 		title: 'Enquête de test',
 		description:
-			'Enquête de test, cas simple pour le développement du premier prototype (Stage M2)',
+			"Enquête de test, cas simple pour tester les fonctionnalités de l'engine et les tâches d'enquête.",
 		variables: [
 			{
-				nom: 'idSurvey',
-				description: 'Identifiant Enquête',
-			},
-			{
-				nom: 'name',
-				description: "Nom de l'enquête",
-			},
-			{
-				nom: 'dateDeb',
-				description: 'Date de début de enquête',
-			},
-			{
-				nom: 'dateEnd',
-				description: 'Date de fin de enquête',
-			},
-			{
-				nom: 'sampleSize',
-				description:
-					"Taille de l'échantillon (nombre de personnes interrogées)",
+				nom: 'Tâches manuelles 1',
+				description: 'Description de la tâche manuelle 1',
 			},
 		],
 		tachesManu: 2,
@@ -87,15 +70,20 @@ export const enquetesDico = {
 		tachesManu: 2,
 	},
 	EnqueteWebContinue: {
-		title: 'Enquête Web source échantillon externe en continue',
+		title: 'Enquête Famille',
 		description:
-			"Enquête web source échantillon externe avec récupération de l'échantillon en continu (se base sur une modélisation de l 'enquête Famille)",
+			"Enquête web source échantillon externe avec récupération de l'échantillon en continu via ERA",
 		variables: [
 			{
-				nom: 'Specs',
-				description: 'Spec content',
+				nom: 'Upload du contexte',
+				description: 'Upload du fichier de contexte du processus (format XML)',
+			},
+			{
+				nom: 'Clore la campagne',
+				description:
+					'Formulaire proposant la possibilité de supprimer la campagne dans la plateforme de collecte web Coleman',
 			},
 		],
-		tachesManu: 0,
+		tachesManu: 2,
 	},
 };

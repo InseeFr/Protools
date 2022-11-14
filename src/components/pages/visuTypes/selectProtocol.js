@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { getProcessDataVisuTypes } from '../../../utils/dataVisuTypes/fetchDataVisuTypes';
 
-const SelectProtocole = () => {
+const SelectProtocol = () => {
 	const [selected, setSelected] = useState('EnqueteTest');
 	const navigate = useNavigate();
 
@@ -34,9 +34,10 @@ const SelectProtocole = () => {
 			<FormControl size='small' fullWidth sx={{ marginTop: 3 }}>
 				<InputLabel>Protocole</InputLabel>
 				<Select value={selected} label='Select BPMN' onChange={handleChange}>
-					<MenuItem value={'EnqueteTest'}>Enquête de Test</MenuItem>
-					<MenuItem value={'EnqueteWeb'}>Enquête Proto Volaille</MenuItem>
 					<MenuItem value={'EnqueteWebContinue'}>Enquête Famille</MenuItem>
+					<MenuItem value={'ProcessTestFeature'}>
+						Enquête de Test {'(expérimental)'}
+					</MenuItem>
 				</Select>
 				<Button
 					variant='contained'
@@ -50,4 +51,4 @@ const SelectProtocole = () => {
 	);
 };
 
-export default SelectProtocole;
+export default SelectProtocol;
