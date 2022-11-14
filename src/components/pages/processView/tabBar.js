@@ -45,7 +45,7 @@ const useStyles = makeStyles()((theme) => {
 			justifyContent: 'center',
 			width: '79.5%',
 			marginLeft: '16%',
-			marginTop: '0.5%',
+			marginTop: '1%',
 			marginBottom: '5%',
 			position: 'absolute',
 			top: '60%',
@@ -53,7 +53,7 @@ const useStyles = makeStyles()((theme) => {
 			[theme.breakpoints.down('md')]: {
 				width: '84%',
 				marginLeft: '11.5%',
-				marginTop: '2.5%',
+				marginTop: '3.5%',
 			},
 			[theme.breakpoints.down('sm')]: {
 				width: '90%',

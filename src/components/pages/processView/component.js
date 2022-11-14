@@ -26,11 +26,6 @@ import {
 	getManualTasks,
 	getAllTasksProcess,
 } from 'utils/dataProcess/fetchDataProcess';
-import {
-	defaultDataVariables,
-	defaultDataManualTask,
-	defaultBpmnElement,
-} from 'utils/mockData';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -99,7 +94,7 @@ const BPMNViewer = (props) => {
 	const [activities, setActivities] = useState([]);
 	const [variables, setVariables] = useState([]);
 	const [manualTasks, setManualTasks] = useState([]);
-	const [allTasks, setAllTasks] = useState(defaultBpmnElement);
+	const [allTasks, setAllTasks] = useState([]);
 	const processInformations = useLocation().state;
 	const [rendered, setRendered] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -218,11 +213,9 @@ const BPMNViewer = (props) => {
 					<div id='containerBPMN' className={classes.viewerStyle} />
 
 					<TabBarWorkflow
-						variables={variables.length > 0 ? variables : defaultDataVariables}
-						manualTasks={
-							manualTasks.length > 0 ? manualTasks : defaultDataManualTask
-						}
-						bpmnElement={allTasks.length > 0 ? allTasks : defaultBpmnElement}
+						variables={variables}
+						manualTasks={manualTasks}
+						bpmnElement={allTasks}
 						id={id}
 						processInformations={processInformations}
 						processKey={processKey}
