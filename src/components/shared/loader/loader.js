@@ -50,22 +50,7 @@ const useStyles = makeStyles()((theme) => {
 
 const Loader = () => {
 	const { classes } = useStyles();
-	const [progress, setProgress] = useState(0);
-	useEffect(() => {
-		const timer = setInterval(() => {
-			setProgress((oldProgress) => {
-				if (oldProgress === 100) {
-					return 0;
-				}
-				const diff = Math.random() * 10;
-				return Math.min(oldProgress + diff, 100);
-			});
-		}, 50);
 
-		return () => {
-			clearInterval(timer);
-		};
-	}, []);
 	return (
 		<>
 			<CustomCard className={classes.card}>
@@ -77,11 +62,7 @@ const Loader = () => {
 						alignItems='center'
 					>
 						<Grid item xs={12} className={classes.gridItemProcessList}>
-							<LinearProgress
-								variant='determinate'
-								value={progress}
-								sx={{ marginTop: 2 }}
-							/>
+							<LinearProgress sx={{ marginTop: 2 }} />
 						</Grid>
 						<Grid item xs={12} className={classes.gridItemProcessList}>
 							<Typography variant='h4' className={classes.titleCard}>
