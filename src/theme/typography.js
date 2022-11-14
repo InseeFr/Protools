@@ -8,7 +8,7 @@ export const responsiveFontSizes = ({ sm, md, lg }) => {
 		'@media (min-width:900px)': {
 			fontSize: pxToRem(md),
 		},
-		'@media (min-width:1200px)': {
+		'@media (min-width:1400px)': {
 			fontSize: pxToRem(lg),
 		},
 	};

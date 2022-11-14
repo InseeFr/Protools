@@ -106,7 +106,7 @@ const SideBar = (props) => {
 					sx={{
 						marginTop: 3,
 						marginBottom: 5,
-						marginLeft: { sm: '28%', md: '12%' },
+						marginLeft: { sm: '28%', md: '7%' },
 					}}
 				>
 					<Logo className={classes.logo} />
@@ -114,7 +114,11 @@ const SideBar = (props) => {
 						<Typography variant='h5' className={classes.titleSidebar}>
 							Protools
 						</Typography>
-						<Typography variant='subtitle2' className={classes.subTitleSidebar}>
+						<Typography
+							variant='subtitle2'
+							className={classes.subTitleSidebar}
+							sx={{ fontSize: { md: 12 } }}
+						>
 							Suivi & orchestration <br /> des enquêtes
 						</Typography>
 					</Box>
@@ -176,7 +180,7 @@ const SideBar = (props) => {
 											: classes.textSidebar
 									}
 								>
-									Lancer une enquête
+									Lancement
 								</Typography>
 							</Box>
 						</Grid>
@@ -207,32 +211,7 @@ const SideBar = (props) => {
 							</Box>
 						</Grid>
 					</Link>
-					{/* <Link href='/admin' underline='none'>
-						<Grid
-							container
-							direction='row'
-							spacing={1}
-							sx={{ marginTop: 2, display: 'flex', alignItems: 'center' }}
-						>
-							<FiCpu
-								className={
-									pageActuelle === 'admin' ? classes.iconMain : classes.icon
-								}
-							/>
-							<Box className={classes.boxBreakpoint}>
-								<Typography
-									variant='subtitle1'
-									className={
-										pageActuelle === 'admin'
-											? classes.textSidebarMain
-											: classes.textSidebar
-									}
-								>
-									Admin
-								</Typography>
-							</Box>
-						</Grid>
-					</Link> */}
+
 					<Link href='/protocol-types' underline='none'>
 						<Grid
 							container
@@ -254,7 +233,7 @@ const SideBar = (props) => {
 											: classes.textSidebar
 									}
 								>
-									Visualisation protocoles
+									Visualisation
 								</Typography>
 							</Box>
 						</Grid>
