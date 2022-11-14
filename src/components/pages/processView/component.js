@@ -97,16 +97,15 @@ const BPMNViewer = (props) => {
 	const [allTasks, setAllTasks] = useState([]);
 	const processInformations = useLocation().state;
 	const [rendered, setRendered] = useState(false);
-	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		const url = getUrlBPMNByProcessName(processKey);
-		const pls = getCurrentActivityName(id).then((res) => {
+		getCurrentActivityName(id).then((res) => {
 			setActivities(res);
 		});
 		setVariables(getVariables(id));
 		setManualTasks(getManualTasks(id));
-		const pls2 = getAllTasksProcess(id).then((res) => {
+		getAllTasksProcess(id).then((res) => {
 			setAllTasks(res);
 		});
 

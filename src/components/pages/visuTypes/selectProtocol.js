@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { getProcessDataVisuTypes } from '../../../utils/dataVisuTypes/fetchDataVisuTypes';
 
 const SelectProtocol = () => {
-	const [selected, setSelected] = useState('EnqueteTest');
+	const [selected, setSelected] = useState('EnqueteWebContinue');
 	const navigate = useNavigate();
 
 	const handleChange = (event) => {

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 // React dependencies
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 // BPMN dependencies
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
@@ -98,7 +98,6 @@ const ProtocolTypeViwer = (props) => {
 	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
 	const url = getUrlBPMNByProcessName(params.state.selected);
-	const urlEndpoint = 'getBPMNFile/';
 
 	const processInfo = params.state.processInfo;
 
@@ -126,7 +125,6 @@ const ProtocolTypeViwer = (props) => {
 			.then(() => {
 				viewer.get('canvas').zoom('fit-viewport');
 				setRendered(true);
-				//setActivities(activities);
 			})
 
 			.catch((err) => {

@@ -24,6 +24,10 @@ const useStyles = makeStyles()((theme) => {
 			marginLeft: '45%',
 			marginTop: '10%',
 			padding: 10,
+			[theme.breakpoints.down('lg')]: {
+				width: '30%',
+				marginLeft: '40%',
+			},
 			[theme.breakpoints.down('md')]: {
 				width: '30%',
 				marginLeft: '38%',
@@ -79,7 +83,7 @@ const ProcessSelect = () => {
 				</Box>
 				<CustomCard className={classes.card}>
 					<CardContent>
-						<Typography variant='h4' className={classes.titleCard}>
+						<Typography variant='h3' className={classes.titleCard}>
 							Sélectionner l'enquête à lancer :
 						</Typography>
 						<SelectProcess />

@@ -7,13 +7,13 @@ import Logo from 'components/shared/logo/logo';
 import ProcessOverview from './processOverview';
 import TabBarDashboard from './tabBar';
 import SideBar from 'components/shared/sidepanel/sidepanel';
+import Footer from 'components/shared/footer/component';
 import {
 	fetchProcessData,
 	fetchTaskData,
 	fetchIncidentsData,
 } from 'utils/dataHomepage/fetchDataHomepage';
 import Loader from '../../shared/loader/loader';
-//import theme from 'theme';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -124,6 +124,7 @@ const Home = () => {
 						dataIncident={dataIncident}
 					/>
 				</Grid>
+				<Footer />
 			</>
 		);
 	}

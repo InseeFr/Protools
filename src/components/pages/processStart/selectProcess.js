@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SelectProcess = () => {
 	const navigate = useNavigate();
-	const [selected, setSelected] = useState('EnquêteTest');
+	const [selected, setSelected] = useState('EnqueteWebContinue');
 	const [selectedKey, setSelectedKey] = useState('Test');
 	const [open, setOpen] = useState(false);
 	const [processParams, setProcessParams] = useState([]);
@@ -42,8 +42,6 @@ const SelectProcess = () => {
 		setOpen(false);
 		navigate('/');
 	};
-
-	//const [url, setUrl] = useState(getUrl(selected));
 	const handleChange = (event) => {
 		console.log('event: ' + event.target.value);
 		setSelected(event.target.value);

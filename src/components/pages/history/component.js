@@ -6,6 +6,7 @@ import { setAutoFreeze } from 'immer';
 import { makeStyles } from 'tss-react/mui';
 import Logo from 'components/shared/logo/logo';
 import SideBar from 'components/shared/sidepanel/sidepanel';
+import Footer from 'components/shared/footer/component';
 import TabBarHistory from './tabBar';
 import {
 	fetchProcessDataHistory,
@@ -107,6 +108,7 @@ const History = () => {
 						dataActivities={dataActivities}
 					/>
 				</Grid>
+				<Footer />
 			</>
 		);
 	}

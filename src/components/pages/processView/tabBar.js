@@ -8,17 +8,14 @@ import {
 } from 'components/shared/styledComponents/tabs/tabs';
 import CustomDataGrid from 'components/shared/dataGrid/component';
 import { makeStyles } from 'tss-react/mui';
-import theme from 'theme';
 import CustomCard from 'components/shared/styledComponents/card/card';
 import { tabPropIndex, TabPanel } from 'components/shared/tabPanel/tabPanel';
 import { FiUserPlus } from 'react-icons/fi';
-
 import {
 	processVariablesColumns,
 	processBPMNElementColumn,
 } from 'utils/dataProcess/mockDataProcess';
 import ProcessGlobalInfo from './processGlobalInfo';
-import { getManualTasks } from '../../../utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {

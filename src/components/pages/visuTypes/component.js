@@ -83,7 +83,7 @@ const Visualizer = () => {
 				<CustomCard className={classes.card}>
 					<CardContent>
 						<Typography value='h3' className={classes.titleCard}>
-							Sélectionner un protocole type:
+							Sélectionner un protocole d'enquête:
 						</Typography>
 						<SelectProtocol />
 					</CardContent>

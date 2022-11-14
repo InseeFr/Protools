@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { useScrollTrigger } from '@mui/material';
 import { FiUser, FiBook, FiMenu } from 'react-icons/fi';
 import { makeStyles } from 'tss-react/mui';
 import {
@@ -16,6 +15,7 @@ import {
 	List,
 	IconButton,
 	ListItem,
+	useScrollTrigger,
 } from '@mui/material';
 
 const APPBAR_MOBILE = 50;
