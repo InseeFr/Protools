@@ -1,23 +1,17 @@
 import { useState, useEffect } from 'react';
 
 const useConfiguration = () => {
-	const [configuration, setConfiguration] = useState(null);
+	const [configuration, setConfiguration] = useState();
 
 	useEffect(() => {
 		if (!configuration) {
-			const loadConfiguration = async () => {
-				const response = await fetch(
-					`${window.location.origin}/configuration.json`
-				);
-				const configurationResponse = await response.json();
-				setConfiguration(configurationResponse);
-				console.log('Loaded configuration ', configurationResponse);
-			};
-			loadConfiguration();
+			fetch(`${window.location.origin}/configuration.json`)
+				.then((r) => r.json())
+				.then((r) => setConfiguration(r));
 		}
 	}, [configuration]);
 
-	return { configuration };
+	return [configuration];
 };
 
 export default useConfiguration;
