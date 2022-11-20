@@ -21,7 +21,7 @@ import CustomCard from 'components/shared/styledComponents/card/card';
 import Loader from 'components/shared/loader/loader';
 // Data retrieve functions
 import ProtocolInfo from './protocolInfo';
-import { getUrlBPMNByProcessName } from 'utils/dataProcess/fetchDataProcess';
+import { getUrlBPMNByProcessName } from '../public/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {

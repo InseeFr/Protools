@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetchData';
-
 import Moment from 'moment';
+
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
 		case 'EnqueteWeb':

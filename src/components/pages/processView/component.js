@@ -25,7 +25,7 @@ import {
 	getVariables,
 	getManualTasks,
 	getAllTasksProcess,
-} from 'utils/dataProcess/fetchDataProcess';
+} from '../public/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {
