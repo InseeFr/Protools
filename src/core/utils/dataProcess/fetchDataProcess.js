@@ -2,6 +2,7 @@
 import { fetcherGet } from 'core/fetchData/fetch';
 
 import Moment from 'moment';
+
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
 		case 'EnqueteWeb':
