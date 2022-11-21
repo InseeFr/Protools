@@ -14,15 +14,14 @@ export const muiCache = createCache({
 });
 
 //TODO go to react 18 ;)
+//TODO : Put back strict mode
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-	<React.StrictMode>
-		<CacheProvider value={muiCache}>
-			<ThemeProvider theme={theme}>
-				<App />
-			</ThemeProvider>
-		</CacheProvider>
-	</React.StrictMode>
+	<CacheProvider value={muiCache}>
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>
+	</CacheProvider>
 );
 
 reportWebVitals();

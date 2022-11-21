@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GlobalStyles } from 'tss-react';
 import { Grid, Box, Typography } from '@mui/material';
-import Loader from 'ui/components/shared/loader/loader';
+//import Loader from 'ui/components/shared/loader/loader';
 import { setAutoFreeze } from 'immer';
 import { makeStyles } from 'tss-react/mui';
 import Logo from 'ui/components/shared/logo/logo';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
 import Footer from 'ui/components/shared/footer/component';
 import TabBarHistory from './tabBar';
-import {
-	fetchProcessDataHistory,
-	fetchTaskDataHistory,
-} from 'core/utils/dataHistory/fetchDataHistory';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -44,75 +40,61 @@ const useStyles = makeStyles()((theme) => {
 const History = () => {
 	setAutoFreeze(false);
 	const { classes } = useStyles();
-	const [loading, setLoading] = useState(true);
-	const [dataProcess, setDataProcess] = useState([]);
-	const [dataTask, setDataTask] = useState([]);
-	const [dataActivities, setDataActivities] = useState([]);
+	// const [loading, setLoading] = useState(false);
 
-	// Retrieving all data during the component's mounting -> //TODO : Remove loading screen once linked to Keyloack
-	useEffect(() => {
-		const result = fetchTaskDataHistory();
-		setDataTask(result[0]);
-		setDataActivities(result[1]);
-		const result2 = fetchProcessDataHistory();
-		setDataProcess(result2[0]);
-		// Please tell me that you just want to show your loader at users ? 
-		setTimeout(() => {
-			setLoading(false);
-		}, 450);
+	// useEffect(() => {
+	// 	// Temporary timer because my web service is too slow -> TODO : FIX IT
+	// 	setTimeout(() => {
+	// 		setLoading(false);
+	// 	}, 450);
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-	if (loading) {
-		return (
-			<>
-				<GlobalStyles
-					styles={{
-						body: {
-							backgroundColor: '#F9FAFC',
-						},
-					}}
-				/>
+	// }, []);
+	// if (loading) {
+	// 	return (
+	// 		<>
+	// 			<GlobalStyles
+	// 				styles={{
+	// 					body: {
+	// 						backgroundColor: '#F9FAFC',
+	// 					},
+	// 				}}
+	// 			/>
 
-				<Grid justifyContent='center'>
-					<Box className={classes.TitleHeader}>
-						<Logo className={classes.logo} />
-						<Typography variant='h3' className={classes.title}>
-							Historique
-						</Typography>
-					</Box>
-					<Loader />
-				</Grid>
-			</>
-		);
-	} else {
-		return (
-			<>
-				<GlobalStyles
-					styles={{
-						body: {
-							backgroundColor: '#F9FAFC',
-						},
-					}}
-				/>
-				<SideBar page='history' />
-				<Grid justifyContent='center'>
-					<Box className={classes.TitleHeader}>
-						<Logo className={classes.logo} />
-						<Typography variant='h3' className={classes.title}>
-							Historique
-						</Typography>
-					</Box>
-					<TabBarHistory
-						dataTask={dataTask}
-						dataProcess={dataProcess}
-						dataActivities={dataActivities}
-					/>
-				</Grid>
-				<Footer />
-			</>
-		);
-	}
+	// 			<Grid justifyContent='center'>
+	// 				<Box className={classes.TitleHeader}>
+	// 					<Logo className={classes.logo} />
+	// 					<Typography variant='h3' className={classes.title}>
+	// 						Historique
+	// 					</Typography>
+	// 				</Box>
+	// 				<Loader />
+	// 			</Grid>
+	// 		</>
+	// 	);
+	// } else {
+	return (
+		<>
+			<GlobalStyles
+				styles={{
+					body: {
+						backgroundColor: '#F9FAFC',
+					},
+				}}
+			/>
+			<SideBar page='history' />
+			<Grid justifyContent='center'>
+				<Box className={classes.TitleHeader}>
+					<Logo className={classes.logo} />
+					<Typography variant='h3' className={classes.title}>
+						Historique
+					</Typography>
+				</Box>
+				<TabBarHistory />
+			</Grid>
+			<Footer />
+		</>
+	);
+	//}
 };
 
 export default History;

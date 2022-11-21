@@ -5,7 +5,7 @@ import CustomCard from '../../shared/styledComponents/card/card';
 import { makeStyles } from 'tss-react/mui';
 import { ErrorBoundary } from 'react-error-boundary';
 //import { IncidentChartdata } from 'core/utils/mockData';
-import DoughnutChart from './donutChart';
+import DoughnutChart from 'ui/components/shared/donutChart/donutChart';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -40,7 +40,7 @@ const useStyles = makeStyles()((theme) => {
 const ProcessOverview = (props) => {
 	const pieProcessdata = props.pieProcessdata;
 	const pieTaskdata = props.pieTaskdata;
-	const pieIncidentdata = props.pieIncidentdata;
+	//const pieIncidentdata = props.pieIncidentdata;
 	const { classes } = useStyles();
 	const small = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 	return (
@@ -59,7 +59,7 @@ const ProcessOverview = (props) => {
 						<Grid
 							item
 							container
-							xs={3}
+							xs={6}
 							sx={{
 								flexDirection: 'column',
 								textAlign: 'center',
@@ -93,7 +93,7 @@ const ProcessOverview = (props) => {
 							</Typography>
 							<DoughnutChart data={pieTaskdata} redraw />
 						</Grid>
-						<Grid
+						{/* <Grid
 							item
 							xs={3}
 							sx={{
@@ -110,7 +110,7 @@ const ProcessOverview = (props) => {
 								Incidents en cours
 							</Typography>
 							<DoughnutChart data={pieIncidentdata} redraw />
-						</Grid>
+						</Grid> */}
 					</Stack>
 				</CardContent>
 			</ErrorBoundary>

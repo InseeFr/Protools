@@ -11,7 +11,7 @@ import { tabPropIndex, TabPanel } from 'ui/components/shared/tabPanel/tabPanel';
 import {
 	columnsManu,
 	columnsProcessData,
-	columnsIncidents,
+	//columnsIncidents,
 } from 'core/utils/dataHomepage/mockDataHomepage';
 import CustomDataGrid from 'ui/components/shared/dataGrid/component';
 
@@ -75,7 +75,7 @@ const TabBarDashboard = (props) => {
 	const [value, setValue] = useState(0);
 	const dataProcess = props.dataProcess;
 	const dataTask = props.dataTask;
-	const dataIncident = props.dataIncident;
+	//const dataIncident = props.dataIncident;
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -99,7 +99,7 @@ const TabBarDashboard = (props) => {
 							label='Tâches manuelles en attente'
 							{...tabPropIndex(1)}
 						/>
-						<StyledTab label='Incidents en cours' {...tabPropIndex(2)} />
+						{/* <StyledTab label='Incidents en cours' {...tabPropIndex(2)} /> */}
 					</StyledTabs>
 				</CardContent>
 			</CustomCard>
@@ -123,7 +123,7 @@ const TabBarDashboard = (props) => {
 						/>
 					</CardContent>
 				</TabPanel>
-				<TabPanel value={value} index={2} className={classes.tabWidth}>
+				{/* <TabPanel value={value} index={2} className={classes.tabWidth}>
 					<CardContent className={classes.cardContentTable}>
 						<CustomDataGrid
 							rows={dataIncident}
@@ -131,7 +131,7 @@ const TabBarDashboard = (props) => {
 							height='500'
 						/>
 					</CardContent>
-				</TabPanel>
+				</TabPanel> */}
 			</CustomCard>
 		</>
 	);

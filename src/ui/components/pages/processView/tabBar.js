@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { CardContent } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { fetcherGet } from 'core/fetchData/fetch';
 import { Link } from 'react-router-dom';
 import {
 	StyledTabs,
@@ -8,6 +8,7 @@ import {
 } from 'ui/components/shared/styledComponents/tabs/tabs';
 import CustomDataGrid from 'ui/components/shared/dataGrid/component';
 import { makeStyles } from 'tss-react/mui';
+import { CardContent } from '@mui/material';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import { tabPropIndex, TabPanel } from 'ui/components/shared/tabPanel/tabPanel';
 import { FiUserPlus } from 'react-icons/fi';
@@ -16,6 +17,11 @@ import {
 	processBPMNElementColumn,
 } from 'core/utils/dataProcess/mockDataProcess';
 import ProcessGlobalInfo from './processGlobalInfo';
+import {
+	getVariables,
+	getManualTasks,
+	getAllTasksProcess,
+} from 'core/utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -80,13 +86,14 @@ const useStyles = makeStyles()((theme) => {
 const TabBarWorkflow = (props) => {
 	const { classes } = useStyles();
 	const [value, setValue] = useState(0);
-	const dataVariables = props.variables;
-	const dataManualTasks = props.manualTasks;
-	const dataBpmnElements = props.bpmnElement;
+	const [variables, setVariables] = useState([]);
+	const [manualTasks, setManualTasks] = useState([]);
+	const [bpmnElements, setBpmnElements] = useState([]);
 	const id = props.id;
 	const processInformations = props.processInformations;
 	const processKey = props.processKey;
 
+	// TODO : Bouger ça ailleurs (fix bug)
 	const processManualTasksColumns = [
 		{
 			field: 'name',
@@ -134,7 +141,7 @@ const TabBarWorkflow = (props) => {
 							id: id,
 							taskName: params.row.name,
 							taskID: params.row.id,
-							variables: dataVariables,
+							variables: variables,
 							taskCategory: params.row.category,
 						}}
 					>
@@ -148,6 +155,14 @@ const TabBarWorkflow = (props) => {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	useEffect(() => {
+		setVariables(getVariables(id));
+		setManualTasks(getManualTasks(id));
+		getAllTasksProcess(id).then((res) => {
+			setBpmnElements(res);
+		});
+	}, [id]);
 	return (
 		<>
 			<CustomCard className={classes.card}>
@@ -173,7 +188,7 @@ const TabBarWorkflow = (props) => {
 				<TabPanel value={value} index={0}>
 					<ProcessGlobalInfo
 						processID={id}
-						activeTask={dataManualTasks.length}
+						activeTask={manualTasks.length}
 						date={processInformations.date}
 						documentation={processInformations.doc}
 						processKey={processKey}
@@ -184,7 +199,7 @@ const TabBarWorkflow = (props) => {
 				<TabPanel value={value} index={1} className={classes.tabWidth}>
 					<CardContent className={classes.cardContentTable}>
 						<CustomDataGrid
-							rows={dataVariables}
+							rows={variables}
 							columns={processVariablesColumns}
 							height='600'
 						/>
@@ -193,7 +208,7 @@ const TabBarWorkflow = (props) => {
 				<TabPanel value={value} index={2} className={classes.tabWidth}>
 					<CardContent className={classes.cardContentTable}>
 						<CustomDataGrid
-							rows={dataManualTasks}
+							rows={manualTasks}
 							columns={processManualTasksColumns}
 							height='600'
 						/>
@@ -202,7 +217,7 @@ const TabBarWorkflow = (props) => {
 				<TabPanel value={value} index={3} className={classes.tabWidth}>
 					<CardContent className={classes.cardContentTable}>
 						<CustomDataGrid
-							rows={dataBpmnElements}
+							rows={bpmnElements}
 							columns={processBPMNElementColumn}
 							height='600'
 						/>

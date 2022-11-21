@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 // React dependencies
 import React, { useState } from 'react';
-
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 // BPMN dependencies
@@ -94,11 +93,10 @@ const useStyles = makeStyles()((theme) => {
 const ProtocolTypeViwer = (props) => {
 	const { classes } = useStyles();
 	const [rendered, setRendered] = useState(false);
-	const [loading, setLoading] = useState(true);
+	//const [loading, setLoading] = useState(false);
 	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
 	const url = getUrlBPMNByProcessName(params.state.selected);
-
 	const processInfo = params.state.processInfo;
 
 	setTimeout(() => {
@@ -110,7 +108,7 @@ const ProtocolTypeViwer = (props) => {
 			.catch((e) => {
 				console.log(e);
 			});
-		setLoading(false);
+		//setLoading(false);
 	}, 200);
 
 	if (diagram.length > 0 && !rendered) {
@@ -131,9 +129,33 @@ const ProtocolTypeViwer = (props) => {
 				console.log('error', err);
 			});
 	}
-	if (loading) {
-		return (
-			<>
+	// if (loading) {
+	// 	return (
+	// 		<>
+	// 			<GlobalStyles
+	// 				styles={{
+	// 					body: {
+	// 						backgroundColor: '#F9FAFC',
+	// 					},
+	// 				}}
+	// 			/>
+	// 			<SideBar />
+	// 			<Grid justifyContent='center'>
+	// 				<Box className={classes.TitleHeader}>
+	// 					<Logo className={classes.logo} />
+	// 					<Typography variant='h3' className={classes.title}>
+	// 						Workflows
+	// 					</Typography>
+	// 				</Box>
+	// 				<Loader />
+	// 			</Grid>
+	// 		</>
+	// 	);
+	// } else {
+	return (
+		<>
+			<SideBar page='design' />
+			<Box justifyContent='center'>
 				<GlobalStyles
 					styles={{
 						body: {
@@ -141,44 +163,20 @@ const ProtocolTypeViwer = (props) => {
 						},
 					}}
 				/>
-				<SideBar />
-				<Grid justifyContent='center'>
-					<Box className={classes.TitleHeader}>
-						<Logo className={classes.logo} />
-						<Typography variant='h3' className={classes.title}>
-							Workflows
-						</Typography>
-					</Box>
-					<Loader />
-				</Grid>
-			</>
-		);
-	} else {
-		return (
-			<>
-				<SideBar page='design' />
-				<Box justifyContent='center'>
-					<GlobalStyles
-						styles={{
-							body: {
-								backgroundColor: '#F9FAFC',
-							},
-						}}
-					/>
-					<Box className={classes.TitleHeader}>
-						<Logo className={classes.logo} />
-						<Typography variant='h3' className={classes.title}>
-							Visualisation Protocoles
-						</Typography>
-					</Box>
-					<div id='containerBPMN' className={classes.viewerStyle} />
-					<CustomCard className={classes.cardTab}>
-						<ProtocolInfo processInfo={processInfo} />
-					</CustomCard>
+				<Box className={classes.TitleHeader}>
+					<Logo className={classes.logo} />
+					<Typography variant='h3' className={classes.title}>
+						Visualisation Protocoles
+					</Typography>
 				</Box>
-			</>
-		);
-	}
+				<div id='containerBPMN' className={classes.viewerStyle} />
+				<CustomCard className={classes.cardTab}>
+					<ProtocolInfo processInfo={processInfo} />
+				</CustomCard>
+			</Box>
+		</>
+	);
+	//}
 };
 
 export default ProtocolTypeViwer;

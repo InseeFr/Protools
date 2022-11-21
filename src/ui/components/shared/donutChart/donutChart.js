@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { Box } from '@mui/material';
@@ -50,9 +48,9 @@ const DoughnutChart = (props) => {
 				width: {
 					xs: 70, // theme.breakpoints.up('xs')
 					sm: 105, // theme.breakpoints.up('sm')
-					md: 120, // theme.breakpoints.up('md')
-					lg: 140, // theme.breakpoints.up('lg')
-					xl: 150, // theme.breakpoints.up('xl')
+					md: 130, // theme.breakpoints.up('md')
+					lg: 150, // theme.breakpoints.up('lg')
+					xl: 160, // theme.breakpoints.up('xl')
 				},
 				marginTop: 2,
 				marginLeft: 3,

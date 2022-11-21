@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CardContent, Box } from '@mui/material';
 import {
 	StyledTabs,
@@ -12,6 +12,10 @@ import theme from 'ui/theme';
 import { columnsTaskDataHistory } from 'core/utils/dataHistory/mockDataHistory';
 import CustomDataGrid from 'ui/components/shared/dataGrid/component';
 import { columnsProcessDataHistory } from 'core/utils/dataHistory/mockDataHistory';
+import {
+	fetchProcessDataHistory,
+	fetchTaskDataHistory,
+} from 'core/utils/dataHistory/fetchDataHistory';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -71,9 +75,17 @@ const useStyles = makeStyles()((theme) => {
 const TabBarHistory = (props) => {
 	const { classes } = useStyles();
 	const [value, setValue] = useState(0);
-	const dataProcess = props.dataProcess;
-	const dataTask = props.dataTask;
-	const dataActivities = props.dataActivities;
+	const [dataProcess, setDataProcess] = useState([]);
+	const [dataTask, setDataTask] = useState([]);
+	const [dataActivities, setDataActivities] = useState([]);
+
+	useEffect(() => {
+		const result = fetchTaskDataHistory();
+		setDataTask(result[0]);
+		setDataActivities(result[1]);
+		const result2 = fetchProcessDataHistory();
+		setDataProcess(result2[0]);
+	}, []);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);

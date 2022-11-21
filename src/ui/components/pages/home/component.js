@@ -11,7 +11,6 @@ import Footer from 'ui/components/shared/footer/component';
 import {
 	fetchProcessData,
 	fetchTaskData,
-	fetchIncidentsData,
 } from 'core/utils/dataHomepage/fetchDataHomepage';
 import Loader from '../../shared/loader/loader';
 
@@ -51,8 +50,8 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const [dataProcess, setDataProcess] = useState([]);
 	const [dataTask, setDataTask] = useState([]);
-	const [dataIncident, setDataIncident] = useState([]);
-	const [pieIncidentdata, setPieIncidentdata] = useState({});
+	//const [dataIncident, setDataIncident] = useState([]);
+	//const [pieIncidentdata, setPieIncidentdata] = useState({});
 	// Retrieving all data during the component's mounting -> //TODO : Remove loading screen once linked to Keyloack
 	useEffect(() => {
 		const resultTask = fetchTaskData();
@@ -62,11 +61,10 @@ const Home = () => {
 		const resultProcess = fetchProcessData();
 		setDataProcess(resultProcess[0]);
 		setPieProcessdata(resultProcess[1]);
-		console.log('loading: ', loading);
 
-		const resultIncident = fetchIncidentsData();
-		setDataIncident(resultIncident[0]);
-		setPieIncidentdata(resultIncident[1]);
+		//const resultIncident = fetchIncidentsData();
+		//setDataIncident(resultIncident[0]);
+		//setPieIncidentdata(resultIncident[1]);
 
 		setTimeout(() => {
 			setLoading(false);
@@ -117,12 +115,12 @@ const Home = () => {
 					<ProcessOverview
 						pieProcessdata={pieProcessdata}
 						pieTaskdata={pieTaskdata}
-						pieIncidentdata={pieIncidentdata}
+						//pieIncidentdata={pieIncidentdata}
 					/>
 					<TabBarDashboard
 						dataTask={dataTask}
 						dataProcess={dataProcess}
-						dataIncident={dataIncident}
+						//dataIncident={dataIncident}
 					/>
 				</Grid>
 				<Footer />

@@ -92,9 +92,6 @@ const BPMNViewer = (props) => {
 	const [loading, setLoading] = useState(true);
 	const { processKey, id } = useParams();
 	const [activities, setActivities] = useState([]);
-	const [variables, setVariables] = useState([]);
-	const [manualTasks, setManualTasks] = useState([]);
-	const [allTasks, setAllTasks] = useState([]);
 	const processInformations = useLocation().state;
 	const [rendered, setRendered] = useState(false);
 
@@ -102,11 +99,6 @@ const BPMNViewer = (props) => {
 		const url = getUrlBPMNByProcessName(processKey);
 		getCurrentActivityName(id).then((res) => {
 			setActivities(res);
-		});
-		setVariables(getVariables(id));
-		setManualTasks(getManualTasks(id));
-		getAllTasksProcess(id).then((res) => {
-			setAllTasks(res);
 		});
 
 		setTimeout(() => {
@@ -212,9 +204,6 @@ const BPMNViewer = (props) => {
 					<div id='containerBPMN' className={classes.viewerStyle} />
 
 					<TabBarWorkflow
-						variables={variables}
-						manualTasks={manualTasks}
-						bpmnElement={allTasks}
 						id={id}
 						processInformations={processInformations}
 						processKey={processKey}
