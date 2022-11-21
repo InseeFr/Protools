@@ -8,7 +8,7 @@ import {
 	Stack,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getProcessDataVisuTypes } from 'core/utils/dataVisuTypes/fetchDataVisuTypes';
+import { getProcessDataVisuTypes } from 'core/utils/dataVisualization/fetchDataVisualization';
 
 const SelectProtocol = () => {
 	const [selected, setSelected] = useState('EnqueteWebContinue');

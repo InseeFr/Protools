@@ -5,8 +5,8 @@ import NavigationHeader from 'ui/components/shared/navigationHeader';
 import BPMNViewer from 'ui/components/pages/processView/component';
 import ProcessSelect from 'ui/components/pages/processStart/component';
 import History from 'ui/components/pages/history/component';
-import Visualizer from '../components/pages/visuTypes/component';
-import ProtocolTypeViwer from '../components/pages/visuTypes/protocoleDisplay';
+import Visualizer from '../components/pages/visualization/component';
+import ProtocolTypeViwer from '../components/pages/visualization/displayProcess';
 import UploadFile from 'ui/components/pages/uploadFile/component';
 import ReviewUserTask from 'ui/components/pages/reviewUserTask/component';
 const RoutesWeb = () => {

@@ -19,7 +19,7 @@ import SideBar from 'ui/components/shared/sidepanel/sidepanel';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import Loader from 'ui/components/shared/loader/loader';
 // Data retrieve functions
-import ProtocolInfo from './protocolInfo';
+import ProtocolInfo from './processDocumentation';
 import { getUrlBPMNByProcessName } from 'core/utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
