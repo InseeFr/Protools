@@ -17,11 +17,6 @@ import {
 	processBPMNElementColumn,
 } from 'core/utils/dataProcess/mockDataProcess';
 import ProcessGlobalInfo from './processGlobalInfo';
-import {
-	getVariables,
-	getManualTasks,
-	getAllTasksProcess,
-} from 'core/utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -86,14 +81,14 @@ const useStyles = makeStyles()((theme) => {
 const TabBarWorkflow = (props) => {
 	const { classes } = useStyles();
 	const [value, setValue] = useState(0);
-	const [variables, setVariables] = useState([]);
-	const [manualTasks, setManualTasks] = useState([]);
-	const [bpmnElements, setBpmnElements] = useState([]);
+	const variables = props.variables;
+	const manualTasks = props.manualTasks;
+	const bpmnElements = props.bpmnElement;
 	const id = props.id;
 	const processInformations = props.processInformations;
 	const processKey = props.processKey;
 
-	// TODO : Bouger ça ailleurs (fix bug)
+	//TODO : Move this elsewhere
 	const processManualTasksColumns = [
 		{
 			field: 'name',
@@ -155,14 +150,6 @@ const TabBarWorkflow = (props) => {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
-	useEffect(() => {
-		setVariables(getVariables(id));
-		setManualTasks(getManualTasks(id));
-		getAllTasksProcess(id).then((res) => {
-			setBpmnElements(res);
-		});
-	}, [id]);
 	return (
 		<>
 			<CustomCard className={classes.card}>
@@ -188,7 +175,7 @@ const TabBarWorkflow = (props) => {
 				<TabPanel value={value} index={0}>
 					<ProcessGlobalInfo
 						processID={id}
-						activeTask={manualTasks.length}
+						activeTask={variables.length}
 						date={processInformations.date}
 						documentation={processInformations.doc}
 						processKey={processKey}
