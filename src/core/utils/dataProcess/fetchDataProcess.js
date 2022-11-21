@@ -21,16 +21,16 @@ export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
 	//const config = getConfigFile();
 	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
-	console.log('apiUrl: ' + apiUrl);
-	const BpmnFile = fetcherGet(apiUrl)
+	const file = fetcherGet(apiUrl)
 		.then((r) => {
-			console.log('Get BPMN File : ', r.data);
+			//console.log('Get BPMN File : ', r.data);
 			return r.data;
 		})
 		.catch((e) => {
 			console.log('error', e);
 		});
-	return BpmnFile;
+	console.log('Get BPMN File :', file);
+	return file;
 };
 
 export const getAvailableTasks = (processInstanceId) => {

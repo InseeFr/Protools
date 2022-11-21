@@ -20,7 +20,7 @@ import Loader from 'ui/components/shared/loader/loader';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
 // Data retrieve functions
 import {
-	getUrlBPMNByProcessName,
+	getBPMNByProcessName,
 	getCurrentActivityName,
 	getVariables,
 	getManualTasks,
@@ -99,7 +99,6 @@ const BPMNViewer = (props) => {
 	const [rendered, setRendered] = useState(false);
 
 	useEffect(() => {
-		const url = getUrlBPMNByProcessName(processKey);
 		getCurrentActivityName(id).then((res) => {
 			setActivities(res);
 		});
@@ -110,14 +109,9 @@ const BPMNViewer = (props) => {
 		});
 
 		setTimeout(() => {
-			axios
-				.get(url)
-				.then((r) => {
-					setDiagram(r.data);
-				})
-				.catch((e) => {
-					console.log(e);
-				});
+			getBPMNByProcessName(processKey).then((res) => {
+				setDiagram(res);
+			});
 			setLoading(false);
 		}, 200);
 	}, [id, processKey]);
