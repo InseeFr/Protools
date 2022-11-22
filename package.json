@@ -37,6 +37,7 @@
 		"react-date-fns-hooks": "^0.9.4",
 		"react-dom": "^18.2.0",
 		"react-donut-chart": "^1.3.0",
+		"react-dotenv": "^0.1.3",
 		"react-error-boundary": "^3.1.4",
 		"react-hook-form": "^7.33.0",
 		"react-hook-form-mui": "^3.9.0",
@@ -50,12 +51,13 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"start": "react-dotenv && react-scripts start",
+		"build": "react-dotenv && react-scripts build",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix",
 		"format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
 		"test": "react-scripts test",
+		"serve": "react-dotenv && serve build",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {

@@ -8,6 +8,6 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
-      nodePort: 30004
+      nodePort: 31000
   selector:
     app: protools
