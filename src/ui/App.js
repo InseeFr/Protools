@@ -12,8 +12,9 @@ const App = () => {
 		fetch(`${window.location.origin}/configuration.json`)
 			.then((r) => r.json())
 			.then((r) => {
-				const { API_URL } = r;
-				setApiUrl(API_URL);
+				const { REACT_APP_API_URL } = r;
+				setApiUrl(REACT_APP_API_URL);
+				console.log('environment variable API_URL :', REACT_APP_API_URL);
 				setConfiguration(true);
 			});
 	}
