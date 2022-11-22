@@ -204,7 +204,6 @@ const BPMNViewer = (props) => {
 						</Typography>
 					</Breadcrumbs>
 					<div id='containerBPMN' className={classes.viewerStyle} />
-
 					<TabBarWorkflow
 						variables={variables}
 						manualTasks={manualTasks}

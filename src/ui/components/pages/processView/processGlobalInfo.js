@@ -238,8 +238,7 @@ const ProcessGlobalInfo = (props) => {
 										align='left'
 										sx={{ marginLeft: 1 }}
 									>
-										Autres informations potentiellement utiles potentiellement
-										longues à afficher
+										Autres informations au sujet de l'enquête
 									</Typography>
 								</Grid>
 								<Grid item container xs={12} direction='row'>
@@ -248,7 +247,7 @@ const ProcessGlobalInfo = (props) => {
 										variant='h6'
 										className={classes.infoName}
 									>
-										....
+										...
 									</Typography>
 								</Grid>
 							</Stack>

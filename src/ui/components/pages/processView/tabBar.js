@@ -175,7 +175,7 @@ const TabBarWorkflow = (props) => {
 				<TabPanel value={value} index={0}>
 					<ProcessGlobalInfo
 						processID={id}
-						activeTask={variables.length}
+						activeTask={manualTasks.length}
 						date={processInformations.date}
 						documentation={processInformations.doc}
 						processKey={processKey}
