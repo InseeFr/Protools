@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [develop]
+    branches: [demo-support]
   pull_request:
-    branches: [develop]
+    branches: [demo-support]
 
 jobs:
   build_test:
@@ -35,4 +35,4 @@ jobs:
           name: inseefr/protools
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          tags: 'develop'
+          tags: 'demo-support'
