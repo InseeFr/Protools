@@ -14,7 +14,7 @@ const App = () => {
 			.then((r) => {
 				const { REACT_APP_API_URL } = r;
 				setApiUrl(REACT_APP_API_URL);
-				console.log('environment variable API_URL :', REACT_APP_API_URL);
+				console.log('Environment variable API_URL :', REACT_APP_API_URL);
 				setConfiguration(true);
 			});
 	}
