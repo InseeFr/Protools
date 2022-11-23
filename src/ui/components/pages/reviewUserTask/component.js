@@ -92,7 +92,7 @@ const ReviewUserTask = () => {
 
 	const handleClose = () => {
 		setOpen(false);
-		window.location.replace('/ ', '_blank');
+		navigate(-1);
 	};
 
 	const handleSubmit = (e) => {
@@ -132,7 +132,7 @@ const ReviewUserTask = () => {
 							sx={{ marginTop: 2 }}
 							onClick={handleSubmit}
 						>
-							<Typography value='h4'>Envoyer</Typography>
+							<Typography value='h4'>Valider</Typography>
 						</Button>
 
 						<Dialog open={open} onClose={handleClose}>
