@@ -71,7 +71,9 @@ const SelectProcess = () => {
 						label='Select BPMN'
 						onChange={handleChange}
 					>
-						<MenuItem value={'EnqueteWebContinue'}>Enquête Famille</MenuItem>
+						<MenuItem value={'EnqueteWebContinue'}>
+							Enquête Web Continue
+						</MenuItem>
 						<MenuItem value={'ProcessTestFeature'}>
 							Enquête de Test {'(expérimental)'}
 						</MenuItem>
@@ -86,8 +88,7 @@ const SelectProcess = () => {
 						label='Select BusinessKey'
 						onChange={handleChangeKey}
 					>
-						<MenuItem value={'Prod'}>"Prod" {'(ou autre nom)'}</MenuItem>
-						<MenuItem value={'Integration'}>Test Intégration</MenuItem>
+						<MenuItem value={'Fam'}>Enquête Famille 2022</MenuItem>
 						<MenuItem value={'Test'}>Test Features</MenuItem>
 					</Select>
 				</FormControl>
