@@ -20,7 +20,7 @@ import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import Loader from 'ui/components/shared/loader/loader';
 // Data retrieve functions
 import ProtocolInfo from './processDocumentation';
-import { getUrlBPMNByProcessName } from 'core/utils/dataProcess/fetchDataProcess';
+import { getBPMNByProcessName } from 'core/utils/dataProcess/fetchDataProcess';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -96,18 +96,13 @@ const ProtocolTypeViwer = (props) => {
 	//const [loading, setLoading] = useState(false);
 	const [diagram, setDiagram] = useState('');
 	const params = useLocation();
-	const url = getUrlBPMNByProcessName(params.state.selected);
 	const processInfo = params.state.processInfo;
+	const processKey = Object.entries(processInfo)[0][1].processKey;
 
 	setTimeout(() => {
-		axios
-			.get(url)
-			.then((r) => {
-				setDiagram(r.data);
-			})
-			.catch((e) => {
-				console.log(e);
-			});
+		getBPMNByProcessName(processKey).then((res) => {
+			setDiagram(res);
+		});
 		//setLoading(false);
 	}, 200);
 
