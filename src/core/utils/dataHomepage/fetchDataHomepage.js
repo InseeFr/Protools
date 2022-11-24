@@ -17,7 +17,7 @@ const getProcessState = (datatmp, i) => {
 export const fetchProcessData = () => {
 	const urlEndpoint = 'processInstances/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = 'https://protools-back-office.demo.insee.io/' + urlEndpoint;
 
 	const dataUrl = [];
 	let pieProcessdata = {
@@ -69,7 +69,7 @@ export const fetchProcessData = () => {
 export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = 'https://protools-back-office.demo.insee.io/' + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {
 		labels: [
@@ -142,11 +142,12 @@ const getPieTaskCategoryIndex = (taskCategory) => {
 export const fetchIncidentsData = () => {
 	const urlEndpoint = 'history/suspended'; // ATM only suspended process
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = 'https://protools-back-office.demo.insee.io/' + urlEndpoint;
 	const dataUrl = [];
 
 	const urlEndpointDead = 'history/deadLetter'; // Deadletter jobs process
-	const apiUrlDead = window.env.REACT_APP_API_URL + urlEndpointDead;
+	const apiUrlDead =
+		'https://protools-back-office.demo.insee.io/' + urlEndpointDead;
 
 	let pieIncidentdata = {
 		labels: ['Suspendu', 'Échecs', 'Externes'],

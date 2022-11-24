@@ -28,7 +28,7 @@ export const fetchTaskDataHistory = () => {
 	setAutoFreeze(false);
 	const urlEndpoint = 'history/activity/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = 'https://protools-back-office.demo.insee.io/' + urlEndpoint;
 	const dataUrlTask = [];
 	const dataUrlActivities = [];
 	fetcherGet(apiUrl)
@@ -106,7 +106,7 @@ export const fetchProcessDataHistory = () => {
 	setAutoFreeze(false);
 	const urlEndpoint = 'history/process/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = 'https://protools-back-office.demo.insee.io/' + urlEndpoint;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {

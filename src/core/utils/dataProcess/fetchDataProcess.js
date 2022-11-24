@@ -20,7 +20,8 @@ export const getUrlBPMNByProcessName = (selected) => {
 export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + selected;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' + urlEndpoint + selected;
 	const file = fetcherGet(apiUrl)
 		.then((r) => {
 			//console.log('Get BPMN File : ', r.data);
@@ -36,7 +37,10 @@ export const getBPMNByProcessName = (selected) => {
 export const getAvailableTasks = (processInstanceId) => {
 	const urlEndpoint = 'tasksProcessID/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + processInstanceId;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' +
+		urlEndpoint +
+		processInstanceId;
 	const dataUrl = [];
 	const listName = [];
 	fetcherGet(apiUrl)
@@ -64,7 +68,8 @@ export const getAvailableTasks = (processInstanceId) => {
 export const getProcessDefinitionID = async (id) => {
 	const urlEndpoint = 'processDefinition/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' + urlEndpoint + id;
 	fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -92,7 +97,8 @@ export const getCorrespondingBpmnElement = (BpmnResponse, liste) => {
 export const getBPMNInfo = (id, listName) => {
 	const urlEndpoint = 'bpmnInfo/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' + urlEndpoint + id;
 	let response = {};
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -108,7 +114,8 @@ export const getCurrentActivityName = (id) => {
 	// Fetch currents activities
 	const urlEndpoint = 'executionActivities/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' + urlEndpoint + id;
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -122,7 +129,10 @@ export const getCurrentActivityName = (id) => {
 export const getVariables = (processInstanceID) => {
 	const urlEndpoint = 'variables/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' +
+		urlEndpoint +
+		processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -147,7 +157,10 @@ export const getVariables = (processInstanceID) => {
 export const getManualTasks = (processInstanceID) => {
 	const urlEndpoint = 'tasksProcessID/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' +
+		urlEndpoint +
+		processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -174,12 +187,14 @@ export const getAllTasksProcess = (id) => {
 	//TODO : Refactor cette fonction pour ne faire qu'une requête pour les deux usages
 	const urlEndpoint = 'processDefinition/';
 	//const config = getConfigFile();
-	const apiUrl = window.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl =
+		'https://protools-back-office.demo.insee.io/' + urlEndpoint + id;
 
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
-			const apiUrl2 = window.env.REACT_APP_API_URL + urlEndpoint2 + r.data;
+			const apiUrl2 =
+				'https://protools-back-office.demo.insee.io/' + urlEndpoint2 + r.data;
 			const HELPME = fetcherGet(apiUrl2).then((r) => {
 				const dataUrl = [];
 				const datatmp = r.data;

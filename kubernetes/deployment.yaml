@@ -19,3 +19,5 @@ spec:
           env:
             - name: REACT_APP_API_URL
               value: https://protools-back-office.demo.insee.io/
+            - name: API_URL
+              value: https://protools-back-office.demo.insee.io/
