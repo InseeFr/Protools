@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetch';
 import theme from 'ui/theme';
-import Moment from 'moment';
 
 const getProcessState = (datatmp, i) => {
 	if (datatmp[i].isSuspended) {
@@ -38,18 +37,19 @@ export const fetchProcessData = () => {
 			const datatmp = r.data.processes;
 
 			for (let i = 0; i < datatmp.length; i++) {
+				console.log(datatmp[i].startTime.slice(0, 10));
 				dataUrl.push({
 					id: datatmp[i].id,
 					tag: datatmp[i].businessKey,
 					state: getProcessState(datatmp, i),
 					processKey: datatmp[i].processKey,
 					documentation: datatmp[i].documentation,
-					date: Moment(datatmp[i].startTime).format('DD/MM/YYYY - HH:mm'),
+					date: datatmp[i].startTime,
 
 					action: {
 						url: datatmp[i].processKey + '/' + datatmp[i].id,
 						doc: datatmp[i].documentation,
-						date: Moment(datatmp[i].startTime).format('DD/MM/YYYY - HH:mm'),
+						date: datatmp[i].startTime,
 						key: datatmp[i].businessKey,
 						state: !datatmp[i].isSuspended && datatmp[i].deadLetterList === 0,
 					},
@@ -98,7 +98,7 @@ export const fetchTaskData = () => {
 					category: element.category,
 					description: element.description,
 					processInstance: element.processInstance,
-					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
+					createTime: element.startTime,
 					action: '',
 				});
 				const indexColor = getPieTaskCategoryIndex(element.category);
