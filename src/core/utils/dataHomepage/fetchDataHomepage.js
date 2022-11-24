@@ -37,7 +37,6 @@ export const fetchProcessData = () => {
 			const datatmp = r.data.processes;
 
 			for (let i = 0; i < datatmp.length; i++) {
-				console.log(datatmp[i].startTime.slice(0, 10));
 				dataUrl.push({
 					id: datatmp[i].id,
 					tag: datatmp[i].businessKey,
@@ -92,13 +91,14 @@ export const fetchTaskData = () => {
 		.then((r) => {
 			const datatmp = r.data;
 			for (const element of datatmp) {
+				console.log(element.startTime);
 				dataUrl.push({
 					id: element.TaskId,
 					name: element.name,
 					category: element.category,
 					description: element.description,
 					processInstance: element.processInstance,
-					createTime: element.startTime,
+					createTime: element.createTime,
 					action: '',
 				});
 				const indexColor = getPieTaskCategoryIndex(element.category);
