@@ -1,5 +1,4 @@
 import { fetcherGet } from 'core/fetchData/fetch';
-import Moment from 'moment';
 import { setAutoFreeze } from 'immer';
 
 function padTo2Digits(num) {
@@ -59,13 +58,7 @@ export const fetchTaskDataHistory = () => {
 						datatmp[i].durationInMillis !== null
 							? msToHMS(datatmp[i].durationInMillis)
 							: msToHMS(0),
-					endDate:
-						datatmp[i].endTime !== null
-							? Moment(datatmp[i].endTime.split('.')[0]).format(
-									'DD/MM/YYYY - HH:mm'
-									// eslint-disable-next-line no-mixed-spaces-and-tabs
-							  )
-							: 'null',
+					endDate: datatmp[i].endTime !== null ? datatmp[i].endTime : 'null',
 				};
 
 				dataUrlTask.push(obj);
@@ -82,11 +75,8 @@ export const fetchTaskDataHistory = () => {
 							? msToHMS(datatmpsActivites[i].durationInMillis)
 							: msToHMS(0),
 					endDate:
-						datatmp[i].endTime !== null
-							? Moment(datatmp[i].endTime.split('.')[0]).format(
-									'DD/MM/YYYY - HH:mm'
-									// eslint-disable-next-line no-mixed-spaces-and-tabs
-							  )
+						datatmpsActivites[i].endTime !== null
+							? datatmpsActivites[i].endTime
 							: 'null',
 				};
 

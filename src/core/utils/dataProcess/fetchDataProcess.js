@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetch';
 
-import Moment from 'moment';
-
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
 		case 'EnqueteWeb':
@@ -170,7 +168,7 @@ export const getManualTasks = (processInstanceID) => {
 				dataUrl.push({
 					id: element.TaskId,
 					name: element.name,
-					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
+					createTime: element.createTime,
 					category: element.category,
 					link: getManualTaskCategoryLink(element.category),
 				});

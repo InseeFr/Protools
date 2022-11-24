@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetch';
 import theme from 'ui/theme';
-import Moment from 'moment';
 
 const getProcessState = (datatmp, i) => {
 	if (datatmp[i].isSuspended) {
@@ -21,7 +20,7 @@ export const fetchProcessData = () => {
 
 	const dataUrl = [];
 	let pieProcessdata = {
-		labels: ['Production', 'Tests Intégration', 'Test Features'],
+		labels: ['Enquête Famille', 'Tests Fonctionnalités', 'Autres'],
 		datasets: [
 			{
 				label: 'processus',
@@ -44,12 +43,12 @@ export const fetchProcessData = () => {
 					state: getProcessState(datatmp, i),
 					processKey: datatmp[i].processKey,
 					documentation: datatmp[i].documentation,
-					date: Moment(datatmp[i].startTime).format('DD/MM/YYYY - HH:mm'),
+					date: datatmp[i].startTime,
 
 					action: {
 						url: datatmp[i].processKey + '/' + datatmp[i].id,
 						doc: datatmp[i].documentation,
-						date: Moment(datatmp[i].startTime).format('DD/MM/YYYY - HH:mm'),
+						date: datatmp[i].startTime,
 						key: datatmp[i].businessKey,
 						state: !datatmp[i].isSuspended && datatmp[i].deadLetterList === 0,
 					},
@@ -92,13 +91,14 @@ export const fetchTaskData = () => {
 		.then((r) => {
 			const datatmp = r.data;
 			for (const element of datatmp) {
+				console.log(element.startTime);
 				dataUrl.push({
 					id: element.TaskId,
 					name: element.name,
 					category: element.category,
 					description: element.description,
 					processInstance: element.processInstance,
-					createTime: Moment(element.createTime).format('DD/MM/YYYY - HH:mm'),
+					createTime: element.createTime,
 					action: '',
 				});
 				const indexColor = getPieTaskCategoryIndex(element.category);
@@ -114,15 +114,12 @@ export const fetchTaskData = () => {
 
 const getPieProcessColorIndex = (BusinessKey) => {
 	switch (BusinessKey) {
-		case 'Prod':
+		case 'Fam':
 			return 0;
-		case 'Integration':
-			return 1;
 		case 'Test':
-			return 2;
-
+			return 1;
 		default:
-			return 4;
+			return 2;
 	}
 };
 
