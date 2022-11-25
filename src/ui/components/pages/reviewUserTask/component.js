@@ -92,7 +92,7 @@ const ReviewUserTask = () => {
 
 	const handleClose = () => {
 		setOpen(false);
-		navigate(-1);
+		window.location.replace('/ ', '_blank');
 	};
 
 	const handleSubmit = (e) => {
