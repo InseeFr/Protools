@@ -29,6 +29,7 @@ const useStyles = makeStyles()((theme) => {
 			width: '80%',
 			marginLeft: '17%',
 			marginTop: '1%',
+
 			[theme.breakpoints.down('md')]: {
 				width: '85%',
 				marginLeft: '11.5%',
@@ -43,6 +44,9 @@ const useStyles = makeStyles()((theme) => {
 			width: '80%',
 			marginLeft: '17%',
 			marginTop: '0.5%',
+			[theme.breakpoints.down('lg')]: {
+				marginTop: '1.2%',
+			},
 			[theme.breakpoints.down('md')]: {
 				width: '85%',
 				marginLeft: '11.5%',

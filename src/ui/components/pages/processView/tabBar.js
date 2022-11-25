@@ -48,6 +48,10 @@ const useStyles = makeStyles()((theme) => {
 			position: 'absolute',
 			top: '60%',
 			padding: 5,
+			[theme.breakpoints.down('lg')]: {
+				marginTop: '1.5%',
+				width: '79%',
+			},
 			[theme.breakpoints.down('md')]: {
 				width: '84%',
 				marginLeft: '11.5%',

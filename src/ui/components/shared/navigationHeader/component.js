@@ -164,7 +164,7 @@ const NavigationHeader = () => {
 							</Typography>
 						</Box>
 						<a
-							href='https://protools-back-office.demo.insee.io/swagger-ui/index.html'
+							href={process.env.REACT_APP_API_URL}
 							target='_blank'
 							style={{ textDecoration: 'none' }}
 							rel='noreferrer'
