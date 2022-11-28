@@ -128,11 +128,18 @@ const ReviewUserTask = () => {
 							suivant permet d'exécuter la tâche.
 						</Typography>
 						<Button
+							variant='outlined'
+							sx={{ marginTop: 3 }}
+							onClick={navigate(-1)}
+						>
+							<Typography value='h3'>Annuler</Typography>
+						</Button>
+						<Button
 							variant='contained'
-							sx={{ marginTop: 2 }}
+							sx={{ marginTop: 3, marginLeft: 1 }}
 							onClick={handleSubmit}
 						>
-							<Typography value='h4'>Valider</Typography>
+							<Typography value='h3'>Envoyer</Typography>
 						</Button>
 
 						<Dialog open={open} onClose={handleClose}>

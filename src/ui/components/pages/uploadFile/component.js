@@ -63,7 +63,7 @@ const useStyles = makeStyles()((theme) => {
 		titleCard: {
 			fontWeight: 'bold',
 			color: theme.palette.primary.main,
-			fontSize: 22,
+			fontSize: 25,
 			margin: '0px 0px 10px 0px',
 		},
 	};
@@ -120,8 +120,15 @@ const UploadFile = () => {
 							<input type='file' onChange={handleChange} />
 						</form>
 						<Button
-							variant='contained'
+							variant='outlined'
 							sx={{ marginTop: 3 }}
+							onClick={navigate(-1)}
+						>
+							<Typography value='h3'>Annuler</Typography>
+						</Button>
+						<Button
+							variant='contained'
+							sx={{ marginTop: 3, marginLeft: 1 }}
 							onClick={handleSubmit}
 						>
 							<Typography value='h3'>Envoyer</Typography>
