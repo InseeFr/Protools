@@ -51,7 +51,7 @@ const useStyles = makeStyles()((theme) => {
 			width: '80%',
 			marginLeft: '16%',
 			position: 'absolute',
-			top: '13%',
+			top: '12%',
 
 			zIndex: 1,
 			[theme.breakpoints.down('md')]: {
@@ -191,18 +191,6 @@ const BPMNViewer = (props) => {
 							Workflows
 						</Typography>
 					</Box>
-					<Breadcrumbs
-						separator='›'
-						aria-label='breadcrumb'
-						className={classes.bread}
-					>
-						<Link underline='hover' color='inherit' href='/'>
-							Home
-						</Link>
-						<Typography color='text.primary'>
-							Workflow : {processInformations.key}
-						</Typography>
-					</Breadcrumbs>
 					<div id='containerBPMN' className={classes.viewerStyle} />
 					<TabBarWorkflow
 						variables={variables}
