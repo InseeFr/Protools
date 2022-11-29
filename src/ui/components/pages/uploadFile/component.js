@@ -122,7 +122,7 @@ const UploadFile = () => {
 						<Button
 							variant='outlined'
 							sx={{ marginTop: 3 }}
-							onClick={navigate(-1)}
+							onClick={handleClose}
 						>
 							<Typography value='h3'>Annuler</Typography>
 						</Button>
