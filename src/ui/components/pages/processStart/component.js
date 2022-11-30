@@ -54,8 +54,6 @@ const useStyles = makeStyles()((theme) => {
 		},
 
 		titleCard: {
-			fontSize: 20,
-			fontWeight: 'bold',
 			color: theme.palette.primary.main,
 		},
 	};
@@ -83,7 +81,7 @@ const ProcessSelect = () => {
 				</Box>
 				<CustomCard className={classes.card}>
 					<CardContent>
-						<Typography variant='h3' className={classes.titleCard}>
+						<Typography variant='h4' className={classes.titleCard}>
 							Sélectionner l'enquête à lancer :
 						</Typography>
 						<SelectProcess />

@@ -50,9 +50,6 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const [dataProcess, setDataProcess] = useState([]);
 	const [dataTask, setDataTask] = useState([]);
-	//const [dataIncident, setDataIncident] = useState([]);
-	//const [pieIncidentdata, setPieIncidentdata] = useState({});
-	// Retrieving all data during the component's mounting -> //TODO : Remove loading screen once linked to Keyloack
 	useEffect(() => {
 		const resultTask = fetchTaskData();
 		setDataTask(resultTask[0]);
@@ -61,11 +58,6 @@ const Home = () => {
 		const resultProcess = fetchProcessData();
 		setDataProcess(resultProcess[0]);
 		setPieProcessdata(resultProcess[1]);
-
-		//const resultIncident = fetchIncidentsData();
-		//setDataIncident(resultIncident[0]);
-		//setPieIncidentdata(resultIncident[1]);
-
 		setTimeout(() => {
 			setLoading(false);
 		}, 350);
