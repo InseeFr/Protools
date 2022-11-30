@@ -30,10 +30,14 @@ const useStyles = makeStyles()((theme) => {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			width: '23%',
+			width: '20%',
 			marginLeft: '45%',
 			marginTop: '10%',
 			padding: 10,
+			[theme.breakpoints.down('lg')]: {
+				width: '30%',
+				marginLeft: '40%',
+			},
 			[theme.breakpoints.down('md')]: {
 				width: '30%',
 				marginLeft: '38%',
@@ -63,7 +67,6 @@ const useStyles = makeStyles()((theme) => {
 		titleCard: {
 			fontWeight: 'bold',
 			color: theme.palette.primary.main,
-			fontSize: 25,
 			margin: '0px 0px 10px 0px',
 		},
 	};
@@ -112,10 +115,9 @@ const UploadFile = () => {
 				</Box>
 				<CustomCard className={classes.card}>
 					<CardContent>
-						<Typography value='h3' className={classes.titleCard}>
-							Déposez ici le fichier à télécharger:
+						<Typography variant='h4' className={classes.titleCard}>
+							Déposez le fichier à télécharger:
 						</Typography>
-
 						<form onSubmit={handleSubmit}>
 							<input type='file' onChange={handleChange} />
 						</form>
