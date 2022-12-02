@@ -46,7 +46,8 @@ export const fetchProcessData = (API_URL) => {
 					date: datatmp[i].startTime,
 
 					action: {
-						url: datatmp[i].processKey + '/' + datatmp[i].id,
+						id: datatmp[i].id,
+						processKey: datatmp[i].processKey,
 						doc: datatmp[i].documentation,
 						date: datatmp[i].startTime,
 						key: datatmp[i].businessKey,

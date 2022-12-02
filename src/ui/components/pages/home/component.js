@@ -55,6 +55,7 @@ const Home = () => {
 			const API_URL = config.API_URL;
 			const resultProcess = fetchProcessData(API_URL);
 			setDataProcess(resultProcess[0]);
+			console.log(resultProcess[0]);
 			setPieProcessdata(resultProcess[1]);
 			const resultTask = fetchTaskData(API_URL);
 			setDataTask(resultTask[0]);
@@ -67,6 +68,7 @@ const Home = () => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
 	if (loading) {
 		return (
 			<>

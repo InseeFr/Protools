@@ -16,8 +16,8 @@ const RoutesWeb = () => {
 			<Routes>
 				{/* It's good because all components here should be Uncontrolled and it's the case */}
 				<Route path={'/'} exact element={<Home />} />
-				<Route path={'/process'} element={<ProcessSelect />} />
-				<Route path={'/process/:processKey/:id'} element={<BPMNViewer />} />
+				<Route path={'/process-start'} element={<ProcessSelect />} />
+				<Route path={'/process'} element={<BPMNViewer />} />
 				<Route path={'/history'} element={<History />} />
 				<Route path={'/protocol-types'} element={<Visualizer />} />
 				<Route path={'/protocol-display'} element={<ProtocolTypeViwer />} />

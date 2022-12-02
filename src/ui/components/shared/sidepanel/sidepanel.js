@@ -159,7 +159,7 @@ const SideBar = (props) => {
 						</Grid>
 					</Link>
 
-					<Link href='/process' underline='none'>
+					<Link href='/process-start' underline='none'>
 						<Grid
 							container
 							direction='row'

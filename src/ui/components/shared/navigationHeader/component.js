@@ -113,7 +113,7 @@ const NavigationHeader = () => {
 								</Link>
 							</ListItem>
 							<ListItem>
-								<Link href='/process' underline='none'>
+								<Link href='/process-start' underline='none'>
 									<Box className={classes.boxBreakpoint}>
 										<Typography
 											variant='subtitle2'

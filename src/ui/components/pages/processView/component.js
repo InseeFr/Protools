@@ -90,20 +90,35 @@ const BPMNViewer = (props) => {
 	const { classes } = useStyles();
 	const [diagram, setDiagram] = useState('');
 	const [loading, setLoading] = useState(true);
-	const { processKey, id } = useParams();
 	const [activities, setActivities] = useState([]);
 	const [variables, setVariables] = useState([]);
 	const [manualTasks, setManualTasks] = useState([]);
 	const [allTasks, setAllTasks] = useState([]);
 	const processInformations = useLocation().state;
+	const processKey = processInformations.processKey;
+	const id = processInformations.id;
 	const [rendered, setRendered] = useState(false);
 
 	useEffect(() => {
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			console.log(API_URL);
+			getCurrentActivityName(API_URL, id).then((res) => {
+				setActivities(res);
+			});
+			setVariables(getVariables(API_URL, id));
+			setManualTasks(getManualTasks(API_URL, id));
+			getAllTasksProcess(API_URL, id).then((res) => {
+				setAllTasks(res);
+			});
+
+			setTimeout(() => {
+				setLoading(false);
+			}, 200);
+		});
 		setTimeout(() => {
-			console.log('rendered');
 			fetchConfig().then((config) => {
 				const API_URL = config.API_URL;
-				console.log(API_URL);
 				getBPMNByProcessName(API_URL, processKey).then((res) => {
 					setDiagram(res);
 				});

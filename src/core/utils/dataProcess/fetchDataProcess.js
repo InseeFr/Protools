@@ -119,33 +119,28 @@ export const getCurrentActivityName = (API_URL, id) => {
 	return response;
 };
 
-export const getVariables = (processInstanceID) => {
+export const getVariables = (API_URL, processInstanceID) => {
 	const urlEndpoint = 'variables/';
 	const dataUrl = [];
 
-	fetchConfig().then((config) => {
-		const API_URL = config.API_URL;
-		const apiUrl = API_URL + urlEndpoint + processInstanceID;
-		console.log('apiUrl', apiUrl);
+	const apiUrl = API_URL + urlEndpoint + processInstanceID;
 
-		fetcherGet(apiUrl)
-			.then((r) => {
-				console.log('Variables : ', r.data);
-				const datatmp = r.data;
-				for (const variable in datatmp) {
-					dataUrl.push({
-						id: processInstanceID + ':' + variable,
-						name: variable,
-						type: typeof datatmp[variable],
-						value: datatmp[variable],
-					});
-				}
-			})
+	fetcherGet(apiUrl)
+		.then((r) => {
+			const datatmp = r.data;
+			for (const variable in datatmp) {
+				dataUrl.push({
+					id: processInstanceID + ':' + variable,
+					name: variable,
+					type: typeof datatmp[variable],
+					value: datatmp[variable],
+				});
+			}
+		})
 
-			.catch((e) => {
-				console.log('error', e);
-			});
-	});
+		.catch((e) => {
+			console.log('error', e);
+		});
 
 	return dataUrl;
 };

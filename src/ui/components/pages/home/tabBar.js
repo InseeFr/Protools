@@ -1,6 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { CardContent } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { CardContent, Box, IconButton } from '@mui/material';
+import {
+	FiChevronRight,
+	FiCheck,
+	FiPauseCircle,
+	FiSlash,
+} from 'react-icons/fi';
 import {
 	StyledTabs,
 	StyledTab,
@@ -8,11 +15,7 @@ import {
 import { makeStyles } from 'tss-react/mui';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import { tabPropIndex, TabPanel } from 'ui/components/shared/tabPanel/tabPanel';
-import {
-	columnsManu,
-	columnsProcessData,
-	//columnsIncidents,
-} from 'core/utils/dataHomepage/mockDataHomepage';
+import { columnsManu } from 'core/utils/dataHomepage/mockDataHomepage';
 import CustomDataGrid from 'ui/components/shared/dataGrid/component';
 
 const useStyles = makeStyles()((theme) => {
@@ -79,11 +82,119 @@ const TabBarDashboard = (props) => {
 	const [value, setValue] = useState(0);
 	const dataProcess = props.dataProcess;
 	const dataTask = props.dataTask;
-	//const dataIncident = props.dataIncident;
+
+	const navigate = useNavigate();
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	const navigationHandler = (id, processKey, doc, date, key, state) => {
+		console.log('Navigate to process page');
+		navigate(`/process`, {
+			state: {
+				id: id,
+				processKey: processKey,
+				doc: doc,
+				date: date,
+				key: key,
+				state: state,
+			},
+		});
+	};
+
+	const columnsProcessData = [
+		{
+			field: 'tag',
+			headerName: "Nom de l'enquête",
+			headerClassName: 'columns--header',
+			flex: 0.2,
+			description: 'Nom du processus défini par BPMN',
+		},
+		{
+			field: 'processKey',
+			headerName: "Type d'enquête",
+			headerClassName: 'columns--header',
+			flex: 0.2,
+			minWidth: 150,
+			description: "Type d'enquête",
+		},
+		{
+			field: 'documentation',
+			headerName: 'Description',
+			headerClassName: 'columns--header',
+			flex: 0.6,
+			minWidth: 300,
+			description: 'Description du processus',
+		},
+		{
+			field: 'date',
+			headerName: 'Date début',
+			headerClassName: 'columns--header',
+			flex: 0.2,
+			minWidth: 150,
+			description: "Date de début de l'exécution du processus",
+		},
+
+		{
+			field: 'state',
+			headerName: 'Statut',
+			headerClassName: 'columns--header',
+			flex: 0.1,
+			align: 'center',
+			description:
+				"Indique si le processus est en cours d'exécution, en erreur ou suspendu",
+			renderCell: (params) => {
+				switch (params.value) {
+					case 'suspended':
+						return (
+							<Box display='flex' alignItems='center' justifyContent='center'>
+								<FiPauseCircle size={20} color='#F25C54' />
+							</Box>
+						);
+					case 'deadLetter':
+						return (
+							<Box display='flex' alignItems='center' justifyContent='center'>
+								<FiSlash size={20} color='#F25C54' />
+							</Box>
+						);
+					default:
+						return (
+							<Box display='flex' alignItems='center' justifyContent='center'>
+								<FiCheck size={20} color='#17C3B2' />
+							</Box>
+						);
+				}
+			},
+		},
+		{
+			field: 'action',
+			headerName: ' ',
+			headerClassName: 'columns--header',
+			flex: 0.15,
+			align: 'center',
+			description: "Accès à l'exécution du processus",
+			renderCell: (params) => (
+				<IconButton
+					color='primary'
+					onClick={() => {
+						console.log("ici c'est le bouton");
+						navigationHandler(
+							params.value.id,
+							params.value.processKey,
+							params.value.url,
+							params.value.doc,
+							params.value.date,
+							params.value.key,
+							params.value.state
+						);
+					}}
+				>
+					<FiChevronRight />
+				</IconButton>
+			),
+		},
+	];
 
 	return (
 		<>
@@ -127,15 +238,6 @@ const TabBarDashboard = (props) => {
 						/>
 					</CardContent>
 				</TabPanel>
-				{/* <TabPanel value={value} index={2} className={classes.tabWidth}>
-					<CardContent className={classes.cardContentTable}>
-						<CustomDataGrid
-							rows={dataIncident}
-							columns={columnsIncidents}
-							height='500'
-						/>
-					</CardContent>
-				</TabPanel> */}
 			</CustomCard>
 		</>
 	);
