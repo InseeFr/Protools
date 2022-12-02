@@ -2,7 +2,7 @@
 // React dependencies
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { fetchConfig } from 'core/config';
 // BPMN dependencies
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import 'bpmn-js/dist/assets/diagram-js.css';
@@ -12,7 +12,7 @@ import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 // Visual dependencies
 import { makeStyles } from 'tss-react/mui';
 import { GlobalStyles } from 'tss-react';
-import { Box, Breadcrumbs, Link, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 // Custom Components
 import Logo from 'ui/components/shared/logo/logo';
 import TabBarWorkflow from './tabBar';
@@ -99,18 +99,14 @@ const BPMNViewer = (props) => {
 	const [rendered, setRendered] = useState(false);
 
 	useEffect(() => {
-		getCurrentActivityName(id).then((res) => {
-			setActivities(res);
-		});
-		setVariables(getVariables(id));
-		setManualTasks(getManualTasks(id));
-		getAllTasksProcess(id).then((res) => {
-			setAllTasks(res);
-		});
-
 		setTimeout(() => {
-			getBPMNByProcessName(processKey).then((res) => {
-				setDiagram(res);
+			console.log('rendered');
+			fetchConfig().then((config) => {
+				const API_URL = config.API_URL;
+				console.log(API_URL);
+				getBPMNByProcessName(API_URL, processKey).then((res) => {
+					setDiagram(res);
+				});
 			});
 			setLoading(false);
 		}, 200);

@@ -40,38 +40,6 @@ const useStyles = makeStyles()((theme) => {
 const History = () => {
 	setAutoFreeze(false);
 	const { classes } = useStyles();
-	// const [loading, setLoading] = useState(false);
-
-	// useEffect(() => {
-	// 	// Temporary timer because my web service is too slow -> TODO : FIX IT
-	// 	setTimeout(() => {
-	// 		setLoading(false);
-	// 	}, 450);
-
-	// }, []);
-	// if (loading) {
-	// 	return (
-	// 		<>
-	// 			<GlobalStyles
-	// 				styles={{
-	// 					body: {
-	// 						backgroundColor: '#F9FAFC',
-	// 					},
-	// 				}}
-	// 			/>
-
-	// 			<Grid justifyContent='center'>
-	// 				<Box className={classes.TitleHeader}>
-	// 					<Logo className={classes.logo} />
-	// 					<Typography variant='h3' className={classes.title}>
-	// 						Historique
-	// 					</Typography>
-	// 				</Box>
-	// 				<Loader />
-	// 			</Grid>
-	// 		</>
-	// 	);
-	// } else {
 	return (
 		<>
 			<GlobalStyles

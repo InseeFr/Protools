@@ -21,6 +21,7 @@ import Loader from 'ui/components/shared/loader/loader';
 // Data retrieve functions
 import ProtocolInfo from './processDocumentation';
 import { getBPMNByProcessName } from 'core/utils/dataProcess/fetchDataProcess';
+import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -99,12 +100,12 @@ const ProtocolTypeViwer = (props) => {
 	const processInfo = params.state.processInfo;
 	const processKey = Object.entries(processInfo)[0][1].processKey;
 
-	setTimeout(() => {
-		getBPMNByProcessName(processKey).then((res) => {
+	fetchConfig().then((config) => {
+		const API_URL = config.API_URL;
+		getBPMNByProcessName(API_URL, processKey).then((res) => {
 			setDiagram(res);
 		});
-		//setLoading(false);
-	}, 200);
+	});
 
 	if (diagram.length > 0 && !rendered) {
 		// Define BPMN Viewer

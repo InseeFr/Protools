@@ -1,0 +1,1 @@
+export { fetchConfig } from './fetchConfig';

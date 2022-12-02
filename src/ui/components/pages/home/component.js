@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GlobalStyles } from 'tss-react';
 import { Grid, Box, Typography } from '@mui/material';
-
+import { fetchConfig } from 'core/config';
 import { makeStyles } from 'tss-react/mui';
 import Logo from 'ui/components/shared/logo/logo';
 import ProcessOverview from './processOverview';
@@ -51,16 +51,19 @@ const Home = () => {
 	const [dataProcess, setDataProcess] = useState([]);
 	const [dataTask, setDataTask] = useState([]);
 	useEffect(() => {
-		const resultTask = fetchTaskData();
-		setDataTask(resultTask[0]);
-		setPieTaskdata(resultTask[1]);
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			const resultProcess = fetchProcessData(API_URL);
+			setDataProcess(resultProcess[0]);
+			setPieProcessdata(resultProcess[1]);
+			const resultTask = fetchTaskData(API_URL);
+			setDataTask(resultTask[0]);
+			setPieTaskdata(resultTask[1]);
+		});
 
-		const resultProcess = fetchProcessData();
-		setDataProcess(resultProcess[0]);
-		setPieProcessdata(resultProcess[1]);
 		setTimeout(() => {
 			setLoading(false);
-		}, 350);
+		}, 250);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

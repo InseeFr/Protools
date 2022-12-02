@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetch';
+import { fetchConfig } from 'core/config';
 
 export const getUrlBPMNByProcessName = (selected) => {
 	switch (selected) {
@@ -15,13 +16,11 @@ export const getUrlBPMNByProcessName = (selected) => {
 	}
 };
 
-export const getBPMNByProcessName = (selected) => {
+export const getBPMNByProcessName = (API_URL, selected) => {
 	const urlEndpoint = 'getBPMNFile/';
-	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + selected;
+	const apiUrl = API_URL + urlEndpoint + selected;
 	const file = fetcherGet(apiUrl)
 		.then((r) => {
-			//console.log('Get BPMN File : ', r.data);
 			return r.data;
 		})
 		.catch((e) => {
@@ -33,37 +32,40 @@ export const getBPMNByProcessName = (selected) => {
 
 export const getAvailableTasks = (processInstanceId) => {
 	const urlEndpoint = 'tasksProcessID/';
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceId;
+
 	const dataUrl = [];
 	const listName = [];
-	fetcherGet(apiUrl)
-		.then((r) => {
-			const datatmp = r.data;
-			for (const element of datatmp) {
-				dataUrl.push({
-					id: element.TaskId,
-					name: element.name,
-					description: element.description,
-					processInstance: element.processInstance,
-					createTime: element.createTime,
-					processDefinitionID: element.processDefinitionID,
-				});
-				listName.push(element.name);
-			}
-		})
-		.catch((e) => {
-			console.log('error', e);
-		});
+	fetchConfig().then((config) => {
+		const API_URL = config.API_URL;
+		const apiUrl = API_URL + urlEndpoint + processInstanceId;
+		fetcherGet(apiUrl)
+			.then((r) => {
+				console.log('Available tasks : ', r.data);
+				const datatmp = r.data;
+				for (const element of datatmp) {
+					dataUrl.push({
+						id: element.TaskId,
+						name: element.name,
+						description: element.description,
+						processInstance: element.processInstance,
+						createTime: element.createTime,
+						processDefinitionID: element.processDefinitionID,
+					});
+					listName.push(element.name);
+				}
+			})
+			.catch((e) => {
+				console.log('error', e);
+			});
+	});
+
 	return [dataUrl, listName];
 };
 
 // Retrieve processDefinition ID from Process Instance ID
-export const getProcessDefinitionID = async (id) => {
+export const getProcessDefinitionID = async (API_URL, id) => {
 	const urlEndpoint = 'processDefinition/';
-	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl = API_URL + urlEndpoint + id;
 	fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -88,10 +90,9 @@ export const getCorrespondingBpmnElement = (BpmnResponse, liste) => {
 };
 
 // Retrieve all BPMN elements from a processDefinitionID
-export const getBPMNInfo = (id, listName) => {
+export const getBPMNInfo = (API_URL, id, listName) => {
 	const urlEndpoint = 'bpmnInfo/';
-	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl = API_URL + urlEndpoint + id;
 	let response = {};
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -103,11 +104,11 @@ export const getBPMNInfo = (id, listName) => {
 		});
 };
 
-export const getCurrentActivityName = (id) => {
+export const getCurrentActivityName = (API_URL, id) => {
 	// Fetch currents activities
 	const urlEndpoint = 'executionActivities/';
-	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+
+	const apiUrl = API_URL + urlEndpoint + id;
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			return r.data;
@@ -120,35 +121,39 @@ export const getCurrentActivityName = (id) => {
 
 export const getVariables = (processInstanceID) => {
 	const urlEndpoint = 'variables/';
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
-	fetcherGet(apiUrl)
-		.then((r) => {
-			const datatmp = r.data;
-			for (const variable in datatmp) {
-				dataUrl.push({
-					id: processInstanceID + ':' + variable,
-					name: variable,
-					type: typeof datatmp[variable],
-					value: datatmp[variable],
-				});
-			}
-		})
 
-		.catch((e) => {
-			console.log('error', e);
-		});
+	fetchConfig().then((config) => {
+		const API_URL = config.API_URL;
+		const apiUrl = API_URL + urlEndpoint + processInstanceID;
+		console.log('apiUrl', apiUrl);
+
+		fetcherGet(apiUrl)
+			.then((r) => {
+				console.log('Variables : ', r.data);
+				const datatmp = r.data;
+				for (const variable in datatmp) {
+					dataUrl.push({
+						id: processInstanceID + ':' + variable,
+						name: variable,
+						type: typeof datatmp[variable],
+						value: datatmp[variable],
+					});
+				}
+			})
+
+			.catch((e) => {
+				console.log('error', e);
+			});
+	});
 
 	return dataUrl;
 };
 
-export const getManualTasks = (processInstanceID) => {
+export const getManualTasks = (API_URL, processInstanceID) => {
 	const urlEndpoint = 'tasksProcessID/';
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + processInstanceID;
+
+	const apiUrl = API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
 	fetcherGet(apiUrl)
 		.then((r) => {
@@ -171,16 +176,15 @@ export const getManualTasks = (processInstanceID) => {
 	return dataUrl;
 };
 
-export const getAllTasksProcess = (id) => {
+export const getAllTasksProcess = (API_URL, id) => {
 	//TODO : Refactor cette fonction pour ne faire qu'une requête pour les deux usages
 	const urlEndpoint = 'processDefinition/';
-	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + id;
+	const apiUrl = API_URL + urlEndpoint + id;
 
 	const response = fetcherGet(apiUrl)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
-			const apiUrl2 = process.env.REACT_APP_API_URL + urlEndpoint2 + r.data;
+			const apiUrl2 = API_URL + urlEndpoint2 + r.data;
 			const HELPME = fetcherGet(apiUrl2).then((r) => {
 				const dataUrl = [];
 				const datatmp = r.data;

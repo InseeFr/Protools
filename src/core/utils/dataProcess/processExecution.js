@@ -1,11 +1,10 @@
 import { fetcherPost } from 'core/fetchData/fetch';
 import axios from 'axios';
 
-export const claimTask = (user, taskID) => {
+export const claimTask = (API_URL, user, taskID) => {
 	const urlEndpoint = 'get-tasks/';
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + user + '/' + taskID;
+
+	const apiUrl = API_URL + urlEndpoint + user + '/' + taskID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Claim task Response :', r);
@@ -15,12 +14,10 @@ export const claimTask = (user, taskID) => {
 		});
 };
 
-export const executeTask = (user, taskID, variables) => {
+export const executeTask = (API_URL, user, taskID, variables) => {
 	const urlEndpoint = 'complete-task/';
 
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL + urlEndpoint + user + '/' + taskID;
+	const apiUrl = API_URL + urlEndpoint + user + '/' + taskID;
 
 	fetcherPost(apiUrl, variables).then((r) => {
 		console.log('Task executed! :', r);
@@ -28,10 +25,9 @@ export const executeTask = (user, taskID, variables) => {
 };
 
 // Temporary solution to execute task, depend on forms type
-export const temporaryExecuteTask = (taskID, variables) => {
+export const temporaryExecuteTask = (API_URL, taskID, variables) => {
 	const urlEndpoint = 'complete-task/';
-	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + 'user/' + taskID;
+	const apiUrl = API_URL + urlEndpoint + 'user/' + taskID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Claim task & Execute Response :', r);
@@ -42,15 +38,9 @@ export const temporaryExecuteTask = (taskID, variables) => {
 		});
 };
 
-export const startProcess = (processKey, businessKey, variables) => {
+export const startProcess = (API_URL, processKey, businessKey, variables) => {
 	const urlEndpoint = 'start-process/';
-	//const config = getConfigFile();
-	const apiUrl =
-		process.env.REACT_APP_API_URL +
-		urlEndpoint +
-		processKey +
-		'/' +
-		businessKey;
+	const apiUrl = API_URL + urlEndpoint + processKey + '/' + businessKey;
 	const dataUrl = [];
 	fetcherPost(apiUrl, variables)
 		.then((r) => {
@@ -63,10 +53,10 @@ export const startProcess = (processKey, businessKey, variables) => {
 	return dataUrl;
 };
 
-export const deleteProcess = (processID) => {
+export const deleteProcess = (API_URL, processID) => {
 	const urlEndpoint = 'deleteProcess/';
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + processID;
+	const apiUrl = API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Delete Process Instance :', processID);
@@ -76,10 +66,10 @@ export const deleteProcess = (processID) => {
 		});
 };
 
-export const suspendProcess = (processID) => {
+export const suspendProcess = (API_URL, processID) => {
 	const urlEndpoint = 'suspendProcess/';
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + processID;
+	const apiUrl = API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Suspending Process Instance :', processID);
@@ -89,10 +79,10 @@ export const suspendProcess = (processID) => {
 		});
 };
 
-export const relaunchProcess = (processID) => {
+export const relaunchProcess = (API_URL, processID) => {
 	const urlEndpoint = 'restart/';
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint + processID;
+	const apiUrl = API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Restart Process Instance :', processID);
@@ -102,10 +92,10 @@ export const relaunchProcess = (processID) => {
 		});
 };
 
-export const uploadFileToProcess = (file, taskID) => {
+export const uploadFileToProcess = (API_URL, file, taskID) => {
 	const urlEndpoint = 'upload-context/';
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = API_URL + urlEndpoint;
 	const formData = new FormData();
 	formData.append('file', file);
 	formData.append('taskID', taskID);

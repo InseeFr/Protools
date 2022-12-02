@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { startProcess } from 'core/utils/dataProcess/processExecution';
 import { useNavigate } from 'react-router-dom';
+import { fetchConfig } from 'core/config';
 
 const SelectProcess = () => {
 	const navigate = useNavigate();
@@ -54,7 +55,13 @@ const SelectProcess = () => {
 	const navigationHandler = () => {
 		console.log('Selected survey: ' + selected);
 		const processInfo = getProcessKey(selected);
-		setProcessParams(startProcess(processInfo[0], selectedKey, processInfo[1]));
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			setProcessParams(
+				startProcess(API_URL, processInfo[0], selectedKey, processInfo[1])
+			);
+		});
+
 		console.log('processParams: ' + processParams);
 		handleClickOpen();
 	};

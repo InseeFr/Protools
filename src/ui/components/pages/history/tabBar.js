@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { CardContent, Box } from '@mui/material';
+import { CardContent } from '@mui/material';
 import {
 	StyledTabs,
 	StyledTab,
@@ -8,7 +8,6 @@ import {
 import { makeStyles } from 'tss-react/mui';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import { tabPropIndex, TabPanel } from 'ui/components/shared/tabPanel/tabPanel';
-import theme from 'ui/theme';
 import { columnsTaskDataHistory } from 'core/utils/dataHistory/mockDataHistory';
 import CustomDataGrid from 'ui/components/shared/dataGrid/component';
 import { columnsProcessDataHistory } from 'core/utils/dataHistory/mockDataHistory';
@@ -16,6 +15,7 @@ import {
 	fetchProcessDataHistory,
 	fetchTaskDataHistory,
 } from 'core/utils/dataHistory/fetchDataHistory';
+import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -84,11 +84,14 @@ const TabBarHistory = (props) => {
 	const [dataActivities, setDataActivities] = useState([]);
 
 	useEffect(() => {
-		const result = fetchTaskDataHistory();
-		setDataTask(result[0]);
-		setDataActivities(result[1]);
-		const result2 = fetchProcessDataHistory();
-		setDataProcess(result2[0]);
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			const result = fetchTaskDataHistory(API_URL);
+			setDataTask(result[0]);
+			setDataActivities(result[1]);
+			const result2 = fetchProcessDataHistory(API_URL);
+			setDataProcess(result2[0]);
+		});
 	}, []);
 
 	const handleChange = (event, newValue) => {

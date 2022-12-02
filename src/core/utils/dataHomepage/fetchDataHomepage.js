@@ -13,10 +13,10 @@ const getProcessState = (datatmp, i) => {
 	}
 };
 // Retrive all process currently running
-export const fetchProcessData = () => {
+export const fetchProcessData = (API_URL) => {
 	const urlEndpoint = 'processInstances/';
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = API_URL + urlEndpoint;
 
 	const dataUrl = [];
 	let pieProcessdata = {
@@ -65,10 +65,10 @@ export const fetchProcessData = () => {
 };
 
 // Retrieve all available tasks
-export const fetchTaskData = () => {
+export const fetchTaskData = (API_URL) => {
 	const urlEndpoint = 'tasks/';
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = API_URL + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {
 		labels: [
@@ -136,14 +136,14 @@ const getPieTaskCategoryIndex = (taskCategory) => {
 	}
 };
 
-export const fetchIncidentsData = () => {
+export const fetchIncidentsData = (API_URL) => {
 	const urlEndpoint = 'history/suspended'; // ATM only suspended process
 	//const config = getConfigFile();
-	const apiUrl = process.env.REACT_APP_API_URL + urlEndpoint;
+	const apiUrl = API_URL + urlEndpoint;
 	const dataUrl = [];
 
 	const urlEndpointDead = 'history/deadLetter'; // Deadletter jobs process
-	const apiUrlDead = process.env.REACT_APP_API_URL + urlEndpointDead;
+	const apiUrlDead = API_URL + urlEndpointDead;
 
 	let pieIncidentdata = {
 		labels: ['Suspendu', 'Échecs', 'Externes'],
