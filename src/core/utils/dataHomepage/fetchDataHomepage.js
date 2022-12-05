@@ -15,7 +15,6 @@ const getProcessState = (datatmp, i) => {
 // Retrive all process currently running
 export const fetchProcessData = (API_URL) => {
 	const urlEndpoint = 'processInstances/';
-	//const config = getConfigFile();
 	const apiUrl = API_URL + urlEndpoint;
 
 	const dataUrl = [];
@@ -68,7 +67,6 @@ export const fetchProcessData = (API_URL) => {
 // Retrieve all available tasks
 export const fetchTaskData = (API_URL) => {
 	const urlEndpoint = 'tasks/';
-	//const config = getConfigFile();
 	const apiUrl = API_URL + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {

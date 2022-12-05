@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CardContent } from '@mui/material';
 import {
 	StyledTabs,
@@ -11,11 +11,6 @@ import { tabPropIndex, TabPanel } from 'ui/components/shared/tabPanel/tabPanel';
 import { columnsTaskDataHistory } from 'core/utils/dataHistory/mockDataHistory';
 import CustomDataGrid from 'ui/components/shared/dataGrid/component';
 import { columnsProcessDataHistory } from 'core/utils/dataHistory/mockDataHistory';
-import {
-	fetchProcessDataHistory,
-	fetchTaskDataHistory,
-} from 'core/utils/dataHistory/fetchDataHistory';
-import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -79,20 +74,9 @@ const useStyles = makeStyles()((theme) => {
 const TabBarHistory = (props) => {
 	const { classes } = useStyles();
 	const [value, setValue] = useState(0);
-	const [dataProcess, setDataProcess] = useState([]);
-	const [dataTask, setDataTask] = useState([]);
-	const [dataActivities, setDataActivities] = useState([]);
-
-	useEffect(() => {
-		fetchConfig().then((config) => {
-			const API_URL = config.API_URL;
-			const result = fetchTaskDataHistory(API_URL);
-			setDataTask(result[0]);
-			setDataActivities(result[1]);
-			const result2 = fetchProcessDataHistory(API_URL);
-			setDataProcess(result2[0]);
-		});
-	}, []);
+	const dataProcess = props.dataProcess;
+	const dataTask = props.dataTask;
+	const dataActivities = props.dataActivities;
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -111,7 +95,6 @@ const TabBarHistory = (props) => {
 						allowScrollButtonsMobile
 					>
 						<StyledTab label='Processus' {...tabPropIndex(0)} />
-
 						<StyledTab
 							label='Tâches manuelles et automatisées'
 							{...tabPropIndex(1)}
