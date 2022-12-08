@@ -11,6 +11,6 @@ module.exports = {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
 	},
-	plugins: ['react', 'mui-unused-classes'],
+	plugins: ['react'],
 	rules: { 'no-unused-vars': 'warn' },
 };

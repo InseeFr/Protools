@@ -18,6 +18,7 @@ import Logo from 'ui/components/shared/logo/logo';
 import { GlobalStyles } from 'tss-react';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
 import { uploadFileToProcess } from 'core/utils/dataProcess/processExecution';
+import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -88,9 +89,12 @@ const UploadFile = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log('file uploaded : ', files);
-		uploadFileToProcess(files, taskID);
-		setOpen(true);
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			console.log('file uploaded : ', files);
+			uploadFileToProcess(API_URL, files, taskID);
+			setOpen(true);
+		});
 	};
 	const handleChange = (event) => {
 		setFiles(event.target.files[0]);

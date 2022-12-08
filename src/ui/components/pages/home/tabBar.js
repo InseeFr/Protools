@@ -182,7 +182,6 @@ const TabBarDashboard = (props) => {
 						navigationHandler(
 							params.value.id,
 							params.value.processKey,
-							params.value.url,
 							params.value.doc,
 							params.value.date,
 							params.value.key,

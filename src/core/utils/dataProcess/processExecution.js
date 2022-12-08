@@ -55,7 +55,6 @@ export const startProcess = (API_URL, processKey, businessKey, variables) => {
 
 export const deleteProcess = (API_URL, processID) => {
 	const urlEndpoint = 'deleteProcess/';
-	//const config = getConfigFile();
 	const apiUrl = API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -68,7 +67,6 @@ export const deleteProcess = (API_URL, processID) => {
 
 export const suspendProcess = (API_URL, processID) => {
 	const urlEndpoint = 'suspendProcess/';
-	//const config = getConfigFile();
 	const apiUrl = API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -81,7 +79,6 @@ export const suspendProcess = (API_URL, processID) => {
 
 export const relaunchProcess = (API_URL, processID) => {
 	const urlEndpoint = 'restart/';
-	//const config = getConfigFile();
 	const apiUrl = API_URL + urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
@@ -94,8 +91,8 @@ export const relaunchProcess = (API_URL, processID) => {
 
 export const uploadFileToProcess = (API_URL, file, taskID) => {
 	const urlEndpoint = 'upload-context/';
-	//const config = getConfigFile();
 	const apiUrl = API_URL + urlEndpoint;
+	console.log('Upload file endpoint : ', apiUrl);
 	const formData = new FormData();
 	formData.append('file', file);
 	formData.append('taskID', taskID);

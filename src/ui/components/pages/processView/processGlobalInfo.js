@@ -21,6 +21,7 @@ import {
 	suspendProcess,
 	relaunchProcess,
 } from 'core/utils/dataProcess/processExecution';
+import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -38,7 +39,6 @@ const ProcessGlobalInfo = (props) => {
 		date,
 		processID,
 		documentation,
-		//tenant,
 		activeTask,
 		processKey,
 		businessKey,
@@ -57,8 +57,13 @@ const ProcessGlobalInfo = (props) => {
 	};
 	const handleSuspendCloseConfirm = () => {
 		setOpenSuspend(false);
-		state ? suspendProcess(processID) : relaunchProcess(processID);
-		navigate(-1);
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			state
+				? suspendProcess(API_URL, processID)
+				: relaunchProcess(API_URL, processID);
+			navigate(-1);
+		});
 	};
 
 	const handleDeleteClickOpen = () => {
@@ -70,8 +75,11 @@ const ProcessGlobalInfo = (props) => {
 	};
 	const handleDeleteCloseConfirm = () => {
 		setOpenDelete(false);
-		deleteProcess(processID);
-		navigate(-1);
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			deleteProcess(API_URL, processID);
+			navigate(-1);
+		});
 	};
 	return (
 		<>

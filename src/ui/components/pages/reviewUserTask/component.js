@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { GlobalStyles } from 'tss-react';
 import Logo from 'ui/components/shared/logo/logo';
 import { temporaryExecuteTask } from 'core/utils/dataProcess/processExecution';
+import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -97,8 +98,11 @@ const ReviewUserTask = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		temporaryExecuteTask(taskID, {});
-		handleClickOpen();
+		fetchConfig().then((config) => {
+			const API_URL = config.API_URL;
+			temporaryExecuteTask(API_URL, taskID, {});
+			handleClickOpen();
+		});
 	};
 
 	return (

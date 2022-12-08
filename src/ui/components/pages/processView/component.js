@@ -111,20 +111,14 @@ const BPMNViewer = (props) => {
 			getAllTasksProcess(API_URL, id).then((res) => {
 				setAllTasks(res);
 			});
-
 			setTimeout(() => {
-				setLoading(false);
-			}, 200);
-		});
-		setTimeout(() => {
-			fetchConfig().then((config) => {
-				const API_URL = config.API_URL;
 				getBPMNByProcessName(API_URL, processKey).then((res) => {
 					setDiagram(res);
 				});
-			});
-			setLoading(false);
-		}, 200);
+
+				setLoading(false);
+			}, 200);
+		});
 	}, [id, processKey]);
 
 	if (diagram.length > 0 && !rendered) {
