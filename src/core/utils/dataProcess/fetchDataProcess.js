@@ -26,7 +26,6 @@ export const getBPMNByProcessName = (API_URL, selected) => {
 		.catch((e) => {
 			console.log('error', e);
 		});
-	console.log('Get BPMN File :', file);
 	return file;
 };
 
