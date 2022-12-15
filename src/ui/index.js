@@ -13,7 +13,6 @@ export const muiCache = createCache({
 	prepend: true,
 });
 
-//TODO go to react 18 ;)
 //TODO : Put back strict mode
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
