@@ -44,12 +44,12 @@
 		"web-vitals": "^3.1.0"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"start": "craco start",
+		"build": "craco build",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix",
 		"format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-		"test": "react-scripts test",
+		"test": "craco test",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -72,6 +72,7 @@
 	},
 	"devDependencies": {
 		"@babel/plugin-syntax-top-level-await": "^7.14.5",
+		"@craco/craco": "^7.0.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-react": "^7.31.11",
