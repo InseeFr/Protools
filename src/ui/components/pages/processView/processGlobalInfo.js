@@ -21,8 +21,6 @@ import {
 	suspendProcess,
 	relaunchProcess,
 } from 'core/utils/dataProcess/processExecution';
-import { fetchConfig } from 'core/config';
-
 const useStyles = makeStyles()((theme) => {
 	return {
 		infoName: {
