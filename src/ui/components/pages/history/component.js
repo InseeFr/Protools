@@ -12,7 +12,6 @@ import {
 	fetchProcessDataHistory,
 	fetchTaskDataHistory,
 } from 'core/utils/dataHistory/fetchDataHistory';
-import { fetchConfig } from 'core/config';
 
 const useStyles = makeStyles()((theme) => {
 	return {
@@ -51,14 +50,11 @@ const History = () => {
 	const [dataActivities, setDataActivities] = useState([]);
 
 	useEffect(() => {
-		fetchConfig().then((config) => {
-			const API_URL = config.API_URL;
-			const result = fetchTaskDataHistory(API_URL);
-			setDataTask(result[0]);
-			setDataActivities(result[1]);
-			const result2 = fetchProcessDataHistory(API_URL);
-			setDataProcess(result2[0]);
-		});
+		const result = fetchTaskDataHistory();
+		setDataTask(result[0]);
+		setDataActivities(result[1]);
+		const result2 = fetchProcessDataHistory();
+		setDataProcess(result2[0]);
 		setTimeout(() => {
 			setLoading(false);
 		}, 250);

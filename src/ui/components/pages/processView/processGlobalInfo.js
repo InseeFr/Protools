@@ -57,13 +57,8 @@ const ProcessGlobalInfo = (props) => {
 	};
 	const handleSuspendCloseConfirm = () => {
 		setOpenSuspend(false);
-		fetchConfig().then((config) => {
-			const API_URL = config.API_URL;
-			state
-				? suspendProcess(API_URL, processID)
-				: relaunchProcess(API_URL, processID);
-			navigate(-1);
-		});
+		state ? suspendProcess(processID) : relaunchProcess(processID);
+		navigate(-1);
 	};
 
 	const handleDeleteClickOpen = () => {
@@ -75,11 +70,7 @@ const ProcessGlobalInfo = (props) => {
 	};
 	const handleDeleteCloseConfirm = () => {
 		setOpenDelete(false);
-		fetchConfig().then((config) => {
-			const API_URL = config.API_URL;
-			deleteProcess(API_URL, processID);
-			navigate(-1);
-		});
+		deleteProcess(processID);
 	};
 	return (
 		<>

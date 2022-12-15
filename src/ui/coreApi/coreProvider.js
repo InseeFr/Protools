@@ -15,7 +15,6 @@ export function CoreProvider({ children }) {
 	);
 }
 
-
 /**
- * To make a call in ui component, just 
+ * To make a call in ui component, just
  */

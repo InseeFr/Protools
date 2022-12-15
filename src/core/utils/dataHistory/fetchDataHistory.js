@@ -16,12 +16,11 @@ function msToHMS(ms) {
 	)}`;
 }
 
-export const fetchTaskDataHistory = (API_URL) => {
+export const fetchTaskDataHistory = () => {
 	const urlEndpoint = 'history/activity/';
-	const apiUrl = API_URL + urlEndpoint;
 	const dataUrlTask = [];
 	const dataUrlActivities = [];
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint)
 		.then((r) => {
 			const taskFilter = ['userTask', 'serviceTask', 'subProcess'];
 			const activitiesFilter = [
@@ -79,11 +78,10 @@ export const fetchTaskDataHistory = (API_URL) => {
 	return [dataUrlTask, dataUrlActivities];
 };
 
-export const fetchProcessDataHistory = (API_URL) => {
+export const fetchProcessDataHistory = () => {
 	const urlEndpoint = 'history/process/';
-	const apiUrl = API_URL + urlEndpoint;
 	const dataUrl = [];
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint)
 		.then((r) => {
 			const datatmp = r.data;
 			for (let i = 0; i < 30; i++) {

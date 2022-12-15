@@ -13,9 +13,9 @@ const getProcessState = (datatmp, i) => {
 	}
 };
 // Retrive all process currently running
-export const fetchProcessData = (API_URL) => {
+export const fetchProcessData = () => {
 	const urlEndpoint = 'processInstances/';
-	const apiUrl = API_URL + urlEndpoint;
+	//const apiUrl = API_URL + urlEndpoint;
 
 	const dataUrl = [];
 	let pieProcessdata = {
@@ -31,7 +31,7 @@ export const fetchProcessData = (API_URL) => {
 		],
 	};
 
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint)
 		.then((r) => {
 			const datatmp = r.data.processes;
 
@@ -65,9 +65,9 @@ export const fetchProcessData = (API_URL) => {
 };
 
 // Retrieve all available tasks
-export const fetchTaskData = (API_URL) => {
+export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
-	const apiUrl = API_URL + urlEndpoint;
+	//const apiUrl = API_URL + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {
 		labels: [
@@ -86,7 +86,7 @@ export const fetchTaskData = (API_URL) => {
 			},
 		],
 	};
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint)
 		.then((r) => {
 			const datatmp = r.data;
 			for (const element of datatmp) {

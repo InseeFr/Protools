@@ -100,25 +100,21 @@ const BPMNViewer = (props) => {
 	const [rendered, setRendered] = useState(false);
 
 	useEffect(() => {
-		fetchConfig().then((config) => {
-			const API_URL = config.API_URL;
-			console.log(API_URL);
-			getCurrentActivityName(API_URL, id).then((res) => {
-				setActivities(res);
-			});
-			setVariables(getVariables(API_URL, id));
-			setManualTasks(getManualTasks(API_URL, id));
-			getAllTasksProcess(API_URL, id).then((res) => {
-				setAllTasks(res);
-			});
-			setTimeout(() => {
-				getBPMNByProcessName(API_URL, processKey).then((res) => {
-					setDiagram(res);
-				});
-
-				setLoading(false);
-			}, 200);
+		getCurrentActivityName(id).then((res) => {
+			setActivities(res);
 		});
+		setVariables(getVariables(id));
+		setManualTasks(getManualTasks(id));
+		getAllTasksProcess(id).then((res) => {
+			setAllTasks(res);
+		});
+		setTimeout(() => {
+			getBPMNByProcessName(processKey).then((res) => {
+				setDiagram(res);
+			});
+
+			setLoading(false);
+		}, 200);
 	}, [id, processKey]);
 
 	if (diagram.length > 0 && !rendered) {

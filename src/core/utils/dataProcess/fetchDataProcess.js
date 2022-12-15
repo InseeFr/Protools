@@ -16,10 +16,9 @@ export const getUrlBPMNByProcessName = (selected) => {
 	}
 };
 
-export const getBPMNByProcessName = (API_URL, selected) => {
+export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
-	const apiUrl = API_URL + urlEndpoint + selected;
-	const file = fetcherGet(apiUrl)
+	const file = fetcherGet(urlEndpoint + selected)
 		.then((r) => {
 			return r.data;
 		})
@@ -34,38 +33,33 @@ export const getAvailableTasks = (processInstanceId) => {
 
 	const dataUrl = [];
 	const listName = [];
-	fetchConfig().then((config) => {
-		const API_URL = config.API_URL;
-		const apiUrl = API_URL + urlEndpoint + processInstanceId;
-		fetcherGet(apiUrl)
-			.then((r) => {
-				console.log('Available tasks : ', r.data);
-				const datatmp = r.data;
-				for (const element of datatmp) {
-					dataUrl.push({
-						id: element.TaskId,
-						name: element.name,
-						description: element.description,
-						processInstance: element.processInstance,
-						createTime: element.createTime,
-						processDefinitionID: element.processDefinitionID,
-					});
-					listName.push(element.name);
-				}
-			})
-			.catch((e) => {
-				console.log('error', e);
-			});
-	});
+	fetcherGet(urlEndpoint + processInstanceId)
+		.then((r) => {
+			console.log('Available tasks : ', r.data);
+			const datatmp = r.data;
+			for (const element of datatmp) {
+				dataUrl.push({
+					id: element.TaskId,
+					name: element.name,
+					description: element.description,
+					processInstance: element.processInstance,
+					createTime: element.createTime,
+					processDefinitionID: element.processDefinitionID,
+				});
+				listName.push(element.name);
+			}
+		})
+		.catch((e) => {
+			console.log('error', e);
+		});
 
 	return [dataUrl, listName];
 };
 
 // Retrieve processDefinition ID from Process Instance ID
-export const getProcessDefinitionID = async (API_URL, id) => {
+export const getProcessDefinitionID = async (id) => {
 	const urlEndpoint = 'processDefinition/';
-	const apiUrl = API_URL + urlEndpoint + id;
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint + id)
 		.then((r) => {
 			return r.data;
 		})
@@ -89,11 +83,10 @@ export const getCorrespondingBpmnElement = (BpmnResponse, liste) => {
 };
 
 // Retrieve all BPMN elements from a processDefinitionID
-export const getBPMNInfo = (API_URL, id, listName) => {
+export const getBPMNInfo = (id, listName) => {
 	const urlEndpoint = 'bpmnInfo/';
-	const apiUrl = API_URL + urlEndpoint + id;
 	let response = {};
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint + id)
 		.then((r) => {
 			response = getCorrespondingBpmnElement(r.data, listName);
 			return response;
@@ -103,12 +96,10 @@ export const getBPMNInfo = (API_URL, id, listName) => {
 		});
 };
 
-export const getCurrentActivityName = (API_URL, id) => {
+export const getCurrentActivityName = (id) => {
 	// Fetch currents activities
 	const urlEndpoint = 'executionActivities/';
-
-	const apiUrl = API_URL + urlEndpoint + id;
-	const response = fetcherGet(apiUrl)
+	const response = fetcherGet(urlEndpoint + id)
 		.then((r) => {
 			return r.data;
 		})
@@ -118,13 +109,11 @@ export const getCurrentActivityName = (API_URL, id) => {
 	return response;
 };
 
-export const getVariables = (API_URL, processInstanceID) => {
+export const getVariables = (processInstanceID) => {
 	const urlEndpoint = 'variables/';
 	const dataUrl = [];
 
-	const apiUrl = API_URL + urlEndpoint + processInstanceID;
-
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint + processInstanceID)
 		.then((r) => {
 			const datatmp = r.data;
 			for (const variable in datatmp) {
@@ -144,12 +133,10 @@ export const getVariables = (API_URL, processInstanceID) => {
 	return dataUrl;
 };
 
-export const getManualTasks = (API_URL, processInstanceID) => {
+export const getManualTasks = (processInstanceID) => {
 	const urlEndpoint = 'tasksProcessID/';
-
-	const apiUrl = API_URL + urlEndpoint + processInstanceID;
 	const dataUrl = [];
-	fetcherGet(apiUrl)
+	fetcherGet(urlEndpoint + processInstanceID)
 		.then((r) => {
 			const datatmp = r.data;
 
@@ -170,15 +157,14 @@ export const getManualTasks = (API_URL, processInstanceID) => {
 	return dataUrl;
 };
 
-export const getAllTasksProcess = (API_URL, id) => {
+export const getAllTasksProcess = (id) => {
 	//TODO : Refactor cette fonction pour ne faire qu'une requête pour les deux usages
 	const urlEndpoint = 'processDefinition/';
-	const apiUrl = API_URL + urlEndpoint + id;
 
-	const response = fetcherGet(apiUrl)
+	const response = fetcherGet(urlEndpoint + id)
 		.then((r) => {
 			const urlEndpoint2 = 'bpmnInfo/';
-			const apiUrl2 = API_URL + urlEndpoint2 + r.data;
+			const apiUrl2 = urlEndpoint2 + r.data;
 			const HELPME = fetcherGet(apiUrl2).then((r) => {
 				const dataUrl = [];
 				const datatmp = r.data;

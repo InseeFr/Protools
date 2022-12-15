@@ -98,11 +98,8 @@ const ReviewUserTask = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		fetchConfig().then((config) => {
-			const API_URL = config.API_URL;
-			temporaryExecuteTask(API_URL, taskID, {});
-			handleClickOpen();
-		});
+		temporaryExecuteTask(taskID, {});
+		handleClickOpen();
 	};
 
 	return (

@@ -1,10 +1,9 @@
 import { fetcherPost } from 'core/fetchData/fetch';
-import axios from 'axios';
-
-export const claimTask = (API_URL, user, taskID) => {
+import instance from 'core/fetchData/axios';
+export const claimTask = (user, taskID) => {
 	const urlEndpoint = 'get-tasks/';
 
-	const apiUrl = API_URL + urlEndpoint + user + '/' + taskID;
+	const apiUrl = urlEndpoint + user + '/' + taskID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Claim task Response :', r);
@@ -14,10 +13,10 @@ export const claimTask = (API_URL, user, taskID) => {
 		});
 };
 
-export const executeTask = (API_URL, user, taskID, variables) => {
+export const executeTask = (user, taskID, variables) => {
 	const urlEndpoint = 'complete-task/';
 
-	const apiUrl = API_URL + urlEndpoint + user + '/' + taskID;
+	const apiUrl = urlEndpoint + user + '/' + taskID;
 
 	fetcherPost(apiUrl, variables).then((r) => {
 		console.log('Task executed! :', r);
@@ -25,9 +24,9 @@ export const executeTask = (API_URL, user, taskID, variables) => {
 };
 
 // Temporary solution to execute task, depend on forms type
-export const temporaryExecuteTask = (API_URL, taskID, variables) => {
+export const temporaryExecuteTask = (taskID, variables) => {
 	const urlEndpoint = 'complete-task/';
-	const apiUrl = API_URL + urlEndpoint + 'user/' + taskID;
+	const apiUrl = urlEndpoint + 'user/' + taskID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Claim task & Execute Response :', r);
@@ -38,9 +37,9 @@ export const temporaryExecuteTask = (API_URL, taskID, variables) => {
 		});
 };
 
-export const startProcess = (API_URL, processKey, businessKey, variables) => {
+export const startProcess = (processKey, businessKey, variables) => {
 	const urlEndpoint = 'start-process/';
-	const apiUrl = API_URL + urlEndpoint + processKey + '/' + businessKey;
+	const apiUrl = urlEndpoint + processKey + '/' + businessKey;
 	const dataUrl = [];
 	fetcherPost(apiUrl, variables)
 		.then((r) => {
@@ -53,9 +52,9 @@ export const startProcess = (API_URL, processKey, businessKey, variables) => {
 	return dataUrl;
 };
 
-export const deleteProcess = (API_URL, processID) => {
+export const deleteProcess = (processID) => {
 	const urlEndpoint = 'deleteProcess/';
-	const apiUrl = API_URL + urlEndpoint + processID;
+	const apiUrl = urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Delete Process Instance :', processID);
@@ -65,9 +64,9 @@ export const deleteProcess = (API_URL, processID) => {
 		});
 };
 
-export const suspendProcess = (API_URL, processID) => {
+export const suspendProcess = (processID) => {
 	const urlEndpoint = 'suspendProcess/';
-	const apiUrl = API_URL + urlEndpoint + processID;
+	const apiUrl = urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Suspending Process Instance :', processID);
@@ -77,9 +76,9 @@ export const suspendProcess = (API_URL, processID) => {
 		});
 };
 
-export const relaunchProcess = (API_URL, processID) => {
+export const relaunchProcess = (processID) => {
 	const urlEndpoint = 'restart/';
-	const apiUrl = API_URL + urlEndpoint + processID;
+	const apiUrl = urlEndpoint + processID;
 	return fetcherPost(apiUrl)
 		.then((r) => {
 			console.log('Restart Process Instance :', processID);
@@ -89,9 +88,9 @@ export const relaunchProcess = (API_URL, processID) => {
 		});
 };
 
-export const uploadFileToProcess = (API_URL, file, taskID) => {
+export const uploadFileToProcess = (file, taskID) => {
 	const urlEndpoint = 'upload-context/';
-	const apiUrl = API_URL + urlEndpoint;
+	const apiUrl = urlEndpoint;
 	console.log('Upload file endpoint : ', apiUrl);
 	const formData = new FormData();
 	formData.append('file', file);
@@ -101,7 +100,7 @@ export const uploadFileToProcess = (API_URL, file, taskID) => {
 			'content-type': 'multipart/form-data',
 		},
 	};
-	axios.post(apiUrl, formData, configHeader).then((response) => {
+	instance.post(apiUrl, formData, configHeader).then((response) => {
 		console.log('File upload response code : ', response.status);
 	});
 };
