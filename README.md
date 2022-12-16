@@ -31,11 +31,10 @@ Protools UI will be available at http://localhost:3000
 
 As for now, the production environment does not allow us to use environment variables, which greatly annoys us.
 A temporary (and outdated) solution is to use a configuration file, which is located in the `public` folder.
+For now it is only used to set the API URL.
 
 ```json
-
 {
-	"API_URL": "http://localhost:8080/" -> URL of the Back Office API
+	"API_URL": "http://localhost:8080/"
 }
-
 ```
