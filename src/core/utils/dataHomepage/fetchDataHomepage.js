@@ -15,7 +15,6 @@ const getProcessState = (datatmp, i) => {
 // Retrive all process currently running
 export const fetchProcessData = () => {
 	const urlEndpoint = 'processInstances/';
-	//const apiUrl = API_URL + urlEndpoint;
 
 	const dataUrl = [];
 	let pieProcessdata = {
@@ -67,7 +66,6 @@ export const fetchProcessData = () => {
 // Retrieve all available tasks
 export const fetchTaskData = () => {
 	const urlEndpoint = 'tasks/';
-	//const apiUrl = API_URL + urlEndpoint;
 	const dataUrl = [];
 	let pieTaskdata = {
 		labels: [
@@ -133,67 +131,4 @@ const getPieTaskCategoryIndex = (taskCategory) => {
 		default:
 			return 2;
 	}
-};
-
-export const fetchIncidentsData = (API_URL) => {
-	const urlEndpoint = 'history/suspended'; // ATM only suspended process
-	//const config = getConfigFile();
-	const apiUrl = API_URL + urlEndpoint;
-	const dataUrl = [];
-
-	const urlEndpointDead = 'history/deadLetter'; // Deadletter jobs process
-	const apiUrlDead = API_URL + urlEndpointDead;
-
-	let pieIncidentdata = {
-		labels: ['Suspendu', 'Échecs', 'Externes'],
-		datasets: [
-			{
-				label: 'processus',
-				data: [0, 0, 3],
-				backgroundColor: ['#FEDC86', '#F25C54', '#F48A66', '#84A98C'],
-				borderColor: [theme.palette.background.default],
-				borderWidth: 2,
-			},
-		],
-	};
-	fetcherGet(apiUrl)
-		.then((r) => {
-			const datatmp = r.data;
-			for (const element of datatmp) {
-				dataUrl.push({
-					typeIncident: 'Suspended',
-					id: element.elementId,
-					name: element.elementName,
-					type: element.jobType,
-					processID: element.processDefinitionId,
-					retries: element.retries,
-				});
-				pieIncidentdata.datasets[0].data[0] += 1;
-			}
-			//console.log('dataUrlSuspended', dataUrl);
-		})
-		.catch((e) => {
-			console.log(e);
-		});
-
-	fetcherGet(apiUrlDead)
-		.then((r) => {
-			const datatmp = r.data;
-			for (const element of datatmp) {
-				dataUrl.push({
-					typeIncident: 'Deadletter',
-					id: element.correlationId,
-					name: element.elementName,
-					type: element.jobType,
-					processID: element.processDefinitionId,
-					retries: element.retries,
-				});
-				pieIncidentdata.datasets[0].data[1] += 1;
-			}
-		})
-		.catch((e) => {
-			console.log(e);
-		});
-
-	return [dataUrl, pieIncidentdata];
 };

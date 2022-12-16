@@ -1,25 +1,41 @@
 # Protools UI
 
-Web UI application to demonstrate functionalities provided by the Protools project. Built with React JS & Material UI
+Protools front-end. Built with React JS & Material UI
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## About
 
-WIP... Please be patient 🦊
+Web application to execute and monitor survey protocols 🦊
 
-## Demo link
+## QuickStart
 
-[Here it is 😉](https://protools.dev.insee.io/)
-
-## Installation
+### Manual installation
 
 ```bash
-git clone git@github.com:POCProtools/ProtoolsUI.git
+git clone git@github.com:InseeFr/Protools.git
 cd Protools
-npm install --legacy-peer-deps
+npm install
+npm start
 ```
 
-#### Environment Variables
+### With Docker
 
-`REACT_APP_API_URL`: Url of the Protools Back-end API
+```
+docker run -p 5000:80 -t inseefr/protools
+```
+
+Protools UI will be available at http://localhost:3000
+
+#### Configuration
+
+As for now, the production environment does not allow us to use environment variables, which greatly annoys us.
+A temporary (and outdated) solution is to use a configuration file, which is located in the `public` folder.
+
+```json
+
+{
+	"API_URL": "http://localhost:8080/" -> URL of the Back Office API
+}
+
+```
