@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from 'ui/components/pages/home/component';
 import NavigationHeader from 'ui/components/shared/navigationHeader';
 import BPMNViewer from 'ui/components/pages/processView/component';
