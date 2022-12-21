@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from 'ui/components/pages/home/component';
 import NavigationHeader from 'ui/components/shared/navigationHeader';
 import BPMNViewer from 'ui/components/pages/processView/component';
@@ -17,10 +17,10 @@ const RoutesWeb = () => {
 				<Routes>
 					{/* It's good because all components here should be Uncontrolled and it's the case */}
 					<Route path={'/'} exact element={<Home />} />
-					<Route path={'/process-start'} element={<ProcessSelect />} />
+					<Route path={'/process-start'} exact element={<ProcessSelect />} />
 					<Route path={'/process'} element={<BPMNViewer />} />
-					<Route path={'/history'} element={<History />} />
-					<Route path={'/protocol-types'} element={<Visualizer />} />
+					<Route path={'/history'} exact element={<History />} />
+					<Route path={'/protocol-types'} exact element={<Visualizer />} />
 					<Route path={'/protocol-display'} element={<ProtocolTypeViwer />} />
 					<Route path={'/upload-context'} element={<UploadFile />} />
 					<Route path={'/review-task'} element={<ReviewUserTask />} />
