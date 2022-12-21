@@ -1,6 +1,0 @@
-RewriteEngine On
-RewriteBase /project
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_ FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} 1-1
-RewriteRule ^(.*)$ index. html?$1 [L, QSA]
