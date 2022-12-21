@@ -15,8 +15,8 @@ Web application to execute and monitor survey protocols 🦊
 ```bash
 git clone git@github.com:InseeFr/Protools.git
 cd Protools
-npm install
-npm start
+yarn
+yarn start
 ```
 
 ### With Docker
