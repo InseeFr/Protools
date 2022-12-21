@@ -9,6 +9,7 @@ import Visualizer from '../components/pages/visualization/component';
 import ProtocolTypeViwer from '../components/pages/visualization/displayProcess';
 import UploadFile from 'ui/components/pages/uploadFile/component';
 import ReviewUserTask from 'ui/components/pages/reviewUserTask/component';
+import NotFound from 'ui/components/pages/NotFound/component';
 const RoutesWeb = () => {
 	return (
 		<Router>
@@ -24,6 +25,7 @@ const RoutesWeb = () => {
 					<Route path={'/protocol-display'} element={<ProtocolTypeViwer />} />
 					<Route path={'/upload-context'} element={<UploadFile />} />
 					<Route path={'/review-task'} element={<ReviewUserTask />} />
+					<Route path={'*'} element={<NotFound />} />
 				</Routes>
 			</div>
 		</Router>

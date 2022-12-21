@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardContent, Grid, LinearProgress, Typography } from '@mui/material';
+import { CardContent, Grid, Typography } from '@mui/material';
 import CustomCard from '../styledComponents/card/card';
 import { makeStyles } from 'tss-react/mui';
 
@@ -42,9 +42,7 @@ const useStyles = makeStyles()((theme) => {
 		},
 	};
 });
-const errorMap = {
-	ERR_NETWORK: 'Une erreur réseau est survenue, veuillez réessayer plus tard',
-};
+
 const ErrorComponent = (props) => {
 	const error = props.error;
 	const { classes } = useStyles();
