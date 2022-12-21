@@ -11,15 +11,21 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			width: '25%',
+			padding: 10,
+			width: '20%',
 			marginLeft: '45%',
-			marginTop: '15%',
+			marginTop: '10%',
+			[theme.breakpoints.down('lg')]: {
+				width: '32%',
+				marginLeft: '40%',
+			},
 			[theme.breakpoints.down('md')]: {
-				width: '40%',
-				marginLeft: '30%',
+				width: '32%',
+				marginLeft: '38%',
+			},
+			[theme.breakpoints.down('sm')]: {
+				width: '87%',
+				marginLeft: '5%',
 			},
 		},
 		titleCard: {
@@ -28,27 +34,19 @@ const useStyles = makeStyles()((theme) => {
 			color: theme.palette.primary.main,
 		},
 		gridItemProcessList: {
-			textAlign: 'center',
+			textAlign: 'left',
 		},
-		title: {
-			marginLeft: 10,
-			fontWeight: 'bold',
+		errorContent: {
+			fontWeight: 'center',
 			color: theme.palette.primary.main,
-		},
-		TitleHeader: {
-			position: 'absolute',
-			top: '2%',
-			left: '19%',
-			display: 'flex',
-			alignItems: 'center',
-		},
-		logo: {
-			verticalAlign: 'middle',
 		},
 	};
 });
-
-const Loader = () => {
+const errorMap = {
+	ERR_NETWORK: 'Une erreur réseau est survenue, veuillez réessayer plus tard',
+};
+const ErrorComponent = (props) => {
+	const error = props.error;
 	const { classes } = useStyles();
 
 	return (
@@ -57,22 +55,20 @@ const Loader = () => {
 				<CardContent>
 					<Grid
 						container
-						spacing={5}
+						spacing={2}
 						justifyContent='center'
 						alignItems='center'
 					>
 						<Grid item xs={12} className={classes.gridItemProcessList}>
-							<LinearProgress sx={{ marginTop: 2 }} />
-						</Grid>
-						<Grid item xs={12} className={classes.gridItemProcessList}>
 							<Typography variant='h4' className={classes.titleCard}>
-								Chargement des données
+								Une erreur est survenue 😕 <br />
+								Veuillez réessayer ultérieurement
 							</Typography>
 						</Grid>
 						<Grid item xs={12} className={classes.gridItemProcessList}>
-							<Typography variant='subtitle' className={classes.errorContent}>
-								Si le chargement prend trop de temps, veuillez contacter votre
-								administrateur
+							<Typography variant='body2' className={classes.errorContent}>
+								Erreur rencontrée: {error}. <br /> Vous pouvez essayer de
+								contacter votre administrateur
 							</Typography>
 						</Grid>
 					</Grid>
@@ -82,4 +78,4 @@ const Loader = () => {
 	);
 };
 
-export default Loader;
+export default ErrorComponent;

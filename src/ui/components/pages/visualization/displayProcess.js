@@ -2,7 +2,6 @@
 // React dependencies
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 // BPMN dependencies
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import 'bpmn-js/dist/assets/diagram-js.css';
@@ -17,7 +16,7 @@ import { Box, Typography, Grid } from '@mui/material';
 import Logo from 'ui/components/shared/logo/logo';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
-import Loader from 'ui/components/shared/loader/loader';
+import ErrorComponent from 'ui/components/shared/errorComponent';
 // Data retrieve functions
 import ProtocolInfo from './processDocumentation';
 import { getBPMNByProcessName } from 'core/utils/dataProcess/fetchDataProcess';
@@ -93,14 +92,15 @@ const useStyles = makeStyles()((theme) => {
 const ProtocolTypeViwer = (props) => {
 	const { classes } = useStyles();
 	const [rendered, setRendered] = useState(false);
-	//const [loading, setLoading] = useState(false);
 	const [diagram, setDiagram] = useState('');
+	const [statusCode, setStatusCode] = useState(404);
 	const params = useLocation();
 	const processInfo = params.state.processInfo;
 	const processKey = Object.entries(processInfo)[0][1].processKey;
 
 	getBPMNByProcessName(processKey).then((res) => {
-		setDiagram(res);
+		setDiagram(res[0]);
+		setStatusCode(res[1]);
 	});
 
 	if (diagram.length > 0 && !rendered) {
@@ -120,30 +120,29 @@ const ProtocolTypeViwer = (props) => {
 			.catch((err) => {
 				console.log('error', err);
 			});
+	} else {
+		return (
+			<>
+				<GlobalStyles
+					styles={{
+						body: {
+							backgroundColor: '#F9FAFC',
+						},
+					}}
+				/>
+				<SideBar />
+				<Grid justifyContent='center'>
+					<Box className={classes.TitleHeader}>
+						<Logo className={classes.logo} />
+						<Typography variant='h3' className={classes.title}>
+							Visualisation Protocoles
+						</Typography>
+					</Box>
+					<ErrorComponent error={statusCode} />
+				</Grid>
+			</>
+		);
 	}
-	// if (loading) {
-	// 	return (
-	// 		<>
-	// 			<GlobalStyles
-	// 				styles={{
-	// 					body: {
-	// 						backgroundColor: '#F9FAFC',
-	// 					},
-	// 				}}
-	// 			/>
-	// 			<SideBar />
-	// 			<Grid justifyContent='center'>
-	// 				<Box className={classes.TitleHeader}>
-	// 					<Logo className={classes.logo} />
-	// 					<Typography variant='h3' className={classes.title}>
-	// 						Workflows
-	// 					</Typography>
-	// 				</Box>
-	// 				<Loader />
-	// 			</Grid>
-	// 		</>
-	// 	);
-	// } else {
 	return (
 		<>
 			<SideBar page='design' />

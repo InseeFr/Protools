@@ -20,10 +20,12 @@ export const getBPMNByProcessName = (selected) => {
 	const urlEndpoint = 'getBPMNFile/';
 	const file = fetcherGet(urlEndpoint + selected)
 		.then((r) => {
-			return r.data;
+			console.log('BPMN file : ', r);
+			return [r.data, r.status];
 		})
 		.catch((e) => {
 			console.log('error', e);
+			return ['', e.message];
 		});
 	return file;
 };

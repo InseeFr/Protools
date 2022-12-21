@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 // React dependencies
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import { fetchConfig } from 'core/config';
+import { useLocation } from 'react-router-dom';
 // BPMN dependencies
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import 'bpmn-js/dist/assets/diagram-js.css';
@@ -18,6 +17,7 @@ import Logo from 'ui/components/shared/logo/logo';
 import TabBarWorkflow from './tabBar';
 import Loader from 'ui/components/shared/loader/loader';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
+import ErrorComponent from 'ui/components/shared/errorComponent';
 // Data retrieve functions
 import {
 	getBPMNByProcessName,
@@ -94,6 +94,7 @@ const BPMNViewer = (props) => {
 	const [variables, setVariables] = useState([]);
 	const [manualTasks, setManualTasks] = useState([]);
 	const [allTasks, setAllTasks] = useState([]);
+	const [statusCode, setStatusCode] = useState(0);
 	const processInformations = useLocation().state;
 	const processKey = processInformations.processKey;
 	const id = processInformations.id;
@@ -110,7 +111,8 @@ const BPMNViewer = (props) => {
 		});
 		setTimeout(() => {
 			getBPMNByProcessName(processKey).then((res) => {
-				setDiagram(res);
+				setDiagram(res[0]);
+				setStatusCode(res[1]);
 			});
 
 			setLoading(false);
@@ -152,6 +154,29 @@ const BPMNViewer = (props) => {
 			});
 	}
 
+	if (diagram.length === 0 && loading) {
+		return (
+			<>
+				<GlobalStyles
+					styles={{
+						body: {
+							backgroundColor: '#F9FAFC',
+						},
+					}}
+				/>
+				<SideBar />
+				<Grid justifyContent='center'>
+					<Box className={classes.TitleHeader}>
+						<Logo className={classes.logo} />
+						<Typography variant='h3' className={classes.title}>
+							Visualisation Protocoles
+						</Typography>
+					</Box>
+					<Loader />
+				</Grid>
+			</>
+		);
+	}
 	if (loading) {
 		return (
 			<>

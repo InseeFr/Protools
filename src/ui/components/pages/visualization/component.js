@@ -37,7 +37,6 @@ const useStyles = makeStyles()((theme) => {
 				marginLeft: '5%',
 			},
 		},
-
 		title: {
 			marginLeft: 10,
 			fontWeight: 'bold',
@@ -53,7 +52,6 @@ const useStyles = makeStyles()((theme) => {
 		logo: {
 			verticalAlign: 'middle',
 		},
-
 		titleCard: {
 			fontWeight: 'bold',
 			color: theme.palette.primary.main,
@@ -82,8 +80,8 @@ const Visualizer = () => {
 				</Box>
 				<CustomCard className={classes.card}>
 					<CardContent>
-						<Typography value='h3' className={classes.titleCard}>
-							Sélectionner un protocole d'enquête:
+						<Typography variant='h4' className={classes.titleCard}>
+							Sélectionner un protocole type:
 						</Typography>
 						<SelectProtocol />
 					</CardContent>
