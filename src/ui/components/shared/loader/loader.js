@@ -11,15 +11,21 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			width: '25%',
+			padding: 10,
+			width: '20%',
 			marginLeft: '45%',
-			marginTop: '15%',
+			marginTop: '10%',
+			[theme.breakpoints.down('lg')]: {
+				width: '32%',
+				marginLeft: '40%',
+			},
 			[theme.breakpoints.down('md')]: {
-				width: '40%',
-				marginLeft: '30%',
+				width: '32%',
+				marginLeft: '38%',
+			},
+			[theme.breakpoints.down('sm')]: {
+				width: '87%',
+				marginLeft: '5%',
 			},
 		},
 		titleCard: {
