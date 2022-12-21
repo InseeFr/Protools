@@ -45,6 +45,10 @@ const useStyles = makeStyles()((theme) => {
 		logo: {
 			verticalAlign: 'middle',
 		},
+		errorContent: {
+			fontWeight: 'normal',
+			color: theme.palette.primary.main,
+		},
 	};
 });
 

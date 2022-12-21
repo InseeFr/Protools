@@ -37,7 +37,7 @@ const useStyles = makeStyles()((theme) => {
 			textAlign: 'left',
 		},
 		errorContent: {
-			fontWeight: 'center',
+			fontWeight: 'normal',
 			color: theme.palette.primary.main,
 		},
 	};
