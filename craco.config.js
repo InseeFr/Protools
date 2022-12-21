@@ -4,9 +4,6 @@ module.exports = {
 			experiments: {
 				topLevelAwait: true,
 			},
-			devserver: {
-				historyApiFallback: true,
-			},
 		},
 	},
 };
