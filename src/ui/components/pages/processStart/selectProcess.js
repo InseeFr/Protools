@@ -63,8 +63,13 @@ const SelectProcess = () => {
 	return (
 		<>
 			<Stack spacing={3}>
-				<FormControl size='small' fullWidth sx={{ marginTop: 3 }}>
-					<InputLabel color='primary'> Nom d'enquête :</InputLabel>
+				<FormControl
+					color='primary'
+					size='small'
+					fullWidth
+					sx={{ marginTop: 3 }}
+				>
+					<InputLabel> Nom d'enquête :</InputLabel>
 					<Select
 						color='primary'
 						labelId='SelectBPMN'
@@ -98,7 +103,16 @@ const SelectProcess = () => {
 				</Button>
 			</Stack>
 
-			<Dialog open={open} onClose={handleClose}>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				PaperProps={{
+					sx: {
+						backgroundColor: 'transparent',
+						boxShadow: 'none',
+					},
+				}}
+			>
 				<DialogTitle>
 					<Typography variant='h4'>Process Service</Typography>
 				</DialogTitle>

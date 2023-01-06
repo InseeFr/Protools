@@ -104,13 +104,6 @@ const ReviewUserTask = () => {
 
 	return (
 		<>
-			<GlobalStyles
-				styles={{
-					body: {
-						backgroundColor: '#F9FAFC',
-					},
-				}}
-			/>
 			<SideBar page='form' />
 			<Grid container justify='center'>
 				<Box className={classes.TitleHeader}>
@@ -143,7 +136,16 @@ const ReviewUserTask = () => {
 							<Typography value='h3'>Envoyer</Typography>
 						</Button>
 
-						<Dialog open={open} onClose={handleClose}>
+						<Dialog
+							open={open}
+							onClose={handleClose}
+							PaperProps={{
+								sx: {
+									backgroundColor: 'transparent',
+									boxShadow: 'none',
+								},
+							}}
+						>
 							<DialogTitle>
 								<Typography variant='h4'>Task Service</Typography>
 							</DialogTitle>

@@ -2,7 +2,6 @@ import React from 'react';
 
 //import Display from './bpmnDisplay';
 import { makeStyles } from 'tss-react/mui';
-import { GlobalStyles } from 'tss-react';
 import { Grid, CardContent, Box, Typography } from '@mui/material';
 import SelectProcess from './selectProcess';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
@@ -17,6 +16,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -64,13 +64,6 @@ const ProcessSelect = () => {
 
 	return (
 		<>
-			<GlobalStyles
-				styles={{
-					body: {
-						backgroundColor: '#F9FAFC',
-					},
-				}}
-			/>
 			<SideBar page='process' />
 			<Grid container justify='center'>
 				<Box className={classes.TitleHeader}>

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { fetcherGet } from 'core/fetchData/fetch';
-import theme from 'ui/theme';
+import { darkTheme } from 'ui/theme';
 
 const getProcessState = (datatmp, i) => {
 	if (datatmp[i].isSuspended) {
@@ -24,7 +24,7 @@ export const fetchProcessData = () => {
 				label: 'processus',
 				data: [0, 0, 0, 0],
 				backgroundColor: ['#FEC89A', '#B56576', '#98C1D9', '#84A98C'],
-				borderColor: [theme.palette.background.default],
+				borderColor: [darkTheme.palette.background.default],
 				borderWidth: 2,
 			},
 		],
@@ -79,7 +79,7 @@ export const fetchTaskData = () => {
 				label: 'processus',
 				data: [0, 0, 0],
 				backgroundColor: ['#555b6e', '#ffd6ba', '#89b0ae', '#81A4CD'],
-				borderColor: [theme.palette.background.default],
+				borderColor: [darkTheme.palette.background.default],
 				borderWidth: 2,
 			},
 		],

@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import Logo from 'ui/components/shared/logo/logo';
-import { GlobalStyles } from 'tss-react';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
 import { uploadFileToProcess } from 'core/utils/dataProcess/processExecution';
 
@@ -97,13 +96,6 @@ const UploadFile = () => {
 
 	return (
 		<>
-			<GlobalStyles
-				styles={{
-					body: {
-						backgroundColor: '#F9FAFC',
-					},
-				}}
-			/>
 			<SideBar page='form' />
 			<Grid container justify='center'>
 				<Box className={classes.TitleHeader}>
@@ -137,7 +129,16 @@ const UploadFile = () => {
 					</CardContent>
 				</CustomCard>
 			</Grid>
-			<Dialog open={open} onClose={handleClose}>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				PaperProps={{
+					sx: {
+						backgroundColor: 'transparent',
+						boxShadow: 'none',
+					},
+				}}
+			>
 				<DialogTitle>
 					<Typography variant='h4'>Task Service</Typography>
 				</DialogTitle>

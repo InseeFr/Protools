@@ -17,6 +17,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -63,13 +64,6 @@ const Visualizer = () => {
 	const { classes } = useStyles();
 	return (
 		<>
-			<GlobalStyles
-				styles={{
-					body: {
-						backgroundColor: '#F9FAFC',
-					},
-				}}
-			/>
 			<SideBar page='design' />
 			<Grid container justify='center'>
 				<Box className={classes.TitleHeader}>

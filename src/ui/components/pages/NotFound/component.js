@@ -67,7 +67,7 @@ const NotFound = () => {
 			<GlobalStyles
 				styles={{
 					body: {
-						backgroundColor: '#F9FAFC',
+						backgroundColor: '#131E2A',
 					},
 				}}
 			/>

@@ -21,6 +21,7 @@ import ProcessGlobalInfo from './processGlobalInfo';
 const useStyles = makeStyles()((theme) => {
 	return {
 		card: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',

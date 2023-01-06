@@ -15,6 +15,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -40,7 +41,6 @@ const useStyles = makeStyles()((theme) => {
 const ProcessOverview = (props) => {
 	const pieProcessdata = props.pieProcessdata;
 	const pieTaskdata = props.pieTaskdata;
-	//const pieIncidentdata = props.pieIncidentdata;
 	const { classes } = useStyles();
 	const small = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 	return (

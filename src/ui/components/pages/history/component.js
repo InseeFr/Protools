@@ -63,14 +63,6 @@ const History = () => {
 	if (loading) {
 		return (
 			<>
-				<GlobalStyles
-					styles={{
-						body: {
-							backgroundColor: '#F9FAFC',
-						},
-					}}
-				/>
-
 				<Grid justifyContent='center'>
 					<Box className={classes.TitleHeader}>
 						<Logo className={classes.logo} />
@@ -85,13 +77,6 @@ const History = () => {
 	} else {
 		return (
 			<>
-				<GlobalStyles
-					styles={{
-						body: {
-							backgroundColor: '#F9FAFC',
-						},
-					}}
-				/>
 				<SideBar page='history' />
 				<Grid justifyContent='center'>
 					<Box className={classes.TitleHeader}>

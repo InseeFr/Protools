@@ -157,13 +157,6 @@ const BPMNViewer = (props) => {
 	if (diagram.length === 0 && loading) {
 		return (
 			<>
-				<GlobalStyles
-					styles={{
-						body: {
-							backgroundColor: '#F9FAFC',
-						},
-					}}
-				/>
 				<SideBar />
 				<Grid justifyContent='center'>
 					<Box className={classes.TitleHeader}>
@@ -180,13 +173,6 @@ const BPMNViewer = (props) => {
 	if (loading) {
 		return (
 			<>
-				<GlobalStyles
-					styles={{
-						body: {
-							backgroundColor: '#F9FAFC',
-						},
-					}}
-				/>
 				<SideBar />
 				<Grid justifyContent='center'>
 					<Box className={classes.TitleHeader}>

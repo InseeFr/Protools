@@ -20,6 +20,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
@@ -36,6 +37,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		cardTab: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			width: '80%',
 			marginLeft: '17%',

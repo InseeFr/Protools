@@ -11,7 +11,8 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
-			padding: 10,
+			backgroundColor: theme.palette.secondary.card,
+			padding: 15,
 			width: '20%',
 			marginLeft: '45%',
 			marginTop: '10%',
@@ -67,12 +68,12 @@ const Loader = () => {
 				<CardContent>
 					<Grid
 						container
-						spacing={5}
+						spacing={3}
 						justifyContent='center'
 						alignItems='center'
 					>
 						<Grid item xs={12} className={classes.gridItemProcessList}>
-							<LinearProgress sx={{ marginTop: 2 }} />
+							<LinearProgress sx={{ marginTop: 3 }} />
 						</Grid>
 						<Grid item xs={12} className={classes.gridItemProcessList}>
 							<Typography variant='h4' className={classes.titleCard}>
