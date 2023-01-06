@@ -13,7 +13,7 @@ export const StyledTabs = styled(Tabs)(({ theme }) => ({
 
 export const StyledTab = styled(Tab)(({ theme }) => ({
 	fontWeight: 'bold',
-	opacity: 0.5,
+	opacity: 0.6,
 	fontFamily: [
 		'-apple-system',
 		'BlinkMacSystemFont',

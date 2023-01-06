@@ -8,7 +8,7 @@ const PRIMARY = {
 	mainTextDark: '#E5E5E5',
 	mainCardDark: '#44475a',
 	background: '#F9FAFC',
-	backgroundDark: '#282a36',
+	backgroundDark: '#383b49',
 };
 const SECONDARY = {
 	secondGreen: '#89B0AE',

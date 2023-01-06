@@ -281,7 +281,16 @@ const ProcessGlobalInfo = (props) => {
 				</Stack>
 			</Stack>
 
-			<Dialog open={openDelete} onClose={handleDeleteCloseCancel}>
+			<Dialog
+				open={openDelete}
+				onClose={handleDeleteCloseCancel}
+				PaperProps={{
+					sx: {
+						backgroundColor: 'transparent',
+						boxShadow: 'none',
+					},
+				}}
+			>
 				<DialogTitle>
 					<Typography variant='h4'>Supprimer un processus</Typography>
 				</DialogTitle>
@@ -310,7 +319,16 @@ const ProcessGlobalInfo = (props) => {
 				</DialogActions>
 			</Dialog>
 
-			<Dialog open={openSuspend} onClose={handleSuspendCloseCancel}>
+			<Dialog
+				open={openSuspend}
+				onClose={handleSuspendCloseCancel}
+				PaperProps={{
+					sx: {
+						backgroundColor: 'transparent',
+						boxShadow: 'none',
+					},
+				}}
+			>
 				<DialogTitle>
 					<Typography variant='h4'>
 						{state ? 'Suspendre un processus' : 'Relancer un processus'}
