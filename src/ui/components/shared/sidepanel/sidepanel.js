@@ -10,6 +10,7 @@ const useStyles = makeStyles()((theme) => {
 	return {
 		drawer: {
 			width: '14%',
+
 			[theme.breakpoints.down('md')]: {
 				width: '5%',
 			},
@@ -18,6 +19,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		drawerPaper: {
+			overflow: 'hidden',
 			'&&': {
 				width: '14%',
 				backgroundColor: theme.palette.background.default,
@@ -91,10 +93,7 @@ const SideBar = (props) => {
 			<Drawer
 				sx={{
 					flexShrink: 0,
-					'& .MuiDrawer-paper': {
-						width: '12%',
-						boxSizing: 'border-box',
-					},
+					overflowY: 'hidden',
 				}}
 				variant='permanent'
 				anchor='left'

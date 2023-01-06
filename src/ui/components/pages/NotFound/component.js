@@ -64,13 +64,6 @@ const NotFound = () => {
 	};
 	return (
 		<>
-			<GlobalStyles
-				styles={{
-					body: {
-						backgroundColor: '#131E2A',
-					},
-				}}
-			/>
 			<SideBar page='design' />
 			<Grid container justify='center'>
 				<Box className={classes.TitleHeader}>
