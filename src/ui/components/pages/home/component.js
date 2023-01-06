@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { GlobalStyles } from 'tss-react';
 import { Grid, Box, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import Logo from 'ui/components/shared/logo/logo';

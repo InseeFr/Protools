@@ -2,7 +2,6 @@ import React from 'react';
 
 //import Display from './bpmnDisplay';
 import { makeStyles } from 'tss-react/mui';
-import { GlobalStyles } from 'tss-react';
 import { Grid, CardContent, Box, Typography } from '@mui/material';
 import CustomCard from 'ui/components/shared/styledComponents/card/card';
 import Logo from 'ui/components/shared/logo/logo';

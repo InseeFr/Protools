@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
-import { GlobalStyles } from 'tss-react';
 import { Grid, Button, Box, Typography } from '@mui/material';
 import Logo from 'ui/components/shared/logo/logo';
 import SideBar from '../../shared/sidepanel/sidepanel';

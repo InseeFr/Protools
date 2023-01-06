@@ -7,7 +7,7 @@ import { CssBaseline } from '@mui/material/';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import App from './App';
-import { lightTheme, darkTheme } from './theme/index';
+import { darkTheme } from './theme/index';
 
 export const muiCache = createCache({
 	key: 'mui',

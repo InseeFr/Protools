@@ -30,6 +30,7 @@ const useStyles = makeStyles()((theme) => {
 			},
 		},
 		card: {
+			backgroundColor: theme.palette.secondary.card,
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
