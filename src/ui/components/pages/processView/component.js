@@ -10,14 +10,12 @@ import minimapModule from 'diagram-js-minimap';
 import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 // Visual dependencies
 import { makeStyles } from 'tss-react/mui';
-import { GlobalStyles } from 'tss-react';
 import { Box, Typography, Grid } from '@mui/material';
 // Custom Components
 import Logo from 'ui/components/shared/logo/logo';
 import TabBarWorkflow from './tabBar';
 import Loader from 'ui/components/shared/loader/loader';
 import SideBar from 'ui/components/shared/sidepanel/sidepanel';
-import ErrorComponent from 'ui/components/shared/errorComponent';
 // Data retrieve functions
 import {
 	getBPMNByProcessName,
@@ -29,6 +27,11 @@ import {
 
 const useStyles = makeStyles()((theme) => {
 	return {
+		root: {
+			body: {
+				backgroundColor: theme.palette.background.default,
+			},
+		},
 		title: {
 			marginLeft: 10,
 			fontWeight: 'bold',
@@ -190,13 +193,6 @@ const BPMNViewer = (props) => {
 			<>
 				<SideBar page='process' />
 				<Box justifyContent='center'>
-					<GlobalStyles
-						styles={{
-							body: {
-								backgroundColor: '#F9FAFC',
-							},
-						}}
-					/>
 					<Box className={classes.TitleHeader}>
 						<Logo className={classes.logo} />
 						<Typography variant='h3' className={classes.title}>

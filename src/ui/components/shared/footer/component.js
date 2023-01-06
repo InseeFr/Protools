@@ -26,7 +26,7 @@ const Copyright = () => {
 			variant='caption'
 			display='block'
 			align='center'
-			color='text.secondary'
+			color='primary'
 			fontWeight={'normal'}
 		>
 			<Link
@@ -50,7 +50,7 @@ const Footer = () => {
 				variant='overline'
 				display='block'
 				align='center'
-				color='text.secondary'
+				color='primary'
 			>
 				Protools - Survey Orchestrator & Management Tool
 			</Typography>{' '}

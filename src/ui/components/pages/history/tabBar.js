@@ -69,7 +69,7 @@ const useStyles = makeStyles()((theme) => {
 			width: '100%',
 		},
 		tabWidth: {
-			width: '97%',
+			width: '100%',
 		},
 	};
 });

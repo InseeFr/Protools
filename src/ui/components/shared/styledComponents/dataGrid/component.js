@@ -19,7 +19,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 	WebkitFontSmoothing: 'auto',
 	letterSpacing: 'normal',
 	'& .MuiDataGrid-columnsContainer': {
-		backgroundColor: '#fafafa',
+		backgroundColor: theme.palette.secondary.pressed,
 	},
 	'& .MuiDataGrid-toolbarContainer': {
 		'& .MuiButtonBase-root': {
@@ -33,19 +33,22 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 		fontWeight: '600',
 	},
 	'& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-		borderRight: `1px solid ${'#f0f0f0'}`,
+		borderRight: `1px solid ${'theme.palette.secondary.pressed'}`,
 	},
 	'& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-		borderBottom: `1px solid ${'#f0f0f0'}`,
+		borderBottom: `1px solid ${'theme.palette.secondary.pressed'}`,
 	},
 	'& .MuiDataGrid-cell': {
-		color: 'rgba(0,0,0,.85)',
 		fontSize: '0.845em',
 		backgroundColor: theme.palette.secondary.pressed,
 		padding: '3px 5px',
 	},
 	'& .MuiPaginationItem-root': {
 		borderRadius: 0,
+		textColor: theme.palette.primary.main,
+	},
+	'& .MuiPaginationItem-textPrimary.Mui-selected': {
+		backgroundColor: theme.palette.primary.main,
 	},
 }));
 

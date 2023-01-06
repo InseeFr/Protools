@@ -13,7 +13,7 @@ const PRIMARY = {
 const SECONDARY = {
 	secondGreen: '#89B0AE',
 	pressedGrey: '#F8FAF8',
-	pressedDark: '#253750',
+	pressedDark: '#4c5063',
 };
 
 const borderWidth = 2;
@@ -214,7 +214,7 @@ export const darkTheme = createTheme({
 		background: {
 			default: PRIMARY.backgroundDark,
 		},
-		warning: { main: '#d1495b', light: '#fed9b7' },
+		warning: { main: '#ba3f4f', light: '#fed9b7' },
 		border: {
 			borderColor: SECONDARY.secondGreen,
 			borderWidth: borderWidth,
