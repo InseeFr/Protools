@@ -22,7 +22,7 @@ function App() {
           }}
           quickAccessItems={[
             {
-              iconId: 'fr-icon-lock-line',
+              iconId: 'fr-icon-home-4-line',
               linkProps: routes.home(),
               text: 'Home',
             },

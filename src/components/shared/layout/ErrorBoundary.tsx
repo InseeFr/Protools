@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React from "react";
+import { Box, Typography } from '@mui/material';
 
 class ErrorBoundary extends React.Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -16,7 +17,11 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <h1>Something went wrong. Please try again</h1>
+        <Box sx={{ marginTop: 2 }}>
+          <Typography variant="h1">
+            Something went wrong. Please retry later
+          </Typography>
+        </Box>
       );
     }
 

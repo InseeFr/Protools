@@ -5,7 +5,13 @@ import { routes } from '../../../lib/routes/router';
 
 const Home = () => {
   return (
-    <Stack spacing={2}>
+    <Stack
+      spacing={2}
+      sx={{
+        flexWrap: 'wrap',
+        alignContent: 'center',
+      }}
+    >
       <Typography variant="h1">Home</Typography>
       <Button
         linkProps={{
@@ -14,6 +20,13 @@ const Home = () => {
       >
         Lancer un processus
       </Button>
+      {/* <Button
+        linkProps={{
+          href: routes.visualize().link.href,
+        }}
+      >
+        Lancer un processus
+      </Button> */}
     </Stack>
   );
 };
