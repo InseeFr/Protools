@@ -4,15 +4,11 @@ import Home from '../../components/pages/home/Home';
 import Visualize from '../../components/pages/visualize/Visualize';
 import Launch from '../../components/pages/launch/Launch';
 
+// Temp routing
 export const { RouteProvider, useRoute, routes } = createRouter({
   home: defineRoute('/'),
   launch: defineRoute('/launch'),
-  visualize: defineRoute(
-    {
-      processId: param.path.string,
-    },
-    (p) => `/user/${p.processId}`
-  ),
+  visualize: defineRoute('/visualize'),
 });
 
 export const Router = () => {

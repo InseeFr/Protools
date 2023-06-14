@@ -10,6 +10,7 @@ const Home = () => {
       sx={{
         flexWrap: 'wrap',
         alignContent: 'center',
+        alignItems: 'center',
       }}
     >
       <Typography variant="h1">Home</Typography>
@@ -20,13 +21,13 @@ const Home = () => {
       >
         Lancer un processus
       </Button>
-      {/* <Button
+      <Button
         linkProps={{
           href: routes.visualize().link.href,
         }}
       >
-        Lancer un processus
-      </Button> */}
+        Visualiser un processus
+      </Button>
     </Stack>
   );
 };
