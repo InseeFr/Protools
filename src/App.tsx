@@ -33,6 +33,22 @@ function App() {
             href: '/',
             title: 'Protools - Accueil',
           }}
+          quickAccessItems={[
+            {
+              iconId: 'fr-icon-add-circle-line',
+              linkProps: {
+                href: '/launch',
+              },
+              text: 'Lancer',
+            },
+            {
+              iconId: 'fr-icon-todo-line',
+              linkProps: {
+                href: '/visualize',
+              },
+              text: 'Visualiser',
+            },
+          ]}
           serviceTagline="Orchestration des protocoles d'enquêtes"
           serviceTitle="Protools (header temporaire), j'aime pas trop l'ui personnellement"
         />
