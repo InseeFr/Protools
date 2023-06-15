@@ -1,10 +1,8 @@
 import React from 'react';
-import type { Route } from 'type-route';
 import { Stack, Typography } from '@mui/material';
 import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
-import { routes } from '../../../lib/routes/router';
 
-const Visualize = ({ route }: { route: Route<typeof routes.visualize> }) => {
+const Visualize = () => {
   return (
     <Stack
       spacing={3}

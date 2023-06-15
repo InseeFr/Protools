@@ -1,5 +1,5 @@
 const getConfig = async () => {
-  fetch("./public/configuration.json")
+  fetch("/configuration.json")
       .then(response => { response.json() })
       .then(data => {
           console.log(data);

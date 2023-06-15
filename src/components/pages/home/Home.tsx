@@ -1,9 +1,10 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
-import { routes } from '../../../lib/routes/router';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <Stack
       spacing={2}
@@ -16,21 +17,21 @@ const Home = () => {
       <Typography variant="h1">Home</Typography>
       <Button
         linkProps={{
-          href: routes.launch().link.href,
+          href: '/launch',
         }}
       >
         Lancer un processus
       </Button>
       <Button
         linkProps={{
-          href: routes.visualize().link.href,
+          href: '/visualize',
         }}
       >
         Visualiser un processus
       </Button>
       <Button
         linkProps={{
-          href: routes.upload().link.href,
+          href: '/upload-context',
         }}
       >
         TEMP : Tâche upload
