@@ -1,16 +1,20 @@
 import React from 'react';
 import type { Route } from 'type-route';
 import { Box, Card, Typography, CardContent, Stack } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
 import { Select } from '@codegouvfr/react-dsfr/Select';
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { routes } from '../../../lib/routes/router';
 
-const Launch = ({ route }: { route: Route<typeof routes.launch> }) => {
+const Launch = () => {
   const handleSubmit = () => {
     console.log('submit');
   };
+  const { isLoading, isError, isSuccess, mutate } = useMutation(() => {
+    console.log('mutate');
+  });
   return (
     <Box
       sx={{

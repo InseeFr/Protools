@@ -28,6 +28,13 @@ const Home = () => {
       >
         Visualiser un processus
       </Button>
+      <Button
+        linkProps={{
+          href: routes.upload().link.href,
+        }}
+      >
+        TEMP : Tâche upload
+      </Button>
     </Stack>
   );
 };

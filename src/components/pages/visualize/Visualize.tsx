@@ -7,7 +7,7 @@ import { routes } from '../../../lib/routes/router';
 const Visualize = ({ route }: { route: Route<typeof routes.visualize> }) => {
   return (
     <Stack
-      spacing={2}
+      spacing={3}
       sx={{
         flexWrap: 'wrap',
         alignContent: 'center',
