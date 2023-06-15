@@ -1,7 +1,10 @@
 const getConfig = async () => {
-	const configuration = fetch(`configuration.json`).then((r) => r.json());
-	console.log('FetchConfiguration :', configuration);
-	return configuration;
+  fetch("./public/configuration.json")
+      .then(response => { response.json() })
+      .then(data => {
+          console.log(data);
+          return data;
+      })
 };
 
 export default getConfig;

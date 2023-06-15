@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MuiDsfrThemeProvider from '@codegouvfr/react-dsfr/mui';
 import { Header } from '@codegouvfr/react-dsfr/Header';
 import { fr } from '@codegouvfr/react-dsfr';
+import { Box, Typography } from '@mui/material';
 import { Router, routes } from './lib/routes/router';
 
 import ErrorBoundary from './components/shared/layout/ErrorBoundary';
 
 import './App.css';
+import getConfig from './lib/hooks/getConfig';
 
 const queryClient = new QueryClient();
 function App() {
+  const [configuration, setConfiguration] = useState(false);
+
+  if (!configuration) {
+    getConfig().then(() => {
+      console.log('Fetched config');
+
+      setConfiguration(true);
+    });
+  }
+
   return (
     <MuiDsfrThemeProvider>
       <QueryClientProvider client={queryClient} contextSharing>
@@ -43,7 +55,15 @@ function App() {
               ...fr.spacing('padding', { topBottom: '10v' }),
             }}
           >
-            <Router />
+            {configuration ? (
+              <Router />
+            ) : (
+              <Box sx={{ marginTop: 2 }}>
+                <Typography variant="h1">
+                  Chargement du fichier de configuration...
+                </Typography>
+              </Box>
+            )}
           </div>
         </ErrorBoundary>
       </QueryClientProvider>
