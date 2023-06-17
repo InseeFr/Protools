@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
+import GeneralInfo from './GeneralInfo';
 
 const Visualize = () => {
   return (
@@ -21,9 +22,15 @@ const Visualize = () => {
             label: 'Description',
             iconId: 'fr-icon-window-line',
             content: (
-              <Typography variant="body1">
-                Description du protocole d&apos;enquête
-              </Typography>
+              <GeneralInfo
+                date="date"
+                processID="processID"
+                documentation="documentation"
+                activeTask="activeTask"
+                processKey="processKey"
+                businessKey="businessKey"
+                state
+              />
             ),
           },
           {
