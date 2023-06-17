@@ -2,6 +2,9 @@ import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
 import GeneralInfo from './GeneralInfo';
+import Variables from './Variables';
+import Tasks from './Tasks';
+import TasksManual from './TasksManual';
 
 const Visualize = () => {
   return (
@@ -37,28 +40,31 @@ const Visualize = () => {
             label: 'Variables',
             iconId: 'fr-icon-article-line',
             content: (
-              <Typography variant="body1">
-                Liste des variables présentes dans le protocole d&apos;enquête
-              </Typography>
+              <Variables
+                variables={[
+                  {
+                    name: 'variable1',
+                    type: 'string',
+                    value: 'value1',
+                  },
+                  {
+                    name: 'variable2',
+                    type: 'string',
+                    value: 'value2',
+                  },
+                ]}
+              />
             ),
           },
           {
             label: 'Tâches (?)',
             iconId: 'fr-icon-terminal-box-line',
-            content: (
-              <Typography variant="body1">
-                Description des éléments du processus
-              </Typography>
-            ),
+            content: <Tasks bpmnTitle="Nom du bpmn ou autre titre" />,
           },
           {
             label: 'Tâches manuelles',
             iconId: 'fr-icon-user-line',
-            content: (
-              <Typography variant="body1">
-                Tâches manuelles en attentes
-              </Typography>
-            ),
+            content: <TasksManual bpmnTitle="Nom du bpmn ou autre titre" />,
           },
         ]}
       />
