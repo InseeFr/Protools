@@ -5,21 +5,21 @@ import {
   DialogTitle,
   Typography,
   DialogContentText,
-  CircularProgress,
 } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 
-interface LoadingModalProps {
-  openLoading: boolean;
-  setOpenLoading: (open: boolean) => void;
+interface ErrorDialogProps {
+  openError: boolean;
+  setOpenError: (open: boolean) => void;
+  errorDescription: string;
 }
 
-const LoadingModal = (props: LoadingModalProps) => {
-  const { setOpenLoading, openLoading } = props;
+const ErrorDialog = (props: ErrorDialogProps) => {
+  const { openError, setOpenError, errorDescription } = props;
   return (
-    <Dialog open={openLoading}>
+    <Dialog open={openError}>
       <DialogTitle>
-        <Typography variant="h5">Chargement des données...</Typography>
+        <Typography variant="h5">Une erreur s'est produite</Typography>
       </DialogTitle>
       <DialogContent
         sx={{
@@ -30,15 +30,15 @@ const LoadingModal = (props: LoadingModalProps) => {
         }}
       >
         <DialogContentText>
-          <CircularProgress />
+          <Typography variant="subtitle1">{errorDescription}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        return (<Button onClick={() => setOpenLoading(false)}>Fermer</Button>
+        return (<Button onClick={() => setOpenError(false)}>Fermer</Button>
         );
       </DialogActions>
     </Dialog>
   );
 };
 
-export default LoadingModal;
+export default ErrorDialog;

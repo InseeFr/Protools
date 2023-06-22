@@ -44,7 +44,7 @@ const ConfirmationDeleteDialog = (props: ConfirmationDeleteDialogProps) => {
           priority="secondary"
           onClick={() => setConfirmationDelete(false)}
         >
-          Cancel
+          Annuler
         </Button>
         <Button
           onClick={

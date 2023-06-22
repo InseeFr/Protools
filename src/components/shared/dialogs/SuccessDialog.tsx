@@ -5,21 +5,21 @@ import {
   DialogTitle,
   Typography,
   DialogContentText,
-  CircularProgress,
 } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 
-interface LoadingModalProps {
-  openLoading: boolean;
-  setOpenLoading: (open: boolean) => void;
+interface SuccessDialogProps {
+  openSuccess: boolean;
+  setOpenSuccess: (open: boolean) => void;
+  successDescription: string;
 }
 
-const LoadingModal = (props: LoadingModalProps) => {
-  const { setOpenLoading, openLoading } = props;
+const SuccessDialog = (props: SuccessDialogProps) => {
+  const { openSuccess, setOpenSuccess, successDescription } = props;
   return (
-    <Dialog open={openLoading}>
+    <Dialog open={openSuccess}>
       <DialogTitle>
-        <Typography variant="h5">Chargement des données...</Typography>
+        <Typography variant="h5">Process Engine</Typography>
       </DialogTitle>
       <DialogContent
         sx={{
@@ -30,15 +30,15 @@ const LoadingModal = (props: LoadingModalProps) => {
         }}
       >
         <DialogContentText>
-          <CircularProgress />
+          <Typography variant="subtitle1">{successDescription}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        return (<Button onClick={() => setOpenLoading(false)}>Fermer</Button>
+        return (<Button onClick={() => setOpenSuccess(false)}>Fermer</Button>
         );
       </DialogActions>
     </Dialog>
   );
 };
 
-export default LoadingModal;
+export default SuccessDialog;
