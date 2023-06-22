@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <Stack
       spacing={2}
@@ -35,6 +35,13 @@ const Home = () => {
         }}
       >
         TEMP : Tâche upload
+      </Button>
+      <Button
+        linkProps={{
+          href: '/validation-task',
+        }}
+      >
+        TEMP : Tâche validation
       </Button>
     </Stack>
   );

@@ -58,3 +58,9 @@ export function getVariables(processInstanceId: string): Promise<any> {
         `${import.meta.env.VITE_API_BASE_URL}runtime/process-instances/${processInstanceId}/variables`,
     );
 }
+
+export function getBpmnElements(processInstanceId: string): Promise<any> {
+    return getRequest(
+        `${import.meta.env.VITE_API_BASE_URL}repository/process-instances/${processInstanceId}`,
+    );
+}

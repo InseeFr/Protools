@@ -5,6 +5,7 @@ import Home from '../../components/pages/home/Home';
 import Visualize from '../../components/pages/visualize/Visualize';
 import Launch from '../../components/pages/launch/Launch';
 import UploadFile from '../../components/shared/tasks/UploadFile/UploadFile';
+import ValidateTask from '../../components/shared/tasks/ValidationTask/ValidationTask';
 
 // Temp routing
 const routes: RouteObject[] = [
@@ -23,6 +24,10 @@ const routes: RouteObject[] = [
   {
     path: '/upload-context',
     element: <UploadFile />,
+  },
+  {
+    path: '/validation-task',
+    element: <ValidateTask />,
   },
 ];
 

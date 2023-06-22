@@ -29,3 +29,16 @@ export function uploadContext(
         formData,
     );
 }
+
+export function executeTask(
+    taskId: string,
+    variables: any[],
+): Promise<any> {
+    return postRequest(
+        `${import.meta.env.VITE_API_BASE_URL}runtime/tasks/${taskId}`,
+        {
+            action: 'complete',
+            variables,
+        },
+    );
+}
