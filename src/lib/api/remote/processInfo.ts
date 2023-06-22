@@ -1,4 +1,4 @@
-import { get } from "http";
+
 import { getRequest } from "../fetcher/requests";
 
 export function getProcessDefinitions(): Promise<any> {
@@ -50,5 +50,11 @@ export function getAllTasks(processInstanceId: string): Promise<any> {
 export function getBpmnXml(processDefinitionId: string): Promise<any> {
     return getRequest(
         `${import.meta.env.VITE_API_BASE_URL}repository/process-definitions/${processDefinitionId}/ressourcedata`,
+    );
+}
+
+export function getVariables(processInstanceId: string): Promise<any> {
+    return getRequest(
+        `${import.meta.env.VITE_API_BASE_URL}runtime/process-instances/${processInstanceId}/variables`,
     );
 }

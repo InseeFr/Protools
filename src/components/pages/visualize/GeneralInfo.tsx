@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 
