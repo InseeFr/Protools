@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "id": "6944f428-11a0-11ee-8df9-005056985cf7",
+      "url": "https://api-orchestration-protocole-enquete.developpement.insee.fr/runtime/tasks/6944f428-11a0-11ee-8df9-005056985cf7",
+      "owner": null,
+      "assignee": null,
+      "delegationState": null,
+      "name": "Renseigner les métadonnées de processus",
+      "description": "Tache de chargement du fichier de contexte pour initialiser les métadonnées de processus",
+      "createTime": "2023-06-23T10:31:55.341+02:00",
+      "dueDate": null,
+      "priority": 50,
+      "suspended": false,
+      "claimTime": null,
+      "taskDefinitionKey": "uploadContext",
+      "scopeDefinitionId": null,
+      "scopeId": null,
+      "subScopeId": null,
+      "scopeType": null,
+      "propagatedStageInstanceId": null,
+      "tenantId": "",
+      "category": null,
+      "formKey": null,
+      "parentTaskId": null,
+      "parentTaskUrl": null,
+      "executionId": "6940ae64-11a0-11ee-8df9-005056985cf7",
+      "executionUrl": "https://api-orchestration-protocole-enquete.developpement.insee.fr/runtime/executions/6940ae64-11a0-11ee-8df9-005056985cf7",
+      "processInstanceId": "69408753-11a0-11ee-8df9-005056985cf7",
+      "processInstanceUrl": "https://api-orchestration-protocole-enquete.developpement.insee.fr/runtime/process-instances/69408753-11a0-11ee-8df9-005056985cf7",
+      "processDefinitionId": "testFront:2:7feb81a2-0c33-11ee-97a1-005056985cf7",
+      "processDefinitionUrl": "https://api-orchestration-protocole-enquete.developpement.insee.fr/repository/process-definitions/testFront:2:7feb81a2-0c33-11ee-97a1-005056985cf7",
+      "variables": []
+    }
+  ],
+  "total": 1,
+  "start": 0,
+  "sort": "id",
+  "order": "asc",
+  "size": 1
+}
