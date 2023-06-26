@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Card, Typography, CardContent, Stack } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Select } from '@codegouvfr/react-dsfr/Select';
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { startProcess } from '../../../lib/api/remote/processExecution';
+import { getProcessDefinition } from '../../../lib/api/remote/processInfo';
+import { getMockProcessDefinitions } from '../../../lib/api/mock/processInfo';
+import { get } from 'http';
 
 const Launch = () => {
+  const [processes, setProcesses] = useState(getMockProcessDefinitions());
   const handleSubmit = () => {
     console.log('submit');
   };
+  const processQuery = useQuery(
+    ['processDefinition'],
+    () => getProcessDefinition
+  );
   const { isLoading, isError, isSuccess, mutate } = useMutation(() => {
+    startProcess('1', [], '1');
     console.log('mutate');
+  });
+
+  useEffect(() => {
+    if (processQuery.isSuccess) {
+      const processDefinitions = processQuery.data;
+      const processList: any[] = [];
+      processDefinitions.data.forEach((processDefinition: any) => {
+        processList.push({
+          id: processDefinition.id,
+          name: processDefinition.name,
+        });
+      });
+    }
   });
   return (
     <Box

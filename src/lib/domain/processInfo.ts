@@ -1,0 +1,14 @@
+class ProcessInfo {
+    constructor(
+        public id : string,
+        public businessKey: string,
+        public processKey: string,
+        public documentation: string,
+        public startDate: Date,
+        public state: boolean,
+        public group: string,
+        public other: string,
+  ) {}
+}
+
+export default ProcessInfo

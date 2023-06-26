@@ -24,7 +24,7 @@ const Home = () => {
       </Button>
       <Button
         linkProps={{
-          href: '/visualize',
+          href: '/visualize/test',
         }}
       >
         Visualiser un processus

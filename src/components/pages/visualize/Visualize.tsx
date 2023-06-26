@@ -1,12 +1,44 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import { useQueries } from '@tanstack/react-query';
 import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
 import GeneralInfo from './GeneralInfo';
 import Variables from './Variables';
 import Tasks from './Tasks';
 import TasksManual from './TasksManual';
+import {
+  getVariables,
+  getBpmnXml,
+  getAllTasks,
+} from '../../../lib/api/remote/processInfo';
+import ProcessInfo from '../../../lib/domain/processInfo';
 
 const Visualize = () => {
+  const location = useLocation();
+  const data: ProcessInfo = location.state?.processInfo;
+  const [variableQuery, bpmnQuery, getTasks] = useQueries({
+    queries: [
+      {
+        queryKey: ['allVariables', data.id],
+        queryFn: () => {
+          return getVariables;
+        },
+      },
+      {
+        queryKey: ['bpmnXml', data.id],
+        queryFn: () => {
+          return getBpmnXml(data.id);
+        },
+      },
+      {
+        queryKey: ['getAllTasks', data.id],
+        queryFn: () => {
+          return getAllTasks(data.id);
+        },
+      },
+    ],
+  });
   return (
     <Stack
       spacing={3}

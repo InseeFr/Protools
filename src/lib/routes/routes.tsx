@@ -6,6 +6,7 @@ import Visualize from '../../components/pages/visualize/Visualize';
 import Launch from '../../components/pages/launch/Launch';
 import UploadFile from '../../components/shared/tasks/UploadFile/UploadFile';
 import ValidateTask from '../../components/shared/tasks/ValidationTask/ValidationTask';
+import NotFound from '../../components/pages/notFound/NotFound';
 
 // Temp routing
 const routes: RouteObject[] = [
@@ -14,7 +15,7 @@ const routes: RouteObject[] = [
     element: <Home />,
   },
   {
-    path: '/visualize',
+    path: '/visualize/:id',
     element: <Visualize />,
   },
   {
@@ -28,6 +29,10 @@ const routes: RouteObject[] = [
   {
     path: '/validation-task',
     element: <ValidateTask />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ];
 

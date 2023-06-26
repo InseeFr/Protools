@@ -4,7 +4,7 @@ import { getRequest } from "../fetcher/requests";
 export function getProcessDefinitions(): Promise<any> {
     return getRequest(
         `${import.meta.env.VITE_API_BASE_URL}repository/process-definitions`,
-    );
+    ).then(response => response.json());
 }
 
 export function getProcessDefinition(key: string): Promise<any> {
