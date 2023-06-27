@@ -1,7 +1,8 @@
 
-import { getRequest } from "../fetcher/requests";
+
 import getProcessDefinition from "../../../assets/mockData/getProcessDefinition.json"
-import getVariables from "../../../assets/mockData/getVariables.json"
+import getTasks from "../../../assets/mockData/getTasks.json"
+import Task from "../../model/tasks";
 // import diagramBpmn from "../../../assets/mockData/diagram.bpmn"
 
 
@@ -37,15 +38,19 @@ export function getMockProcessDefinitions(): any[] {
 //     .then(response => response.json());
 // }
 
-// export function getAllTasks(processInstanceId: string): Promise<any> {
-//     const requestOptions = {
-//     method: 'GET',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ processInstanceId }),
-//   };
-//   return fetch(`${import.meta.env.VITE_API_BASE_URL}runtime/tasks`, requestOptions)
-//     .then(response => response.json());
-// }
+export function getAllTasks(processInstanceId: string): Promise<Task[]> {
+    console.log('Fetch tasks for ', processInstanceId);
+    const tasks: Task[] = [];
+    getTasks.data.forEach((task: any) => {
+        tasks.push({
+            id: task.id,
+            label: task.name,
+            description: task.description,
+            type: task.taskDefinitionKey
+        } as Task);
+    });
+    return Promise.resolve(tasks);
+}
 
 export const getBpmnXml = async (processDefinitionId: string) => {
     console.log('Fetch BPMN for ', processDefinitionId);

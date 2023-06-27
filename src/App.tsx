@@ -33,6 +33,11 @@ function App() {
             href: '/',
             title: 'Protools - Accueil',
           }}
+          operatorLogo={{
+            alt: 'Logo Insee',
+            imgUrl: '/insee.png',
+            orientation: 'vertical',
+          }}
           quickAccessItems={[
             {
               iconId: 'fr-icon-add-circle-line',
@@ -55,8 +60,8 @@ function App() {
         <ErrorBoundary>
           <div
             style={{
-              margin: 'auto',
-              maxWidth: 1000,
+              // margin: 'auto',
+              // maxWidth: 1000,
               ...fr.spacing('padding', { topBottom: '10v' }),
             }}
           >

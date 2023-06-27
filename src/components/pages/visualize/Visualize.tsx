@@ -3,17 +3,18 @@ import { Stack, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
+// eslint-disable-next-line import/extensions
 import BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
 import GeneralInfo from './GeneralInfo';
 import Variables from './Variables';
 import Tasks from './Tasks';
 import TasksManual from './TasksManual';
-import { getVariables, getAllTasks } from '../../../lib/api/remote/processInfo';
-import { getBpmnXml } from '../../../lib/api/mock/processInfo';
+import { getBpmnXml, getAllTasks } from '../../../lib/api/mock/processInfo';
 import ProcessInfo from '../../../lib/model/processInfo';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'diagram-js-minimap/assets/diagram-js-minimap.css';
+import Task from '../../../lib/model/tasks';
 
 const Visualize = () => {
   const location = useLocation();
@@ -22,13 +23,20 @@ const Visualize = () => {
   const [diagram, setDiagram] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
   const bpmnViewerRef = useRef<BpmnJS>();
+  const [tasks, setTasks] = useState<string[][]>([]);
 
-  const [bpmnQuery] = useQueries({
+  const [bpmnQuery, taskQuery] = useQueries({
     queries: [
       {
         queryKey: ['bpmnXml', data.id],
         queryFn: () => {
           return getBpmnXml(data.id);
+        },
+      },
+      {
+        queryKey: ['tasks', data.id],
+        queryFn: () => {
+          return getAllTasks(data.id);
         },
       },
     ],
@@ -40,8 +48,6 @@ const Visualize = () => {
     bpmnViewerRef.current = new BpmnJS({ container });
 
     bpmnViewerRef.current.on('import.done', (event) => {
-      const { error, warnings } = event;
-
       bpmnViewerRef.current.get('canvas').zoom('fit-viewport');
     });
 
@@ -58,17 +64,31 @@ const Visualize = () => {
     };
   }, [bpmnQuery.data, bpmnQuery.isSuccess, diagram]);
 
+  useEffect(() => {
+    if (taskQuery.isSuccess) {
+      const tasksList: string[][] = [];
+      taskQuery.data.forEach((task: Task) => {
+        tasksList.push([task.id, task.label, task.description, task.type]);
+      });
+      setTasks(tasksList);
+    }
+  }, [taskQuery.data, taskQuery.isSuccess, tasks]);
+
   if (diagram.length > 0 && rendered) {
     return (
       <Stack
-        spacing={3}
+        spacing={2}
         sx={{
           flexWrap: 'wrap',
           alignContent: 'center',
           alignItems: 'center',
         }}
       >
-        <div className="react-bpmn-diagram-container" ref={containerRef} />
+        <div
+          className="react-bpmn-diagram-container"
+          ref={containerRef}
+          style={{ width: '100%', height: '350px' }}
+        />
         <Tabs
           tabs={[
             {
@@ -114,7 +134,12 @@ const Visualize = () => {
             {
               label: 'Tâches manuelles',
               iconId: 'fr-icon-user-line',
-              content: <TasksManual bpmnTitle="Nom du bpmn ou autre titre" />,
+              content: (
+                <TasksManual
+                  bpmnTitle="Nom du bpmn ou autre titre"
+                  tasks={tasks}
+                />
+              ),
             },
           ]}
         />
