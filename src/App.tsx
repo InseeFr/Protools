@@ -28,7 +28,7 @@ function App() {
     <MuiDsfrThemeProvider>
       <QueryClientProvider client={queryClient} contextSharing>
         <Header
-          brandTop={<>INTITULE OFFICIEL</>}
+          brandTop={<>RÉPUBLIQUE FRANÇAISE</>}
           homeLinkProps={{
             href: '/',
             title: 'Protools - Accueil',
@@ -50,7 +50,7 @@ function App() {
             },
           ]}
           serviceTagline="Orchestration des protocoles d'enquêtes"
-          serviceTitle="Protools (header temporaire), j'aime pas trop l'ui personnellement"
+          serviceTitle="Protools"
         />
         <ErrorBoundary>
           <div

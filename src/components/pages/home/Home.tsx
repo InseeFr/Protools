@@ -1,10 +1,22 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
+import { Link } from 'react-router-dom';
+import ProcessInfo from '../../../lib/model/processInfo';
 // import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   // const navigate = useNavigate();
+  const processInfoTemp: ProcessInfo = {
+    id: 'id',
+    businessKey: 'businessKey',
+    processKey: 'processKey',
+    documentation: 'documentation',
+    startDate: new Date(),
+    state: true,
+    group: 'group',
+    other: 'otherInfo',
+  };
   return (
     <Stack
       spacing={2}
@@ -22,12 +34,15 @@ const Home = () => {
       >
         Lancer un processus
       </Button>
-      <Button
-        linkProps={{
-          href: '/visualize/test',
-        }}
-      >
-        Visualiser un processus
+      <Button>
+        <Link
+          to="/visualize/test"
+          state={{
+            processInfo: processInfoTemp,
+          }}
+        >
+          Visualiser un processus
+        </Link>
       </Button>
       <Button
         linkProps={{
