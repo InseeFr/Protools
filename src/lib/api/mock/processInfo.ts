@@ -6,7 +6,7 @@ import Task from "../../model/tasks";
 // import diagramBpmn from "../../../assets/mockData/diagram.bpmn"
 
 
-export function getMockProcessDefinitions(): any[] {
+export function getMockProcessDefinitions(): Promise<any[]> {
     const processLaunchInfo: any[] = [];
     getProcessDefinition.data.forEach((processDefinition: any) => { 
         processLaunchInfo.push({
@@ -14,7 +14,7 @@ export function getMockProcessDefinitions(): any[] {
             name: processDefinition.name
         });   
     });
-    return processLaunchInfo;
+    return Promise.resolve(processLaunchInfo);
 }
 
 

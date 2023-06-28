@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MuiDsfrThemeProvider from '@codegouvfr/react-dsfr/mui';
 import { Header } from '@codegouvfr/react-dsfr/Header';
 import { fr } from '@codegouvfr/react-dsfr';
-import { Box, Typography } from '@mui/material';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
 import Router from './lib/routes/router';
 
@@ -27,6 +27,7 @@ function App() {
   return (
     <MuiDsfrThemeProvider>
       <QueryClientProvider client={queryClient} contextSharing>
+        <ReactQueryDevtools initialIsOpen={false} />
         <Header
           brandTop={<>RÉPUBLIQUE FRANÇAISE</>}
           homeLinkProps={{

@@ -5,36 +5,44 @@ import { Select } from '@codegouvfr/react-dsfr/Select';
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { startProcess } from '../../../lib/api/remote/processExecution';
-import { getProcessDefinition } from '../../../lib/api/remote/processInfo';
 import { getMockProcessDefinitions } from '../../../lib/api/mock/processInfo';
-import { get } from 'http';
 
 const Launch = () => {
-  const [processes, setProcesses] = useState(getMockProcessDefinitions());
-  const handleSubmit = () => {
-    console.log('submit');
-  };
+  const [processes, setProcesses] = useState<Array<{ id: any; name: any }>>([]);
+  const [processKey, setProcessKey] = useState('');
+  const [businessKey, setBusinessKey] = useState('');
+
   const processQuery = useQuery(
     ['processDefinition'],
-    () => getProcessDefinition
+    getMockProcessDefinitions
   );
-  const { isLoading, isError, isSuccess, mutate } = useMutation(() => {
-    startProcess('1', [], '1');
-    console.log('mutate');
-  });
+  const { isLoading, isError, isSuccess, mutate } = useMutation(
+    ['startProcess'],
+    () => startProcess(processKey, [], businessKey)
+  );
 
   useEffect(() => {
     if (processQuery.isSuccess) {
       const processDefinitions = processQuery.data;
-      const processList: any[] = [];
-      processDefinitions.data.forEach((processDefinition: any) => {
-        processList.push({
-          id: processDefinition.id,
-          name: processDefinition.name,
-        });
-      });
+      console.log(processDefinitions);
+      const processList = processDefinitions.map((processDefinition: any) => ({
+        id: processDefinition.id,
+        name: processDefinition.name,
+      }));
+      setProcesses(processList);
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [processQuery.isSuccess]);
+
+  const handleStartProcess = () => {
+    console.log(
+      'start process with key',
+      processKey,
+      'and business key',
+      businessKey
+    );
+    mutate();
+  };
   return (
     <Box
       sx={{
@@ -52,14 +60,20 @@ const Launch = () => {
             <Select
               hint="Protocole d'enquête"
               label="BPMN à lancer"
-              nativeSelectProps={{}}
+              nativeSelectProps={{
+                onChange: (event) => setProcessKey(event.target.value),
+                value: processKey,
+              }}
             >
               <React.Fragment key=".0">
                 <option disabled hidden selected value="">
                   Selectionnez une option
                 </option>
-                <option value="1">BPMN 1</option>
-                <option value="2">BPMN 2</option>
+                {processes.map((process) => (
+                  <option key={process.id} value={process.id}>
+                    {process.name}
+                  </option>
+                ))}
               </React.Fragment>
             </Select>
 
@@ -67,14 +81,15 @@ const Launch = () => {
               hintText="Text aide à la saisie de la business key"
               label="Label champs de saisie"
               nativeInputProps={{
-                onChange: () => {
-                  console.log('change');
+                onChange: (event) => {
+                  setBusinessKey(event.target.value);
                 },
+                value: businessKey,
               }}
             />
             <Button
               iconId="fr-icon-checkbox-circle-line"
-              onClick={handleSubmit}
+              onClick={handleStartProcess}
             >
               Valider
             </Button>
