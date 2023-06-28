@@ -5,7 +5,9 @@ class Task {
     public id: string,
     public label: string,
     public description: string,
-    public type: TaskType,
+    public key: string,
+    public type?: TaskType,
+    
   ) {}
 }
 

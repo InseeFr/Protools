@@ -46,7 +46,7 @@ export function getAllTasks(processInstanceId: string): Promise<Task[]> {
             id: task.id,
             label: task.name,
             description: task.description,
-            type: task.taskDefinitionKey
+            key: task.taskDefinitionKey
         } as Task);
     });
     return Promise.resolve(tasks);

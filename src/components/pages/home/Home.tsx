@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 import { Link } from 'react-router-dom';
 import ProcessInfo from '../../../lib/model/processInfo';
+import OnGoingProcess from './OngoingProcess';
 // import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -11,12 +12,24 @@ const Home = () => {
     id: 'id',
     businessKey: 'businessKey',
     processKey: 'processKey',
-    documentation: 'documentation',
+    documentation: 'documentation exemple (description du processus)',
     startDate: new Date(),
     state: true,
     group: 'group',
     other: 'otherInfo',
   };
+
+  const processArray = [
+    [
+      processInfoTemp.processKey,
+      processInfoTemp.businessKey,
+      processInfoTemp.documentation,
+      processInfoTemp.startDate.toLocaleDateString('en-GB'),
+      processInfoTemp.state ? 'En cours' : 'Arrêté',
+      processInfoTemp.other,
+    ],
+  ];
+
   return (
     <Stack
       spacing={2}
@@ -58,6 +71,10 @@ const Home = () => {
       >
         TEMP : Tâche validation
       </Button>
+      <OnGoingProcess
+        bpmnTitle="Liste des processus en cours"
+        processes={processArray}
+      />
     </Stack>
   );
 };

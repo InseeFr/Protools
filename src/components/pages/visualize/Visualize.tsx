@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
@@ -54,7 +55,6 @@ const Visualize = () => {
     if (bpmnQuery.isSuccess) {
       setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
-      console.log('BPMN : ', bpmnXml);
       bpmnViewerRef.current?.importXML(bpmnXml);
       setRendered(true);
     }
@@ -62,17 +62,17 @@ const Visualize = () => {
     return () => {
       bpmnViewerRef.current.destroy();
     };
-  }, [bpmnQuery.data, bpmnQuery.isSuccess, diagram]);
+  }, [bpmnQuery.isSuccess, bpmnQuery.data, diagram]);
 
   useEffect(() => {
     if (taskQuery.isSuccess) {
       const tasksList: string[][] = [];
       taskQuery.data.forEach((task: Task) => {
-        tasksList.push([task.id, task.label, task.description, task.type]);
+        tasksList.push([task.id, task.label, task.description, task.key]);
       });
       setTasks(tasksList);
     }
-  }, [taskQuery.data, taskQuery.isSuccess, tasks]);
+  }, [taskQuery.isSuccess]);
 
   if (diagram.length > 0 && rendered) {
     return (
@@ -136,7 +136,7 @@ const Visualize = () => {
               iconId: 'fr-icon-user-line',
               content: (
                 <TasksManual
-                  bpmnTitle="Nom du bpmn ou autre titre"
+                  bpmnTitle="Liste des tâches manuelles en attente"
                   tasks={tasks}
                 />
               ),
