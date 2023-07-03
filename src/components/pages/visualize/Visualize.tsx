@@ -17,7 +17,11 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 import Task from '../../../lib/model/tasks';
 
-const Visualize = () => {
+interface VisualizeProps {
+  id: string;
+}
+const Visualize = (props: VisualizeProps) => {
+  const { id } = props;
   const location = useLocation();
   const data: ProcessInfo = location.state?.processInfo;
   const [rendered, setRendered] = useState<boolean>(false);
@@ -97,7 +101,7 @@ const Visualize = () => {
               content: (
                 <GeneralInfo
                   date="date"
-                  processID="processID"
+                  processID={id}
                   documentation="documentation"
                   activeTask="activeTask"
                   processKey="processKey"

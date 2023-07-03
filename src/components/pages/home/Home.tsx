@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 import { Link } from 'react-router-dom';
@@ -16,19 +16,8 @@ const Home = () => {
     startDate: new Date(),
     state: true,
     group: 'group',
-    other: 'otherInfo',
+    other: 'test',
   };
-
-  const processArray = [
-    [
-      processInfoTemp.processKey,
-      processInfoTemp.businessKey,
-      processInfoTemp.documentation,
-      processInfoTemp.startDate.toLocaleDateString('en-GB'),
-      processInfoTemp.state ? 'En cours' : 'Arrêté',
-      processInfoTemp.other,
-    ],
-  ];
 
   return (
     <Stack
@@ -71,10 +60,7 @@ const Home = () => {
       >
         TEMP : Tâche validation
       </Button>
-      <OnGoingProcess
-        bpmnTitle="Liste des processus en cours"
-        processes={processArray}
-      />
+      <OnGoingProcess processes={[processInfoTemp]} />
     </Stack>
   );
 };
