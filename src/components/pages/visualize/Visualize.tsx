@@ -28,7 +28,7 @@ const Visualize = (props: VisualizeProps) => {
   const [diagram, setDiagram] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
   const bpmnViewerRef = useRef<BpmnJS>();
-  const [tasks, setTasks] = useState<string[][]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const [bpmnQuery, taskQuery] = useQueries({
     queries: [
@@ -70,9 +70,14 @@ const Visualize = (props: VisualizeProps) => {
 
   useEffect(() => {
     if (taskQuery.isSuccess) {
-      const tasksList: string[][] = [];
+      const tasksList: Task[] = [];
       taskQuery.data.forEach((task: Task) => {
-        tasksList.push([task.id, task.label, task.description, task.key]);
+        tasksList.push({
+          id: task.id,
+          label: task.label,
+          description: task.description,
+          key: task.key,
+        });
       });
       setTasks(tasksList);
     }
@@ -138,12 +143,7 @@ const Visualize = (props: VisualizeProps) => {
             {
               label: 'Tâches manuelles',
               iconId: 'fr-icon-user-line',
-              content: (
-                <TasksManual
-                  bpmnTitle="Liste des tâches manuelles en attente"
-                  tasks={tasks}
-                />
-              ),
+              content: <TasksManual tasks={tasks} />,
             },
           ]}
         />
