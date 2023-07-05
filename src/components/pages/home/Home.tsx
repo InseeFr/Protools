@@ -1,7 +1,6 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
-import { Link } from 'react-router-dom';
 import ProcessInfo from '../../../lib/model/processInfo';
 import OnGoingProcess from './OngoingProcess';
 // import { useNavigate } from 'react-router-dom';
