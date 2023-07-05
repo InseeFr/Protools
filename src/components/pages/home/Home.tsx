@@ -29,22 +29,14 @@ const Home = () => {
       }}
     >
       <Typography variant="h1">Home</Typography>
+
+      <OnGoingProcess processes={[processInfoTemp]} />
       <Button
         linkProps={{
           href: '/launch',
         }}
       >
         Lancer un processus
-      </Button>
-      <Button>
-        <Link
-          to="/visualize/test"
-          state={{
-            processInfo: processInfoTemp,
-          }}
-        >
-          Visualiser un processus
-        </Link>
       </Button>
       <Button
         linkProps={{
@@ -60,7 +52,6 @@ const Home = () => {
       >
         TEMP : Tâche validation
       </Button>
-      <OnGoingProcess processes={[processInfoTemp]} />
     </Stack>
   );
 };
