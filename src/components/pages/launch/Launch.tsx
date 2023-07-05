@@ -16,9 +16,8 @@ const Launch = () => {
     ['processDefinition'],
     getMockProcessDefinitions
   );
-  const { isLoading, isError, isSuccess, mutate } = useMutation(
-    ['startProcess'],
-    () => startProcess(processKey, [], businessKey)
+  const { mutate } = useMutation(['startProcess'], () =>
+    startProcess(processKey, [], businessKey)
   );
 
   useEffect(() => {

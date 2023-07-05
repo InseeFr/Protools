@@ -16,7 +16,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '/visualize/:id',
-    element: <Visualize />,
+    element: <Visualize id="" />,
   },
   {
     path: '/launch',

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Stack, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
@@ -27,6 +27,7 @@ const Visualize = (props: VisualizeProps) => {
   const [rendered, setRendered] = useState<boolean>(false);
   const [diagram, setDiagram] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
+  // @ts-expect-error BpmnJS is not typed
   const bpmnViewerRef = useRef<BpmnJS>();
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -52,7 +53,7 @@ const Visualize = (props: VisualizeProps) => {
 
     bpmnViewerRef.current = new BpmnJS({ container });
 
-    bpmnViewerRef.current.on('import.done', (event) => {
+    bpmnViewerRef.current.on('import.done', () => {
       bpmnViewerRef.current.get('canvas').zoom('fit-viewport');
     });
 

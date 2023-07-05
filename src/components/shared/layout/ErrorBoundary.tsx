@@ -10,11 +10,12 @@ class ErrorBoundary extends React.Component {
     console.error(error);
   }
 
-  static getDerivedStateFromError(error: unknown) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
   render() {
+    // eslint-disable-next-line react/destructuring-assignment
     if (this.state.hasError) {
       return (
         <Box sx={{ marginTop: 2 }}>
@@ -26,7 +27,7 @@ class ErrorBoundary extends React.Component {
     }
 
     // @ts-expect-error - children is a prop
-    // eslint-disable-next-line react/prop-types
+    // eslint-disable-next-line react/prop-types, react/destructuring-assignment
     return this.props.children;
   }
 }

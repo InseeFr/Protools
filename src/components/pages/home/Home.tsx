@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 import ProcessInfo from '../../../lib/model/processInfo';

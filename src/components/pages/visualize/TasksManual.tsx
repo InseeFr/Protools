@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import { FiUserPlus } from 'react-icons/fi';
 import { Box } from '@mui/material';

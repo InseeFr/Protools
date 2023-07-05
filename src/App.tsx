@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MuiDsfrThemeProvider from '@codegouvfr/react-dsfr/mui';
 import { Header } from '@codegouvfr/react-dsfr/Header';
