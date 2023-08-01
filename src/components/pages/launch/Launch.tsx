@@ -47,7 +47,7 @@ const Launch = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         width: '90%',
       }}
     >
@@ -86,12 +86,21 @@ const Launch = () => {
                 value: businessKey,
               }}
             />
-            <Button
-              iconId="fr-icon-checkbox-circle-line"
-              onClick={handleStartProcess}
-            >
-              Valider
-            </Button>
+            <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
+              <Button
+                iconId="fr-icon-arrow-left-s-line"
+                onClick={() => window.history.back()}
+                priority="secondary"
+              >
+                Retour
+              </Button>
+              <Button
+                iconId="fr-icon-checkbox-circle-line"
+                onClick={handleStartProcess}
+              >
+                Valider
+              </Button>
+            </Stack>
           </Stack>
         </CardContent>
       </Card>
