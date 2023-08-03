@@ -41,18 +41,11 @@ function App() {
           }}
           quickAccessItems={[
             {
-              iconId: 'fr-icon-add-circle-line',
+              iconId: 'fr-icon-admin-line',
               linkProps: {
-                href: '/launch',
+                href: '/',
               },
-              text: 'Lancer',
-            },
-            {
-              iconId: 'fr-icon-todo-line',
-              linkProps: {
-                href: '/visualize',
-              },
-              text: 'Visualiser',
+              text: 'Se connecter',
             },
           ]}
           serviceTagline="Orchestration des protocoles d'enquêtes"

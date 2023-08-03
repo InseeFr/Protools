@@ -77,8 +77,8 @@ const Launch = () => {
             </Select>
 
             <Input
-              hintText="Text aide à la saisie de la business key"
-              label="Label champs de saisie"
+              hintText="Saisir la Business key"
+              label="Identifiant métier"
               nativeInputProps={{
                 onChange: (event) => {
                   setBusinessKey(event.target.value);

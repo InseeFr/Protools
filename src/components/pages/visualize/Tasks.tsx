@@ -10,16 +10,22 @@ const Tasks = (props: TasksProps) => {
       caption={bpmnTitle}
       data={[
         [
-          'idabce1',
-          'Lorem ipsum dolor sit amet consectetur adipisicin',
-          'Lorem ipsum dolor sit amet consectetur',
-          'Lorem ipsum dolor sit amet consectetur',
+          '6944f428-11a0-11ee-8df9-005056985cf7',
+          'Renseigner les métadonnées de processus',
+          'Manuelle',
+          'Tache de chargement du fichier de contexte pour initialiser les métadonnées de processus',
+        ],
+        [
+          'idTimer1',
+          "Timer d'attente",
+          'Timer',
+          'Déclemchement de la suivante à une date donnée',
         ],
         [
           'idabce2',
-          'Lorem ipsum dolor sit amet consectetur adipisicin',
-          'Lorem ipsum dolor sit amet consectetur',
-          'Lorem ipsum dolor sit amet consectetur',
+          "Valider l'échantillon dans Opale",
+          'Manuelle',
+          "Tache de validation de l'échantillon dans Opale (vérification de la cohérence des données saisies)",
         ],
       ]}
       headers={['id', 'Libellé', 'Type', 'Documentation']}

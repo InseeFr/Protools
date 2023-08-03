@@ -36,7 +36,7 @@ const UploadFile = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         width: '90%',
       }}
     >
