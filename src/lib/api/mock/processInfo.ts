@@ -3,11 +3,13 @@
 import getProcessDefinition from "../../../assets/mockData/getProcessDefinition.json"
 import getTasks from "../../../assets/mockData/getTasks.json"
 import Task from "../../model/tasks";
+import { deleteDuplicatesByKey } from "../../utils/processUtils";
 // import diagramBpmn from "../../../assets/mockData/diagram.bpmn"
 
 
 export function getMockProcessDefinitions(): Promise<any[]> {
     const processLaunchInfo: any[] = [];
+    deleteDuplicatesByKey(getProcessDefinition);
     getProcessDefinition.data.forEach((processDefinition: any) => { 
         processLaunchInfo.push({
             key: processDefinition.key,

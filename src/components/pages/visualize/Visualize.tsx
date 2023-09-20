@@ -97,7 +97,7 @@ const Visualize = (props: VisualizeProps) => {
         <div
           className="react-bpmn-diagram-container"
           ref={containerRef}
-          style={{ width: '100%', height: '350px' }}
+          style={{ width: '100%', height: '450px' }}
         />
         <Tabs
           tabs={[
