@@ -1,4 +1,4 @@
-const getConfig = async () => {
+export const getConfig = async () => {
   fetch("/configuration.json")
       .then(response => { response.json() })
       .then(data => {
@@ -7,4 +7,11 @@ const getConfig = async () => {
       })
 };
 
-export default getConfig;
+export const getOidcFile = async () => { 
+    fetch("/oidc.json")
+        .then(response => { response.json() })
+        .then(data => {
+            console.log(data);
+            return data;
+        })
+};

@@ -60,7 +60,19 @@ const Visualize = (props: VisualizeProps) => {
     if (bpmnQuery.isSuccess) {
       setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
-      bpmnViewerRef.current?.importXML(bpmnXml);
+      bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
+        const overlays = bpmnViewerRef.current?.get('overlays');
+        overlays.add('uploadContext', 'note', {
+          position: {
+            bottom: 18,
+            right: 18,
+          },
+          scale: {
+            min: 1.2,
+          },
+          html: '<div class="diagram-note">🦊</div>',
+        });
+      });
       setRendered(true);
     }
 

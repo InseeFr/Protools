@@ -1,25 +1,92 @@
-// export const buildOidcConfiguration = ({ oidcConf }) => {
-//   const { origin } = window.location;
-//   return {
-//     ...oidcConf,
-//     redirect_uri: `${origin}/orchestration-protocole-enquete/authentication-v2/callback`,
-//     post_logout_redirect_uri: `${origin}/`,
-//     silent_redirect_uri: `${origin}/orchestration-protocole-enquete/authentication-v2/silent_callback`,
-//   };
-// };
 
-// export const buildOidcConfigurationFromKeycloak = ({ keycloakConf }) => {
-//   const { origin } = window.location;
-//   const { realm, 'auth-server-url': authServer, resource } = keycloakConf;
-//   return {
-//     authority: `${authServer}/realms/${realm}`,
-//     client_id: resource,
-//     redirect_uri: `${origin}/orchestration-protocole-enquete/authentication-v2/callback`,
-//     response_type: 'code',
-//     post_logout_redirect_uri: `${origin}/`,
-//     scope: 'openid profile email',
-//     silent_redirect_uri: `${origin}/orchestration-protocole-enquete/authentication-v2/silent_callback`,
-//     automaticSilentRenew: true,
-//     loadUserInfo: true,
-//   };
-// };
+import Keycloak from 'keycloak-js';
+
+export const createOidcClient = async (evtUserActivity: any ,
+  identityProvider: string,): Promise<any> => { 
+  const minvaliditysecond = 300; // 5min minimum validity
+
+
+   const keycloakInstance = new Keycloak(`${window.location.origin}/oidc.json`);
+  // const keycloakInstance = new Keycloak({
+  //   url: oidcConfig.url,
+  //   realm: oidcConfig.realm,
+  //   clientId: oidcConfig.clientId
+  // });
+
+  const isAuthenticated = await keycloakInstance
+    .init({
+      onLoad: "check-sso",
+      silentCheckSsoRedirectUri: `${window.location.origin}/silent-sso.html`,
+      checkLoginIframe: false,
+    })
+    .catch(error => error);
+
+  const login = async () => {
+    try {
+      await keycloakInstance.login({ idpHint: identityProvider, redirectUri: window.location.href });
+    } catch (error) {
+    console.error(error);
+  }
+  };
+
+  const loadUserInfo = async () => {
+    const userinfo = await keycloakInstance.loadUserInfo();
+    // @ts-expect-error => loadUserInfo() as a return type of {}
+    return { ...userinfo, id: userinfo.preferred_username };
+  };
+
+  if (!isAuthenticated) {
+    return {
+      isUserLoggedIn: false,
+      login,
+    };
+  }
+
+  const oidcClient = {
+    isUserLoggedIn: true,
+    accessToken: keycloakInstance.token,
+    oidcUser: await loadUserInfo(),
+    logout: async ( redirectTo: string ) => {
+      await keycloakInstance.logout({
+        redirectUri: redirectTo || window.location.origin,
+      });
+
+      return new Promise(() => {});
+    },
+  };
+
+  (function callee() {
+    // TODO: write a correct object checking
+    const msbeforeexpiration = keycloakInstance.tokenParsed ? (keycloakInstance.tokenParsed.exp? keycloakInstance.tokenParsed.exp * 1000 - Date.now(): 0): 0;
+
+    setTimeout(
+      async () => {
+        console.log(
+          `Oidc access token will expire in ${minvaliditysecond} seconds, waiting for user activity before renewing`,
+        );
+
+        await evtUserActivity();
+
+        console.log("user activity detected. refreshing access token now");
+
+        const error = await keycloakInstance.updateToken(-1).then(
+          () => undefined,
+          error => error,
+        );
+
+        if (error) {
+          console.log("can't refresh oidc access token, getting a new one");
+          //note: never resolves (?)
+          await login();
+        }
+
+        oidcClient.accessToken = keycloakInstance.token;
+
+        callee();
+      },
+      msbeforeexpiration - minvaliditysecond * 1000,
+    );
+  })();
+
+  return oidcClient;
+};

@@ -1,0 +1,8 @@
+{
+  "realm": "${KC_REALM}",
+  "auth-server-url": "${KC_URL}",
+  "ssl-required": "external",
+  "resource": "${KC_CLIENT}",
+  "clientId": true,
+  "confidential-port": 0
+}
