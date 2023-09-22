@@ -4,6 +4,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Select } from '@codegouvfr/react-dsfr/Select';
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { ToggleSwitchGroup } from '@codegouvfr/react-dsfr/ToggleSwitchGroup';
+import ReactJson from 'react-json-view';
 import { startProcess } from '../../../lib/api/remote/processExecution';
 import { getMockProcessDefinitions } from '../../../lib/api/mock/processInfo';
 
@@ -11,6 +13,8 @@ const Launch = () => {
   const [processes, setProcesses] = useState<Array<{ id: any; name: any }>>([]);
   const [processKey, setProcessKey] = useState('');
   const [businessKey, setBusinessKey] = useState('');
+  const [isContextOpen, setIsContextOpen] = useState(false);
+  const [files, setFiles] = useState('');
 
   const processQuery = useQuery(
     ['processDefinition'],
@@ -42,6 +46,7 @@ const Launch = () => {
     );
     mutate();
   };
+
   return (
     <Box
       sx={{
@@ -86,6 +91,43 @@ const Launch = () => {
                 value: businessKey,
               }}
             />
+            <ToggleSwitchGroup
+              toggles={[
+                {
+                  defaultChecked: false,
+                  inputTitle: 'context-toggle-1',
+                  label: 'Télécharger le contexte au lancement',
+                  onChange: () => setIsContextOpen(!isContextOpen),
+                },
+              ]}
+            />
+            {isContextOpen && (
+              <Stack spacing={2} sx={{ textAlign: 'start', paddingBottom: 3 }}>
+                <Typography variant="caption">
+                  Formats acceptés : json - Vous pourrez visualiser le fichier
+                  après l&apos;avoir déposé
+                </Typography>
+                <input
+                  type="file"
+                  accept="application/json"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    const reader = new FileReader();
+                    console.log('File', file);
+                    if (file) {
+                      reader.readAsText(file, 'UTF-8');
+                      reader.onload = (event: ProgressEvent<FileReader>) => {
+                        const { result } = event.target as FileReader;
+                        const json = JSON.parse(result as string);
+                        setFiles(json);
+                        console.log('JSON', json);
+                      };
+                    }
+                  }}
+                />
+                {files && <ReactJson src={JSON.parse(JSON.stringify(files))} />}
+              </Stack>
+            )}
             <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
               <Button
                 iconId="fr-icon-arrow-left-s-line"
