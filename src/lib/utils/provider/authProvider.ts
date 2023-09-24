@@ -17,7 +17,7 @@ interface IOidcClient {
 
 export const AuthContext = createContext<IOidcClient | null>(null);
 
-const AuthProvider = ({ authType, identityProvider, children }: AuthProviderProps) => {
+export const AuthProvider = ({ authType, identityProvider, children }: AuthProviderProps) => {
   const [oidcClient, setOidcClient] = useState<IOidcClient | null>(null);
 
   useEffect(() => {
@@ -48,14 +48,13 @@ const AuthProvider = ({ authType, identityProvider, children }: AuthProviderProp
 
     if (!oidcClient.isUserLoggedIn) {
       if (authType === "none") {
-        return <Typography variant="h2">{"Cas sans oidc"}</Typography>;
+        return <Typography variant="h2" > { "Cas sans oidc"} < /Typography>;
       }
     } else {
       oidcClient.login();
       return <CircularProgress />;
     }
 
-    return <AuthContext.Provider value={contextOidc || { isUserLoggedIn: false, login: () => {} }}>{children}</AuthContext.Provider>;
-};
-
-export default AuthProvider;
+    return <AuthContext.Provider value={ contextOidc || { isUserLoggedIn: false, login: () => { } } }> { children } < /AuthContext.Provider>;
+  };
+}

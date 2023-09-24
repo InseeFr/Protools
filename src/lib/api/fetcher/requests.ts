@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useContext } from 'react';
 import fetcher from './fetcher';
+import { ConfigContext } from '../../../App';
 
-export const getRequest = (url: string) => fetcher(url, 'GET', null);
 
-export const postRequest = (url: string, body: any) =>
-  fetcher(url, 'POST', body);
+const { apiUrl } = useContext(ConfigContext);
 
-export const putRequest = (url: string, body: any) => fetcher(url, 'PUT', body);
+export const getRequest = (url: string, token: string) => fetcher(`${apiUrl}${url}`, 'GET', token, null);
 
-export const deleteRequest = (url: string) => fetcher(url, 'DELETE', null);
+export const postRequest = (url: string, token:string, body: any) =>
+  fetcher(`${apiUrl}${url}`, 'POST',token, body);
+
+export const putRequest = (url: string, token:string, body: any) => fetcher(`${apiUrl}${url}`, 'PUT',token, body);
+
+export const deleteRequest = (url: string, token:string) => fetcher(`${apiUrl}${url}`, 'DELETE', token, null);
