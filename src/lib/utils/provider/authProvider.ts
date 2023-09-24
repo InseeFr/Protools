@@ -1,62 +1,61 @@
-import { useState, useEffect, useMemo, ReactNode } from "react";
+import { useState, useEffect, useMemo, ReactNode, createContext } from "react";
 import { createOidcClient } from "../auth/oidcConfig";
 import { evtUserActivity } from "../events/evtUserActivity";
 import { CircularProgress, Typography } from "@mui/material";
+import React from "react";
 
 interface AuthProviderProps {
-children: ReactNode;
+  authType: string;
+  identityProvider: string;
+  children: ReactNode;
 }
 
-const AuthProvider = (authType: string, identityProvider: string, children:AuthProviderProps) => {
-// TODO : Create interface for oidcClient
-    const [oidcClient, setOidcClient] = useState({
-        isUserLoggedIn: true,
-        accesstoken: '',
-        oidcuser: null,
-        logout: async ( redirectTo: string ) => {
-            return new Promise(() => { });
-        },
-        login: async () => { 
-                return new Promise(() => { });
-        }
-    });
+interface IOidcClient {
+  isUserLoggedIn: boolean;
+  login: () => void;
+}
 
+export const AuthContext = createContext<IOidcClient | null>(null);
 
-    useEffect(() => {
-        const loadOidcConf = async () => {
-            const oidcClientKC = await createOidcClient(
-                evtUserActivity,
-                identityProvider,
-            );
-            return oidcClientKC;
-            };
+const AuthProvider = ({ authType, identityProvider, children }: AuthProviderProps) => {
+  const [oidcClient, setOidcClient] = useState<IOidcClient | null>(null);
 
-            const loadConf = async () => {
-                if (authType === 'oidc') {
-                const conf = await loadOidcConf();
-                setOidcClient(conf);
-                } ;
-            };
+  useEffect(() => {
+    const loadOidcConf = async () => {
+      const oidcClientKC = await createOidcClient(evtUserActivity, identityProvider);
+      return oidcClientKC;
+    };
 
-        if (authType && oidcClient === null) loadConf();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authType]);
+    const loadConf = async () => {
+      if (authType === "oidc") {
+        const conf = await loadOidcConf();
+        setOidcClient(conf);
+      }
+    };
 
-    const contextOidc = useMemo(() => oidcClient, [oidcClient]);
-
-    if (oidcClient === null) {
-        return <CircularProgress />;
+    if (authType && oidcClient === null) {
+      loadConf();
     }
-    if (!oidcClient?.isUserLoggedIn) {
-        if (authType === 'none') {
-            return <Typography variant="h2">{"Cas sans oidc"}</Typography>;
-        }
-        } else {
-        oidcClient.login();
-        return <CircularProgress />;
+  }, [authType, oidcClient, identityProvider]);
+
+  const contextOidc = useMemo(() => oidcClient, [oidcClient]);
+
+  if (oidcClient === null) {
+
+    if (!oidcClient) {
+      return <CircularProgress />;
     }
 
-    return <AuthContext.Provider value={contextOidc}>{children}</AuthContext.Provider>;
+    if (!oidcClient.isUserLoggedIn) {
+      if (authType === "none") {
+        return <Typography variant="h2">{"Cas sans oidc"}</Typography>;
+      }
+    } else {
+      oidcClient.login();
+      return <CircularProgress />;
+    }
+
+    return <AuthContext.Provider value={contextOidc || { isUserLoggedIn: false, login: () => {} }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

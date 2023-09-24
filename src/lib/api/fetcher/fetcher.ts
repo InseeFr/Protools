@@ -1,20 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const fetcher = (url: string, method: string, body: any) => {
-  const headers = {
-    Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
+const fetcher = async (url: string, method: string, token: string, body: any) => {
+   const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
   };
-  return fetch(url, {
-    headers,
-    method,
-    body: body ? JSON.stringify(body) : null,
-  })
-    .then((r) => {
-      if (r.ok) return r.json();
-      throw new Error(`Error fetching data: ${r.statusText}`);
-    })
-    .catch((e) => {
-      throw new Error(`Fetch error for ${url} with the following error: ${e}`);
+
+  try {
+    const response = await fetch(url, {
+      headers: token ? { ...headers, Authorization: `Bearer ${token}` } : headers,
+      method,
+      body: body ? JSON.stringify(body) : null,
     });
+    const { ok, status, statusText } = response;
+    if (ok) {
+      try {
+        const data = await response.json();
+        return { data, status, statusText };
+      } catch (e: any) {
+        return { error: true, status, statusText: e.message };
+      }
+    } else {
+      return { error: true, status, statusText };
+    }
+  } catch (e: any) {
+    // network error
+    return { error: true, statusText: e.message };
+  }
 };
 export default fetcher;
