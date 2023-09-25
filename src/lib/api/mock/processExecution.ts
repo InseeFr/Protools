@@ -1,5 +1,5 @@
 import { postRequest } from "../fetcher/requests";
-import { ConfigContext } from "../../../App";
+import { ConfigContext } from "../../utils/provider/configProvider";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/provider/authProvider";
 

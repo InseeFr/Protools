@@ -2,7 +2,7 @@
 import { getRequest, postRequest } from "../fetcher/requests";
 import { AuthContext } from "../../utils/provider/authProvider";
 import { useContext } from "react";
-import { ConfigContext } from "../../../App";
+import { ConfigContext } from "../../utils/provider/configProvider";
 
 
 const { apiUrl } = useContext(ConfigContext);
