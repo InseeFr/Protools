@@ -1,17 +1,11 @@
-import {
-  useState,
-  useEffect,
-  ReactNode,
-  createContext,
-  useMemo,
-  useContext,
-} from 'react';
+import { useState, useEffect, ReactNode, createContext, useMemo } from 'react';
 import { createOidcClient } from '../auth/oidcConfig';
 import { evtUserActivity } from '../events/evtUserActivity';
 import { CircularProgress, Typography } from '@mui/material';
-import { ConfigContext, ConfigContextType } from './configProvider';
 
 interface AuthProviderProps {
+  authType: string;
+  identityProvider: string;
   children: ReactNode;
 }
 
@@ -23,31 +17,33 @@ interface IOidcClient {
 
 export const AuthContext = createContext<IOidcClient | null>(null);
 
-const configContext: ConfigContextType = useContext(ConfigContext);
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({
+  authType,
+  identityProvider,
+  children,
+}: AuthProviderProps) => {
   const [oidcClient, setOidcClient] = useState<IOidcClient | null>(null);
 
   useEffect(() => {
     const loadOidcConf = async () => {
       const oidcClientKC = await createOidcClient(
         evtUserActivity,
-        configContext.identityProvider
+        identityProvider
       );
       return oidcClientKC;
     };
 
     const loadConf = async () => {
-      if (configContext.keycloakAuth === 'oidc') {
+      if (authType === 'oidc') {
         const conf = await loadOidcConf();
         setOidcClient(conf);
       }
     };
 
-    if (configContext.keycloakAuth === 'oidc' && oidcClient === null) {
+    if (authType === 'oidc' && oidcClient === null) {
       loadConf();
     }
-  }, [configContext.keycloakAuth, oidcClient, configContext.identityProvider]);
+  }, [authType, oidcClient, identityProvider]);
 
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
@@ -57,7 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       <Typography variant="h2">OIDC client is null</Typography>
     </>
   ) : !oidcClient.isUserLoggedIn ? (
-    configContext.keycloakAuth === 'none' ? (
+    authType === 'none' ? (
       <Typography variant="h2">Cas sans oidc</Typography>
     ) : (
       (() => {
