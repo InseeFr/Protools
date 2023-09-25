@@ -1,66 +1,57 @@
 
-import { getRequest } from "../fetcher/requests";
+import { getRequest, postRequest } from "../fetcher/requests";
+import { AuthContext } from "../../utils/provider/authProvider";
+import { useContext } from "react";
+import { ConfigContext } from "../../utils/provider/configProvider";
+
+
+const { apiUrl } = useContext(ConfigContext);
+const oidcClient = useContext(AuthContext);
 
 export function getProcessDefinitions(): Promise<any> {
     return getRequest(
-        `${import.meta.env.VITE_API_BASE_URL}repository/process-definitions`,
-    ).then(response => response.json());
+        `${apiUrl}repository/process-definitions`,
+        oidcClient?.accessToken || '',
+    );
 }
 
 export function getProcessDefinition(key: string): Promise<any> {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ key }),
-  };
-  return fetch(`${import.meta.env.VITE_API_BASE_URL}repository/process-definitions`, requestOptions)
-    .then(response => response.json());
+  
+  return postRequest(`${apiUrl}repository/process-definitions`,  oidcClient?.accessToken || '',JSON.stringify({ key }));
 }
 
 export function getProcessInstance(businessKey: string): Promise<any> {
-    const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ businessKey }),
-  };
-  return fetch(`${import.meta.env.VITE_API_BASE_URL}repository/process-instances`, requestOptions)
-    .then(response => response.json());
+    
+  return getRequest(`${apiUrl}repository/process-instances`, oidcClient?.accessToken || '', JSON.stringify({ businessKey }));
 }
 
 export function getProcessInstanceById(processDefinitionKey: string): Promise<any> {
-    const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ processDefinitionKey }),
-  };
-  return fetch(`${import.meta.env.VITE_API_BASE_URL}repository/process-instances`, requestOptions)
-    .then(response => response.json());
+    
+  return getRequest(`${apiUrl}repository/process-instances`, oidcClient?.accessToken || '', JSON.stringify({ processDefinitionKey }));
 }
 
 export function getAllTasks(processInstanceId: string): Promise<any> {
-    const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ processInstanceId }),
-  };
-  return fetch(`${import.meta.env.VITE_API_BASE_URL}runtime/tasks`, requestOptions)
-    .then(response => response.json());
+    
+  return getRequest(`${apiUrl}runtime/tasks`, oidcClient?.accessToken || '',JSON.stringify({ processInstanceId }));
 }
 
 export function getBpmnXml(processDefinitionId: string): Promise<any> {
     return getRequest(
-        `${import.meta.env.VITE_API_BASE_URL}repository/process-definitions/${processDefinitionId}/ressourcedata`,
+        `${apiUrl}repository/process-definitions/${processDefinitionId}/ressourcedata`,
+        oidcClient?.accessToken || '',
     );
 }
 
 export function getVariables(processInstanceId: string): Promise<any> {
     return getRequest(
-        `${import.meta.env.VITE_API_BASE_URL}runtime/process-instances/${processInstanceId}/variables`,
+        `${apiUrl}runtime/process-instances/${processInstanceId}/variables`,
+        oidcClient?.accessToken || '',
     );
 }
 
 export function getBpmnElements(processInstanceId: string): Promise<any> {
     return getRequest(
-        `${import.meta.env.VITE_API_BASE_URL}repository/process-instances/${processInstanceId}`,
+        `${apiUrl}repository/process-instances/${processInstanceId}`,
+        oidcClient?.accessToken || '',
     );
 }

@@ -4,6 +4,8 @@ import getProcessDefinition from "../../../assets/mockData/getProcessDefinition.
 import getTasks from "../../../assets/mockData/getTasks.json"
 import Task from "../../model/tasks";
 import { deleteDuplicatesByKey } from "../../utils/processUtils";
+
+
 // import diagramBpmn from "../../../assets/mockData/diagram.bpmn"
 
 

@@ -1,4 +1,11 @@
 import { postRequest } from "../fetcher/requests";
+import { ConfigContext } from "../../utils/provider/configProvider";
+import { useContext } from "react";
+import { AuthContext } from "../../utils/provider/authProvider";
+
+
+const { apiUrl } = useContext(ConfigContext);
+const oidcClient = useContext(AuthContext);
 
 
 export function startProcess(
@@ -7,7 +14,8 @@ export function startProcess(
     businessKey: string,
 ): Promise<any> {
     return postRequest(
-       `${import.meta.env.VITE_API_BASE_URL}runtime/process-instances`,
+        `${apiUrl}runtime/process-instances`,
+        oidcClient?.accessToken || '',
         {
             processDefinitionKey,
             variables,
@@ -25,7 +33,8 @@ export function uploadContext(
     const formData = new FormData();
     formData.append('file', file);
     return postRequest(
-        `${import.meta.env.VITE_API_BASE_URL}protools-process/upload-context/?taskID=${taskId}`,
+        `${apiUrl}protools-process/upload-context/?taskID=${taskId}`,
+        oidcClient?.accessToken || '',
         formData,
     );
 }
@@ -35,7 +44,8 @@ export function executeTask(
     variables: any[],
 ): Promise<any> {
     return postRequest(
-        `${import.meta.env.VITE_API_BASE_URL}runtime/tasks/${taskId}`,
+        `${apiUrl}runtime/tasks/${taskId}`,
+        oidcClient?.accessToken || '',
         {
             action: 'complete',
             variables,
