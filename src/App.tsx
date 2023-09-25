@@ -29,7 +29,7 @@ function App() {
   const [configuration, setConfiguration] = useState(false);
   const [config, setConfig] = useState<ConfigContextType>({
     apiUrl: '',
-    keycloakAuth: 'anonymous',
+    keycloakAuth: 'none',
     identityProvider: '',
   });
 
