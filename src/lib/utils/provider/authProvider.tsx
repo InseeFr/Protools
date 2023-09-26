@@ -11,12 +11,13 @@ import { evtUserActivity } from '../events/evtUserActivity';
 import { CircularProgress, Stack, Typography } from '@mui/material';
 import { ConfigContext } from './configProvider';
 import Layout from '../../../components/shared/layout/Layout';
+import { NoAuthProvider } from './noAuthProvider';
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-interface IOidcClient {
+export interface IOidcClient {
   isUserLoggedIn: boolean;
   login: () => void;
   accessToken: string;
@@ -55,16 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
   return config.authType === 'none' ? (
-    <Layout>
-      <Typography
-        variant="h2"
-        sx={{
-          padding: '2rem',
-        }}
-      >
-        Cas sans oidc
-      </Typography>
-    </Layout>
+    <NoAuthProvider setOidcClient={setOidcClient}>{children}</NoAuthProvider>
   ) : oidcClient === null ? (
     <Layout>
       <Stack spacing={2} direction="row" sx={{ padding: '2rem' }}>

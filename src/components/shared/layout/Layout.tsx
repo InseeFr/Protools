@@ -35,7 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
       <ErrorBoundary>
         <div
           style={{
-            padding: '10v',
+            padding: '1.5rem',
           }}
         >
           {children}
