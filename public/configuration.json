@@ -1,5 +1,5 @@
 {
 	"API_URL": "http://localhost:8080/",
-	"AUTH_TYPE": "none", 
-	"IDENTITY_PROVIDER": "insee-identityProvider"
+	"AUTH_TYPE": "oidc", 
+	"IDENTITY_PROVIDER": "openid-connect"
 }
