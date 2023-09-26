@@ -3,13 +3,13 @@ import { getConfig } from '../../hooks/getConfig';
 
 export interface ConfigContextType {
   apiUrl: string;
-  keycloakAuth: string;
+  authType: string;
   identityProvider: string;
 }
 
 export const ConfigContext = createContext<ConfigContextType>({
   apiUrl: '',
-  keycloakAuth: '',
+  authType: '',
   identityProvider: '',
 });
 
@@ -21,16 +21,15 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState<boolean>(false);
   const [config, setConfig] = useState<ConfigContextType>({
     apiUrl: '',
-    keycloakAuth: 'none',
+    authType: 'none',
     identityProvider: '',
   });
 
   useEffect(() => {
     getConfig().then((data: any) => {
-      console.log('Fetched config');
       setConfig({
         apiUrl: data.API_URL,
-        keycloakAuth: data.KEYCLOAK_AUTH_TYPE,
+        authType: data.AUTH_TYPE,
         identityProvider: data.IDENTITY_PROVIDER,
       });
       setIsConfigLoaded(true);
@@ -38,9 +37,11 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
   }, []);
 
   const context = useMemo(() => config, [config]);
+
+  console.log('ConfigProvider: ', config);
   return (
     <>
-      {!isConfigLoaded && (
+      {isConfigLoaded && (
         <ConfigContext.Provider value={context}>
           {children}
         </ConfigContext.Provider>

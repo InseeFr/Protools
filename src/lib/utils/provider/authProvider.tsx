@@ -1,11 +1,18 @@
-import { useState, useEffect, ReactNode, createContext, useMemo } from 'react';
+import {
+  useState,
+  useEffect,
+  ReactNode,
+  createContext,
+  useMemo,
+  useContext,
+} from 'react';
 import { createOidcClient } from '../auth/oidcConfig';
 import { evtUserActivity } from '../events/evtUserActivity';
-import { CircularProgress, Typography } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
+import { ConfigContext } from './configProvider';
+import Layout from '../../../components/shared/layout/Layout';
 
 interface AuthProviderProps {
-  authType: string;
-  identityProvider: string;
   children: ReactNode;
 }
 
@@ -17,55 +24,64 @@ interface IOidcClient {
 
 export const AuthContext = createContext<IOidcClient | null>(null);
 
-export const AuthProvider = ({
-  authType,
-  identityProvider,
-  children,
-}: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const config = useContext(ConfigContext);
   const [oidcClient, setOidcClient] = useState<IOidcClient | null>(null);
 
   useEffect(() => {
     const loadOidcConf = async () => {
       const oidcClientKC = await createOidcClient(
         evtUserActivity,
-        identityProvider
+        config.identityProvider
       );
+      console.log('oidcClientKC', oidcClientKC);
       return oidcClientKC;
     };
 
     const loadConf = async () => {
-      if (authType === 'oidc') {
+      console.log('loading oidc conf');
+      if (config.authType === 'oidc') {
         const conf = await loadOidcConf();
         setOidcClient(conf);
       }
     };
 
-    if (authType === 'oidc' && oidcClient === null) {
+    if (config.authType === 'oidc' && oidcClient === null) {
+      console.log('loadConf');
       loadConf();
     }
-  }, [authType, oidcClient, identityProvider]);
+  }, [config.authType, oidcClient, config.identityProvider]);
 
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
-  return oidcClient === null ? (
-    <>
-      <CircularProgress />
-      <Typography variant="h2">OIDC client is null</Typography>
-    </>
+  return config.authType === 'none' ? (
+    <Layout>
+      <Typography
+        variant="h2"
+        sx={{
+          padding: '2rem',
+        }}
+      >
+        Cas sans oidc
+      </Typography>
+    </Layout>
+  ) : oidcClient === null ? (
+    <Layout>
+      <Stack spacing={2} direction="row" sx={{ padding: '2rem' }}>
+        <CircularProgress />
+        <Typography variant="h2">OIDC client is null</Typography>
+      </Stack>
+    </Layout>
   ) : !oidcClient.isUserLoggedIn ? (
-    authType === 'none' ? (
-      <Typography variant="h2">Cas sans oidc</Typography>
-    ) : (
-      (() => {
-        oidcClient.login();
-        return (
-          <>
-            <CircularProgress />
-            <Typography variant="h2">Login en cours</Typography>
-          </>
-        );
-      })()
-    )
+    (() => {
+      oidcClient.login();
+      return (
+        <>
+          <CircularProgress />
+          <Typography variant="h2">Login en cours</Typography>
+        </>
+      );
+    })()
   ) : (
     <AuthContext.Provider
       value={

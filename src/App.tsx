@@ -15,14 +15,12 @@ import { useContext } from 'react';
 const queryClient = new QueryClient();
 
 function App() {
-  const config = useContext(ConfigContext);
+  
+  
   return (
     <MuiDsfrThemeProvider>
       <ConfigProvider>
-        <AuthProvider
-          authType={config.keycloakAuth}
-          identityProvider={config.identityProvider}
-        >
+        <AuthProvider>
           <QueryClientProvider client={queryClient} contextSharing>
             <ReactQueryDevtools initialIsOpen={false} />
             <Layout>
