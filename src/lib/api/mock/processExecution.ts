@@ -1,55 +1,50 @@
 import { postRequest } from "../fetcher/requests";
-import { ConfigContext } from "../../utils/provider/configProvider";
-import { useContext } from "react";
-import { AuthContext } from "../../utils/provider/authProvider";
-
-
-
-const { apiUrl } = useContext(ConfigContext);
-const oidcClient = useContext(AuthContext);
-
-
 export function startProcess(
-    processDefinitionKey: string,
-    variables: any[],
-    businessKey: string,
+  processDefinitionKey: string,
+  variables: any[],
+  businessKey: string,
+  apiUrl: string,
+  accessToken: string
 ): Promise<any> {
-    return postRequest(
-        `${apiUrl}runtime/process-instances`,
-        oidcClient?.accessToken || '',
-        {
-            processDefinitionKey,
-            variables,
-            businessKey,
-            returnVariables: false,
-        },
-    );
+  return postRequest(
+    `${apiUrl}runtime/process-instances`,
+    accessToken || '',
+    {
+      processDefinitionKey,
+      variables,
+      businessKey,
+      returnVariables: false,
+    }
+  );
 }
 
-// TODO : Check this function with context file
 export function uploadContext(
-    taskId: string,
-    file: File,
+  taskId: string,
+  file: File,
+  apiUrl: string,
+  accessToken: string
 ): Promise<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    return postRequest(
-        `${apiUrl}protools-process/upload-context/?taskID=${taskId}`,
-        oidcClient?.accessToken || '',
-        formData,
-    );
+  const formData = new FormData();
+  formData.append('file', file);
+  return postRequest(
+    `${apiUrl}protools-process/upload-context/?taskID=${taskId}`,
+    accessToken || '',
+    formData
+  );
 }
 
 export function executeTask(
-    taskId: string,
-    variables: any[],
+  taskId: string,
+  variables: any[],
+  apiUrl: string,
+  accessToken: string
 ): Promise<any> {
-    return postRequest(
-        `${apiUrl}runtime/tasks/${taskId}`,
-        oidcClient?.accessToken || '',
-        {
-            action: 'complete',
-            variables,
-        },
-    );
+  return postRequest(
+    `${apiUrl}runtime/tasks/${taskId}`,
+    accessToken || '',
+    {
+      action: 'complete',
+      variables,
+    }
+  );
 }

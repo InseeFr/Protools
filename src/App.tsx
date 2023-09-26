@@ -17,21 +17,21 @@ const queryClient = new QueryClient();
 function App() {
   const config = useContext(ConfigContext);
   return (
-    <ConfigProvider>
-      <AuthProvider
-        authType={config.keycloakAuth}
-        identityProvider={config.identityProvider}
-      >
-        <MuiDsfrThemeProvider>
+    <MuiDsfrThemeProvider>
+      <ConfigProvider>
+        <AuthProvider
+          authType={config.keycloakAuth}
+          identityProvider={config.identityProvider}
+        >
           <QueryClientProvider client={queryClient} contextSharing>
             <ReactQueryDevtools initialIsOpen={false} />
             <Layout>
               <RouterProvider router={Router} />
             </Layout>
           </QueryClientProvider>
-        </MuiDsfrThemeProvider>
-      </AuthProvider>
-    </ConfigProvider>
+        </AuthProvider>
+      </ConfigProvider>
+    </MuiDsfrThemeProvider>
   );
 }
 

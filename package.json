@@ -43,6 +43,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.13.0",
     "sort-by": "^1.2.0",
+    "tsafe": "^1.6.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.2.0",
     "zustand": "^4.3.8"
