@@ -1,5 +1,5 @@
 {
-	"API_URL": "http://localhost:8080/",
+	"API_URL": "https://orchestration-protocole-enquete.developpement.insee.fr/",
 	"AUTH_TYPE": "oidc", 
 	"IDENTITY_PROVIDER": "openid-connect"
 }

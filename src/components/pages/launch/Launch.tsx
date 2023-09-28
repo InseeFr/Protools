@@ -8,6 +8,7 @@ import { ToggleSwitchGroup } from "@codegouvfr/react-dsfr/ToggleSwitchGroup";
 import ReactJson from "react-json-view";
 import { startProcess } from "../../../lib/api/remote/processExecution";
 import { getMockProcessDefinitions } from "../../../lib/api/mock/processInfo";
+import { useApi } from "../../../lib/hooks/useApi";
 
 const Launch = () => {
   const [processes, setProcesses] = useState<Array<{ id: any; name: any }>>([]);
@@ -16,17 +17,18 @@ const Launch = () => {
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [files, setFiles] = useState("");
 
+  const api = useApi();
   const processQuery = useQuery(
     ["processDefinition"],
-    getMockProcessDefinitions
+    api.getProcessDefinitions()
   );
   const { mutate } = useMutation(["startProcess"], () =>
-    startProcess(processKey, [], businessKey)
+    api.startProcess(processKey, businessKey, files)
   );
 
   useEffect(() => {
     if (processQuery.isSuccess) {
-      const processDefinitions = processQuery.data;
+      const processDefinitions: any = processQuery.data;
       console.log(processDefinitions);
       const processList = processDefinitions.map((processDefinition: any) => ({
         id: processDefinition.id,

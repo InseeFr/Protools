@@ -16,6 +16,7 @@ import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 import Task from '../../../lib/model/tasks';
+import { useApi } from "../../../lib/hooks/useApi";
 
 interface VisualizeProps {
   id: string;
@@ -25,24 +26,26 @@ const Visualize = (props: VisualizeProps) => {
   const location = useLocation();
   const data: ProcessInfo = location.state?.processInfo;
   const [rendered, setRendered] = useState<boolean>(false);
-  const [diagram, setDiagram] = useState<string>('');
+  const [diagram, setDiagram] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
   // @ts-expect-error BpmnJS is not typed
   const bpmnViewerRef = useRef<BpmnJS>();
   const [tasks, setTasks] = useState<Task[]>([]);
 
+  const api = useApi();
+
   const [bpmnQuery, taskQuery] = useQueries({
     queries: [
       {
-        queryKey: ['bpmnXml', data.id],
+        queryKey: ["bpmnXml", data.id],
         queryFn: () => {
-          return getBpmnXml(data.id);
+          return api.getBpmnXml(data.id);
         },
       },
       {
-        queryKey: ['tasks', data.id],
+        queryKey: ["tasks", data.id],
         queryFn: () => {
-          return getAllTasks(data.id);
+          return api.getAllTasks(data.id);
         },
       },
     ],
@@ -53,16 +56,16 @@ const Visualize = (props: VisualizeProps) => {
 
     bpmnViewerRef.current = new BpmnJS({ container });
 
-    bpmnViewerRef.current.on('import.done', () => {
-      bpmnViewerRef.current.get('canvas').zoom('fit-viewport');
+    bpmnViewerRef.current.on("import.done", () => {
+      bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
     });
 
     if (bpmnQuery.isSuccess) {
       setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
       bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
-        const overlays = bpmnViewerRef.current?.get('overlays');
-        overlays.add('uploadContext', 'note', {
+        const overlays = bpmnViewerRef.current?.get("overlays");
+        overlays.add("uploadContext", "note", {
           position: {
             bottom: 18,
             right: 18,
@@ -101,21 +104,21 @@ const Visualize = (props: VisualizeProps) => {
       <Stack
         spacing={2}
         sx={{
-          flexWrap: 'wrap',
-          alignContent: 'center',
-          alignItems: 'center',
+          flexWrap: "wrap",
+          alignContent: "center",
+          alignItems: "center",
         }}
       >
         <div
           className="react-bpmn-diagram-container"
           ref={containerRef}
-          style={{ width: '100%', height: '450px' }}
+          style={{ width: "100%", height: "450px" }}
         />
         <Tabs
           tabs={[
             {
-              label: 'Description',
-              iconId: 'fr-icon-window-line',
+              label: "Description",
+              iconId: "fr-icon-window-line",
               content: (
                 <GeneralInfo
                   date="date"
@@ -129,33 +132,33 @@ const Visualize = (props: VisualizeProps) => {
               ),
             },
             {
-              label: 'Variables',
-              iconId: 'fr-icon-article-line',
+              label: "Variables",
+              iconId: "fr-icon-article-line",
               content: (
                 <Variables
                   variables={[
                     {
-                      name: 'variable1',
-                      type: 'string',
-                      value: 'value1',
+                      name: "variable1",
+                      type: "string",
+                      value: "value1",
                     },
                     {
-                      name: 'variable2',
-                      type: 'string',
-                      value: 'value2',
+                      name: "variable2",
+                      type: "string",
+                      value: "value2",
                     },
                   ]}
                 />
               ),
             },
             {
-              label: 'Tâches (Description)',
-              iconId: 'fr-icon-terminal-box-line',
+              label: "Tâches (Description)",
+              iconId: "fr-icon-terminal-box-line",
               content: <Tasks bpmnTitle="Nom du bpmn ou autre titre" />,
             },
             {
-              label: 'Tâches manuelles',
-              iconId: 'fr-icon-user-line',
+              label: "Tâches manuelles",
+              iconId: "fr-icon-user-line",
               content: <TasksManual tasks={tasks} />,
             },
           ]}

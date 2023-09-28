@@ -66,7 +66,7 @@ export const useApi = () => {
          oidcClient ? oidcClient.accessToken : ''
     ));
 
-    const getBpmnElements = useConstCallback((processInstanceId) => processInfoApi.getBpmnElements(
+    const getBpmnElements: Function = useConstCallback((processInstanceId) => processInfoApi.getBpmnElements(
         processInstanceId,
         apiUrl,
          oidcClient ? oidcClient.accessToken : ''
