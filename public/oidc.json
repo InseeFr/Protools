@@ -2,7 +2,7 @@
   "realm": "agents-insee-interne",
   "auth-server-url": "https://auth.insee.test/auth/",
   "ssl-required": "external",
-  "resource": "protools",
+  "resource": "localhost-frontend",
   "clientId": true,
   "confidential-port": 0
 }

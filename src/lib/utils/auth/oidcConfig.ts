@@ -4,7 +4,7 @@ import Keycloak from 'keycloak-js';
 export const createOidcClient = async (evtUserActivity: any ,
   identityProvider: string,): Promise<any> => { 
   const minvaliditysecond = 300; // 5min minimum validity
-
+    console.log('Create OIDC client')
 
    const keycloakInstance = new Keycloak(`${window.location.origin}/oidc.json`);
   // const keycloakInstance = new Keycloak({
@@ -13,15 +13,18 @@ export const createOidcClient = async (evtUserActivity: any ,
   //   clientId: oidcConfig.clientId
   // });
 
+  console.log('Created Keycloak Instance :',keycloakInstance)
   const isAuthenticated = await keycloakInstance
     .init({
       onLoad: "check-sso",
       silentCheckSsoRedirectUri: `${window.location.origin}/silent-sso.html`,
       checkLoginIframe: false,
     })
-    .catch(error => error);
+    .catch(error => console.log(error));
+  console.log('isAuthentitcated:', isAuthenticated)
 
   const login = async () => {
+    console.log('Attempt to login')
     try {
       await keycloakInstance.login({ idpHint: identityProvider, redirectUri: window.location.href });
     } catch (error) {
@@ -31,7 +34,7 @@ export const createOidcClient = async (evtUserActivity: any ,
 
   const loadUserInfo = async () => {
     const userinfo = await keycloakInstance.loadUserInfo();
-    // @ts-expect-error => loadUserInfo() as a return type of {}
+    // @ts-expect-error => loadUserInfo() has a return type of {}
     return { ...userinfo, id: userinfo.preferred_username };
   };
 
@@ -54,6 +57,7 @@ export const createOidcClient = async (evtUserActivity: any ,
       return new Promise(() => {});
     },
   };
+  console.log('oidcClient : ', oidcClient);
 
   (function callee() {
     // TODO: write a correct object checking
