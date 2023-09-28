@@ -26,6 +26,8 @@ const Visualize = (props: VisualizeProps) => {
   const location = useLocation();
   const data: ProcessInfo = location.state?.processInfo;
   const [rendered, setRendered] = useState<boolean>(false);
+  const [currentActiveTask, setCurrentActiveTask] =
+    useState<string>("uploadContext");
   const [diagram, setDiagram] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
   // @ts-expect-error BpmnJS is not typed
@@ -34,7 +36,7 @@ const Visualize = (props: VisualizeProps) => {
 
   const api = useApi();
 
-  const [bpmnQuery, taskQuery] = useQueries({
+  const [bpmnQuery, taskQuery, bpmnElements, processInstance] = useQueries({
     queries: [
       {
         queryKey: ["bpmnXml", data.id],
@@ -46,6 +48,18 @@ const Visualize = (props: VisualizeProps) => {
         queryKey: ["tasks", data.id],
         queryFn: () => {
           return api.getAllTasks(data.id);
+        },
+      },
+      {
+        queryKey: ["bpmnElements", data.id],
+        queryFn: () => {
+          return api.getBpmnElements(data.id);
+        },
+      },
+      {
+        queryKey: ["processInstance", data.id],
+        queryFn: () => {
+          return api.getProcessInstanceById(data.id);
         },
       },
     ],
@@ -60,12 +74,16 @@ const Visualize = (props: VisualizeProps) => {
       bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
     });
 
+    if (processInstance.isSuccess) {
+      setCurrentActiveTask(processInstance.data.activityId);
+    }
+
     if (bpmnQuery.isSuccess) {
       setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
       bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
         const overlays = bpmnViewerRef.current?.get("overlays");
-        overlays.add("uploadContext", "note", {
+        overlays.add(currentActiveTask, "note", {
           position: {
             bottom: 18,
             right: 18,
