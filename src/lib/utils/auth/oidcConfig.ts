@@ -13,7 +13,6 @@ export const createOidcClient = async (evtUserActivity: any ,
   //   clientId: oidcConfig.clientId
   // });
 
-  console.log('Created Keycloak Instance :',keycloakInstance)
   const isAuthenticated = await keycloakInstance
     .init({
       onLoad: "check-sso",
@@ -24,9 +23,10 @@ export const createOidcClient = async (evtUserActivity: any ,
   console.log('isAuthentitcated:', isAuthenticated)
 
   const login = async () => {
-    console.log('Attempt to login')
+    
     try {
       await keycloakInstance.login({ idpHint: identityProvider, redirectUri: window.location.href });
+      console.log('Logged in')
     } catch (error) {
     console.error(error);
   }

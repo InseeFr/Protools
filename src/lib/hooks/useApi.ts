@@ -36,6 +36,11 @@ export const useApi = () => {
         apiUrl,
          oidcClient ? oidcClient.accessToken : ''
     ));
+
+    const getProcessInstances = useConstCallback(() => processInfoApi.getProcessInstance(
+        apiUrl,
+         oidcClient ? oidcClient.accessToken : ''
+    ));
     
     const getProcessInstanceById: Function = useConstCallback((processInstanceId) => processInfoApi.getProcessInstanceById(
         processInstanceId,
@@ -72,6 +77,7 @@ export const useApi = () => {
         startProcess,
         uploadContext,
         getBpmnXml,
+        getProcessInstances,
         getProcessInstanceById,
         getProcessDefinitions,
         getAllTasks,

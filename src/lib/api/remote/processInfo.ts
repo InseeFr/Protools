@@ -43,13 +43,10 @@ export function getProcessDefinition(
 }
 
 export function getProcessInstance(
-  businessKey: string,
   apiUrl: string,
-  accessToken: string
+  accessToken: string,
 ): Promise<any> {
-  return getRequest(`${apiUrl}repository/process-instances`, accessToken || '', {
-    businessKey,
-  });
+  return getRequest(`${apiUrl}repository/process-instances`, accessToken || '');
 }
 
 export function getProcessInstanceById(
