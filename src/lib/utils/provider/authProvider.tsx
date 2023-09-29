@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         evtUserActivity,
         config.identityProvider
       );
-      console.log("oidcClientKC", oidcClientKC);
+      console.log("oidcClientKC created");
       return oidcClientKC;
     };
 

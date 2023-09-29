@@ -2,7 +2,8 @@
 const fetcher = async (url: string, method: string, token: string, body: any) => {
    const headers = {
     Accept: "application/json",
-    "Content-Type": "application/json",
+     "Content-Type": "application/json",
+    'Access-Control-Allow-Origin': '*',
   };
 
   try {
