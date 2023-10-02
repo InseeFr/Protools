@@ -57,8 +57,6 @@ export const createOidcClient = async (evtUserActivity: any ,
       return new Promise(() => {});
     },
   };
-  console.log('oidcClient : ', oidcClient);
-
   (function callee() {
     // TODO: write a correct object checking
     const msbeforeexpiration = keycloakInstance.tokenParsed ? (keycloakInstance.tokenParsed.exp? keycloakInstance.tokenParsed.exp * 1000 - Date.now(): 0): 0;

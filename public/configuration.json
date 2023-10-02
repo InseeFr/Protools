@@ -1,5 +1,5 @@
 {
-	"API_URL": "https://orchestration-protocole-enquete.developpement.insee.fr/",
+	"API_URL": "${API_URL}",
 	"AUTH_TYPE": "oidc", 
-	"IDENTITY_PROVIDER": "openid-connect"
+	"IDENTITY_PROVIDER": "${IDENTITY_PROVIDER}"
 }
