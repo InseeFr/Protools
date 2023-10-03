@@ -33,3 +33,6 @@ config.json
 /.vscode
 ```
 /public/dsfr/
+/public/configuration.json
+/public/oidc.json
+
