@@ -18,10 +18,10 @@ const Launch = () => {
   const [files, setFiles] = useState("");
 
   const api = useApi();
-  const processQuery = useQuery(
-    ["processDefinition"],
-    api.getProcessDefinitions()
-  );
+  const processQuery = useQuery(["processDefinition"], () => {
+    console.log("getProcessDefinitions query");
+    return api.getProcessDefinitions();
+  });
   const { mutate } = useMutation(["startProcess"], () =>
     api.startProcess(processKey, businessKey, files)
   );
@@ -29,13 +29,14 @@ const Launch = () => {
   useEffect(() => {
     if (processQuery.isSuccess) {
       const processDefinitions: any = processQuery.data;
-      console.log(processDefinitions);
       const processList = processDefinitions.map((processDefinition: any) => ({
-        id: processDefinition.id,
+        key: processDefinition.key,
         name: processDefinition.name,
       }));
       setProcesses(processList);
+      console.log("processQuery.isSuccess", processList);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [processQuery.isSuccess]);
 

@@ -1,5 +1,0 @@
-{
-	"API_URL": "${API_URL}",
-	"AUTH_TYPE": "oidc", 
-	"IDENTITY_PROVIDER": "${IDENTITY_PROVIDER}"
-}

@@ -9,14 +9,18 @@ export function getProcessDefinitions(
 
   const processLaunchInfo: any[] = [];
   getRequest(`${apiUrl}repository/process-definitions`, accessToken || '').then((response) => {
-    deleteDuplicatesByKey(response);
-    response.data.forEach((processDefinition: any) => { 
+    
+    //deleteDuplicatesByKey(response.data);
+    response.data.data.forEach((processDefinition: any) => {
+      
           processLaunchInfo.push({
               key: processDefinition.key,
               name: processDefinition.name
-          });   
-      });});
-    
+          }); 
+      
+    });
+  console.log("Available process to launch", processLaunchInfo)
+  });
     
    return Promise.resolve(processLaunchInfo); 
 }
