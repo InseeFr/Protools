@@ -20,7 +20,7 @@ export const createOidcClient = async (evtUserActivity: any ,
       checkLoginIframe: false,
     })
     .catch(error => console.log(error));
-  console.log('isAuthentitcated:', isAuthenticated)
+  //console.log('isAuthentitcated:', isAuthenticated)
 
   const login = async () => {
     

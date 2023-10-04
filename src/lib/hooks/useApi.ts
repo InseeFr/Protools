@@ -18,8 +18,8 @@ export const useApi = () => {
     
     const startProcess: Function = useConstCallback((processDefinitionKey, variables, businessKey) => processExecutionApi.startProcess(
         processDefinitionKey,
-        variables,
         businessKey,
+        variables,
         apiUrl,
         oidcClient ? oidcClient.accessToken : ''
     ));
@@ -42,17 +42,25 @@ export const useApi = () => {
          oidcClient ? oidcClient.accessToken : ''
     ));
     
-    const getProcessInstanceById: Function = useConstCallback((processInstanceId) => processInfoApi.getProcessInstanceById(
-        processInstanceId,
-        apiUrl,
-         oidcClient ? oidcClient.accessToken : ''
-    ));
+    const getProcessInstanceById: Function = useConstCallback((processInstanceId) => {
+        const response = processInfoApi.getProcessInstanceById(
+            processInstanceId,
+            apiUrl,
+            oidcClient ? oidcClient.accessToken : ''
+        )
+        console.log('getProcessInstanceById', response)
+        return response;
+    });
 
 
-    const getProcessDefinitions: Function = useConstCallback(() => processInfoApi.getProcessDefinitions(
-        apiUrl,
-         oidcClient ? oidcClient.accessToken : ''
-    ));
+    const getProcessDefinitions: Function = useConstCallback(() => {
+        const response = processInfoApi.getProcessDefinitions(
+            apiUrl,
+            oidcClient ? oidcClient.accessToken : ''
+        ) 
+        console.log('getProcessDefinitions', response)
+        return response;
+    });
 
     const getAllTasks: Function = useConstCallback((processInstanceId) => processInfoApi.getAllTasks(
         processInstanceId,

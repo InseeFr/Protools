@@ -20,9 +20,9 @@ interface ConfigProviderProps {
 export const ConfigProvider = ({ children }: ConfigProviderProps) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState<boolean>(false);
   const [config, setConfig] = useState<ConfigContextType>({
-    apiUrl: '',
-    authType: 'none',
-    identityProvider: '',
+    apiUrl: "",
+    authType: "none",
+    identityProvider: "",
   });
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
 
   const context = useMemo(() => config, [config]);
 
-  console.log('ConfigProvider: ', config);
+  //console.log('ConfigProvider: ', config);
   return (
     <>
       {isConfigLoaded && (

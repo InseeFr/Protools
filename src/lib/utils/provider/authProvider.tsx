@@ -35,12 +35,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         evtUserActivity,
         config.identityProvider
       );
-      console.log("oidcClientKC created");
+      //console.log("oidcClientKC created");
       return oidcClientKC;
     };
 
     const loadConf = async () => {
-      console.log("loading oidc conf");
+      //console.log("loading oidc conf");
       if (config.authType === "oidc") {
         const conf = await loadOidcConf();
         setOidcClient(conf);
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     if (config.authType === "oidc" && oidcClient === null) {
-      console.log("loadConf");
+      //console.log("loadConf");
       loadConf();
     }
   }, [config.authType, oidcClient, config.identityProvider]);

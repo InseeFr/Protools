@@ -1,5 +1,5 @@
 export const getConfig = async () => {
-  console.log("getConfig");
+  //console.log("getConfig");
   return fetch("/configuration.json")
     .then(response => response.json())
     .then(data => {
