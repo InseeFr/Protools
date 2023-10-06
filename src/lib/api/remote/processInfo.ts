@@ -49,7 +49,7 @@ export function getProcessInstance(
   apiUrl: string,
   accessToken: string,
 ): Promise<any> {
-  return getRequest(`${apiUrl}repository/process-instances`, accessToken || '');
+  return getRequest(`${apiUrl}runtime/process-instances`, accessToken || '');
 }
 
 export function getProcessInstanceById(
@@ -57,7 +57,7 @@ export function getProcessInstanceById(
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  return getRequest(`${apiUrl}repository/process-instances`, accessToken || '', {
+  return getRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
     processDefinitionKey,
   });
 }

@@ -2,8 +2,9 @@ import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 import ProcessInfo from '../../../lib/model/processInfo';
 import OnGoingProcess from './OngoingProcess';
-import { useEffect } from "react";
-import { useApi } from "../../../lib/hooks/useApi";
+import { useEffect, useState } from 'react';
+import { useApi } from '../../../lib/hooks/useApi';
+import { useQuery } from '@tanstack/react-query';
 // import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -19,15 +20,19 @@ const Home = () => {
     other: 'test',
   };
 
+  const [processes, setProcesses] = useState<any[]>([]);
+  // TODO: Parsing des processus en cours
+
   const api = useApi();
 
-  useEffect(() => {
-    api.getProcessInstances().then((res) => {
-      {
-        console.log(res);
-      }
+  const processInstanceQuery = useQuery(['processInstances'], async () => {
+    const response = await api.getProcessInstances().then((res: any[]) => {
+      console.log('processQuery result: ', res);
+      setProcesses(res);
+      return res;
     });
-  }, []);
+    return response;
+  });
 
   return (
     <Stack
@@ -47,20 +52,6 @@ const Home = () => {
         }}
       >
         Lancer un processus
-      </Button>
-      <Button
-        linkProps={{
-          href: '/upload-context',
-        }}
-      >
-        TEMP : Tâche upload
-      </Button>
-      <Button
-        linkProps={{
-          href: '/validation-task',
-        }}
-      >
-        TEMP : Tâche validation
       </Button>
     </Stack>
   );
