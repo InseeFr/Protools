@@ -17,6 +17,8 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'diagram-js-minimap/assets/diagram-js-minimap.css';
 import Task from '../../../lib/model/tasks';
 import { useApi } from "../../../lib/hooks/useApi";
+import RunningTaskApi from '../../../lib/model/api/runningTaskApi';
+import RunningTaskDataApi from '../../../lib/model/api/runningTaskData';
 
 interface VisualizeProps {
   id: string;
@@ -27,8 +29,8 @@ const Visualize = (props: VisualizeProps) => {
   const data: ProcessInfo = location.state?.processInfo;
   const [rendered, setRendered] = useState<boolean>(false);
   const [currentActiveTask, setCurrentActiveTask] =
-    useState<string>("uploadContext");
-  const [diagram, setDiagram] = useState<string>("");
+    useState<string>('uploadContext');
+  const [diagram, setDiagram] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
   // @ts-expect-error BpmnJS is not typed
   const bpmnViewerRef = useRef<BpmnJS>();
@@ -39,27 +41,51 @@ const Visualize = (props: VisualizeProps) => {
   const [bpmnQuery, taskQuery, bpmnElements, processInstance] = useQueries({
     queries: [
       {
-        queryKey: ["bpmnXml", data.id],
-        queryFn: () => {
-          return api.getBpmnXml(data.id);
+        queryKey: ['bpmnXml', data.id],
+        queryFn: async () => {
+          await api.getBpmnXml(data.id).then((res: string) => {
+            console.log('bpmnElements result: ', res);
+            setDiagram(res);
+            return res;
+          });
         },
       },
       {
-        queryKey: ["tasks", data.id],
-        queryFn: () => {
-          return api.getAllTasks(data.id);
+        queryKey: ['tasks', data.id],
+        queryFn: async () => {
+          await api.getAllTasks(data.id).then((res: RunningTaskApi) => {
+            console.log('tasks result: ', res);
+            res.data.map((task: RunningTaskDataApi) => {
+              console.log('task: ', task);
+              const taskData: Task = {
+                id: task.id,
+                label: task.name,
+                description: task.description,
+                key: task.id,
+              };
+              setTasks((prevState) => [...prevState, taskData]);
+            });
+            return res;
+          });
         },
       },
       {
-        queryKey: ["bpmnElements", data.id],
-        queryFn: () => {
-          return api.getBpmnElements(data.id);
+        queryKey: ['bpmnElements', data.id],
+        queryFn: async () => {
+          await api.getBpmnElements(data.id).then((res: any) => {
+            console.log('bpmnElements result: ', res);
+            return res;
+          });
         },
       },
       {
-        queryKey: ["processInstance", data.id],
-        queryFn: () => {
-          return api.getProcessInstanceById(data.id);
+        queryKey: ['processInstance', data.id],
+        queryFn: async () => {
+          await api.getProcessInstanceById(data.id).then((res: any[]) => {
+            console.log('processQuery result: ', res);
+            //setProcesses(res);
+            return res;
+          });
         },
       },
     ],
@@ -70,8 +96,8 @@ const Visualize = (props: VisualizeProps) => {
 
     bpmnViewerRef.current = new BpmnJS({ container });
 
-    bpmnViewerRef.current.on("import.done", () => {
-      bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
+    bpmnViewerRef.current.on('import.done', () => {
+      bpmnViewerRef.current.get('canvas').zoom('fit-viewport');
     });
 
     if (processInstance.isSuccess) {
@@ -79,11 +105,11 @@ const Visualize = (props: VisualizeProps) => {
     }
 
     if (bpmnQuery.isSuccess) {
-      setDiagram(bpmnQuery.data);
+      //setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
       bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
-        const overlays = bpmnViewerRef.current?.get("overlays");
-        overlays.add(currentActiveTask, "note", {
+        const overlays = bpmnViewerRef.current?.get('overlays');
+        overlays.add(currentActiveTask, 'note', {
           position: {
             bottom: 18,
             right: 18,
@@ -102,41 +128,26 @@ const Visualize = (props: VisualizeProps) => {
     };
   }, [bpmnQuery.isSuccess, bpmnQuery.data, diagram]);
 
-  useEffect(() => {
-    if (taskQuery.isSuccess) {
-      const tasksList: Task[] = [];
-      taskQuery.data.forEach((task: Task) => {
-        tasksList.push({
-          id: task.id,
-          label: task.label,
-          description: task.description,
-          key: task.key,
-        });
-      });
-      setTasks(tasksList);
-    }
-  }, [taskQuery.isSuccess]);
-
   if (diagram.length > 0 && rendered) {
     return (
       <Stack
         spacing={2}
         sx={{
-          flexWrap: "wrap",
-          alignContent: "center",
-          alignItems: "center",
+          flexWrap: 'wrap',
+          alignContent: 'center',
+          alignItems: 'center',
         }}
       >
         <div
           className="react-bpmn-diagram-container"
           ref={containerRef}
-          style={{ width: "100%", height: "450px" }}
+          style={{ width: '100%', height: '450px' }}
         />
         <Tabs
           tabs={[
             {
-              label: "Description",
-              iconId: "fr-icon-window-line",
+              label: 'Description',
+              iconId: 'fr-icon-window-line',
               content: (
                 <GeneralInfo
                   date="date"
@@ -150,33 +161,33 @@ const Visualize = (props: VisualizeProps) => {
               ),
             },
             {
-              label: "Variables",
-              iconId: "fr-icon-article-line",
+              label: 'Variables',
+              iconId: 'fr-icon-article-line',
               content: (
                 <Variables
                   variables={[
                     {
-                      name: "variable1",
-                      type: "string",
-                      value: "value1",
+                      name: 'variable1',
+                      type: 'string',
+                      value: 'value1',
                     },
                     {
-                      name: "variable2",
-                      type: "string",
-                      value: "value2",
+                      name: 'variable2',
+                      type: 'string',
+                      value: 'value2',
                     },
                   ]}
                 />
               ),
             },
             {
-              label: "Tâches (Description)",
-              iconId: "fr-icon-terminal-box-line",
+              label: 'Tâches (Description)',
+              iconId: 'fr-icon-terminal-box-line',
               content: <Tasks bpmnTitle="Nom du bpmn ou autre titre" />,
             },
             {
-              label: "Tâches manuelles",
-              iconId: "fr-icon-user-line",
+              label: 'Tâches manuelles',
+              iconId: 'fr-icon-user-line',
               content: <TasksManual tasks={tasks} />,
             },
           ]}
