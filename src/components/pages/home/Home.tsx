@@ -20,15 +20,28 @@ const Home = () => {
     other: 'test',
   };
 
-  const [processes, setProcesses] = useState<any[]>([]);
+  const [processes, setProcesses] = useState<ProcessInfo[]>([]);
   // TODO: Parsing des processus en cours
 
   const api = useApi();
 
-  const processInstanceQuery = useQuery(['processInstances'], async () => {
-    const response = await api.getProcessInstances().then((res: any[]) => {
-      console.log('processQuery result: ', res);
-      setProcesses(res);
+  const processInstanceQuery = useQuery(["processInstances"], async () => {
+    const response = await api.getProcessInstances().then((res: any) => {
+      //console.log("processQuery result: ", res);
+      res.data.data.map((process: any) => {
+        const processInfo: ProcessInfo = {
+          id: process.id,
+          businessKey: process.businessKey,
+          processKey: process.processDefinitionName,
+          documentation: "",
+          startDate: new Date(process.startTime),
+          state: true,
+          group: "",
+          other: "test",
+        };
+        console.log("Add processInfo to DataTable: ", processInfo);
+        setProcesses([...processes, processInfo]);
+      });
       return res;
     });
     return response;
@@ -38,17 +51,17 @@ const Home = () => {
     <Stack
       spacing={2}
       sx={{
-        flexWrap: 'wrap',
-        alignContent: 'center',
-        alignItems: 'center',
+        flexWrap: "wrap",
+        alignContent: "center",
+        alignItems: "center",
       }}
     >
       <Typography variant="h1">Home</Typography>
 
-      <OnGoingProcess processes={[processInfoTemp]} />
+      <OnGoingProcess processes={processes} />
       <Button
         linkProps={{
-          href: '/launch',
+          href: "/launch",
         }}
       >
         Lancer un processus
