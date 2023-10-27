@@ -10,20 +10,20 @@ interface OnGoingProcessProps {
 }
 const columns: GridColDef[] = [
   {
-    field: 'processKey',
+    field: "processKey",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Nom
       </Typography>
     ),
-    headerClassName: 'columns--header',
+    headerClassName: "columns--header",
     flex: 0.15,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
   },
   {
-    field: 'businessKey',
+    field: "businessKey",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Type
@@ -32,48 +32,48 @@ const columns: GridColDef[] = [
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
-    headerClassName: 'columns--header',
+    headerClassName: "columns--header",
     flex: 0.15,
   },
   {
-    field: 'documentation',
+    field: "documentation",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Description
       </Typography>
     ),
-    headerClassName: 'columns--header',
+    headerClassName: "columns--header",
     flex: 0.4,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
   },
   {
-    field: 'startDate',
+    field: "startDate",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Date de lancement
       </Typography>
     ),
-    type: 'date',
+    type: "date",
 
-    headerClassName: 'columns--header',
+    headerClassName: "columns--header",
     flex: 0.18,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{moment(params.value).format('DD/MM/YYYY HH:mm')}</Typography>
+      <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
     ),
   },
   {
-    field: 'other',
-    headerName: ' ',
-    headerClassName: 'columns--header',
+    field: "ids",
+    headerName: " ",
+    headerClassName: "columns--header",
     flex: 0.1,
-    align: 'center',
+    align: "center",
     renderCell: (params: GridRenderCellParams) => (
       <Link
-        to={`/visualize/${params.value}`}
-        style={{ textDecoration: 'none' }}
-        state={{ processInfo: params.value }}
+        to={`/visualize/${params.value.id}/${params.value.processDefinitionId}`}
+        style={{ textDecoration: "none" }}
+        //state={{ ids: params.value }}
       >
         <FiChevronRight fontSize={21} />
       </Link>

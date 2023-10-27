@@ -8,17 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 // import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  // const navigate = useNavigate();
-  const processInfoTemp: ProcessInfo = {
-    id: 'id',
-    businessKey: 'businessKey',
-    processKey: 'processKey',
-    documentation: 'documentation exemple (description du processus)',
-    startDate: new Date(),
-    state: true,
-    group: 'group',
-    other: 'test',
-  };
+  // const navigate = useNavigate()
 
   const [processes, setProcesses] = useState<ProcessInfo[]>([]);
   // TODO: Parsing des processus en cours
@@ -27,7 +17,7 @@ const Home = () => {
 
   const processInstanceQuery = useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
-      //console.log("processQuery result: ", res);
+      console.log("processQuery result: ", res);
       res.data.data.map((process: any) => {
         const processInfo: ProcessInfo = {
           id: process.id,
@@ -37,10 +27,15 @@ const Home = () => {
           startDate: new Date(process.startTime),
           state: true,
           group: "",
-          other: "test",
+          ids: {
+            id: process.id,
+            processDefinitionId: process.processDefinitionId,
+          },
         };
         console.log("Add processInfo to DataTable: ", processInfo);
-        setProcesses([...processes, processInfo]);
+        if (!processes.some((p) => p.id === process.id)) {
+          setProcesses([...processes, processInfo]);
+        }
       });
       return res;
     });

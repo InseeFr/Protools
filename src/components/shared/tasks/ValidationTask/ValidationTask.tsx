@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import { Box, Card, Typography, CardContent, Stack } from '@mui/material';
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, Card, Typography, CardContent, Stack } from "@mui/material";
 
-import Button from '@codegouvfr/react-dsfr/Button';
+import Button from "@codegouvfr/react-dsfr/Button";
 import { useApi } from "../../../../lib/hooks/useApi";
 
-const ValidateTask = (taskId: string) => {
+const ValidateTask = () => {
+  const { taskId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
   const handleSubmit = async () => {

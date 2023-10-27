@@ -1,3 +1,5 @@
+import ProcessDefinitionDataApi from '../../model/api/processDefinitionData';
+import RunningTaskApi from '../../model/api/runningTaskApi';
 import Task from '../../model/tasks';
 import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
@@ -24,26 +26,15 @@ export function getProcessDefinitions(
    return Promise.resolve(processLaunchInfo); 
 }
 
-export function getProcessDefinition(
-  key: string,
+export function getProcessDefinitionById(
+  processDefinitionId: string,
   apiUrl: string,
   accessToken: string
-): Promise<any> {
-  const processLaunchInfo: any[] = [];
-  getRequest(`${apiUrl}repository/process-definitions`, accessToken || '', {
-    key,
-  }).then((response) => {
-    deleteDuplicatesByKey(response);
-    response.data.forEach((processDefinition: any) => { 
-          processLaunchInfo.push({
-              key: processDefinition.key,
-              name: processDefinition.name
-          });   
-      });});
-    
-    
-   return Promise.resolve(processLaunchInfo); ;;
-}
+): Promise<ProcessDefinitionDataApi> {
+  return getRequest(`${apiUrl}repository/process-definitions/${processDefinitionId}`, accessToken || '').then((response) => {
+
+    return Promise.resolve(response.data);
+  });}
 
 export function getProcessInstance(
   apiUrl: string,
@@ -53,13 +44,14 @@ export function getProcessInstance(
 }
 
 export function getProcessInstanceById(
-  processDefinitionKey: string,
+  processInstanceId: string,
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  return getRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
-    processDefinitionKey,
-  });
+  return getRequest(`${apiUrl}runtime/process-instances/${processInstanceId}`, accessToken || '').then((res) => {
+    
+    return Promise.resolve(res.data);
+   });
 }
 
 export function getAllTasks(
@@ -70,17 +62,17 @@ export function getAllTasks(
 
   const tasks: Task[] = [];
     
-  getRequest(`${apiUrl}runtime/tasks`, accessToken || '', {
-    processInstanceId,
-  }).then((response) => {
-    response.data.forEach((task: any) => {
-        tasks.push({
-            id: task.id,
-            label: task.name,
-            description: task.description,
-            key: task.taskDefinitionKey
-        } as Task);
-    })
+  getRequest(`${apiUrl}runtime/tasks?processInstanceId=${processInstanceId}`, accessToken || '').then((response) => {
+    //console.log('response tasks', response);
+    (response.data && response.data.length > 0) ? 
+      response.data.forEach((task: any) => {
+          tasks.push({
+              id: task.id,
+              label: task.name,
+              description: task.description,
+              key: task.taskDefinitionKey
+          } as Task);
+      }): null
   });
   return Promise.resolve(tasks);
 }
@@ -92,13 +84,15 @@ export function getBpmnXml(
 ): Promise<any> {
   try {
     getRequest(
-      `${apiUrl}repository/process-definitions/${processDefinitionId}/ressourcedata`,
+      `${apiUrl}repository/process-definitions/${processDefinitionId}/resourcedata`,
       accessToken || ''
-    ).then((res) => {
-      const responsexml = res.data
+      ).then((res) => {
+      console.log('getBpmnXml Raw Results: ', res);
+      const responsexml = res.data;
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(responsexml, 'text/xml');
       const xmlString = new XMLSerializer().serializeToString(xmlDoc);
+      console.log('xml String: ', xmlString);
       return Promise.resolve(xmlString);
     });
   } catch (error) {
@@ -132,7 +126,7 @@ export function getBpmnElements(
 
 export const processInfoApi = {
   getProcessDefinitions,
-  getProcessDefinition,
+  getProcessDefinitionById,
   getProcessInstance,
   getProcessInstanceById,
   getAllTasks,

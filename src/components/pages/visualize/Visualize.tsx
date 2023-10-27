@@ -1,115 +1,123 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react';
 import { Stack, Typography } from '@mui/material';
-import { useLocation } from 'react-router-dom';
-import { useQueries } from '@tanstack/react-query';
-import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
+import { useParams } from "react-router-dom";
+import { useQueries } from "@tanstack/react-query";
+import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 // eslint-disable-next-line import/extensions
-import BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
-import GeneralInfo from './GeneralInfo';
-import Variables from './Variables';
-import Tasks from './Tasks';
-import TasksManual from './TasksManual';
-import { getBpmnXml, getAllTasks } from '../../../lib/api/mock/processInfo';
-import ProcessInfo from '../../../lib/model/processInfo';
-import 'bpmn-js/dist/assets/diagram-js.css';
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-import 'diagram-js-minimap/assets/diagram-js-minimap.css';
-import Task from '../../../lib/model/tasks';
+import BpmnJS from "bpmn-js/dist/bpmn-navigated-viewer.production.min.js";
+import GeneralInfo from "./GeneralInfo";
+import Variables from "./Variables";
+import Tasks from "./Tasks";
+import TasksManual from "./TasksManual";
+import "bpmn-js/dist/assets/diagram-js.css";
+import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+import "diagram-js-minimap/assets/diagram-js-minimap.css";
+import Task from "../../../lib/model/tasks";
 import { useApi } from "../../../lib/hooks/useApi";
-import RunningTaskApi from '../../../lib/model/api/runningTaskApi';
-import RunningTaskDataApi from '../../../lib/model/api/runningTaskData';
+import ProcessInfo from "../../../lib/model/processInfo";
+import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 
-interface VisualizeProps {
-  id: string;
-}
-const Visualize = (props: VisualizeProps) => {
-  const { id } = props;
-  const location = useLocation();
-  const data: ProcessInfo = location.state?.processInfo;
+const Visualize = () => {
+  const { id, processDefinitionId } = useParams();
   const [rendered, setRendered] = useState<boolean>(false);
   const [currentActiveTask, setCurrentActiveTask] =
-    useState<string>('uploadContext');
-  const [diagram, setDiagram] = useState<string>('');
+    useState<string>("uploadContext");
+  const [diagram, setDiagram] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
   // @ts-expect-error BpmnJS is not typed
   const bpmnViewerRef = useRef<BpmnJS>();
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [processInstance, setProcessInstance] = useState<ProcessInfo>(
+    {} as ProcessInfo
+  );
+
+  const [processDefinitionData, setProcessDefinitionData] =
+    useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
   const api = useApi();
 
-  const [bpmnQuery, taskQuery, bpmnElements, processInstance] = useQueries({
-    queries: [
-      {
-        queryKey: ['bpmnXml', data.id],
-        queryFn: async () => {
-          await api.getBpmnXml(data.id).then((res: string) => {
-            console.log('bpmnElements result: ', res);
-            setDiagram(res);
-            return res;
-          });
-        },
-      },
-      {
-        queryKey: ['tasks', data.id],
-        queryFn: async () => {
-          await api.getAllTasks(data.id).then((res: RunningTaskApi) => {
-            console.log('tasks result: ', res);
-            res.data.map((task: RunningTaskDataApi) => {
-              console.log('task: ', task);
-              const taskData: Task = {
-                id: task.id,
-                label: task.name,
-                description: task.description,
-                key: task.id,
-              };
-              setTasks((prevState) => [...prevState, taskData]);
+  const [bpmnQuery, taskQuery, processDefinitionQuery, processInstanceQuery] =
+    useQueries({
+      queries: [
+        {
+          queryKey: ["bpmnXml", processDefinitionId],
+          queryFn: () => {
+            console.log("fetching bpmnXml...");
+            return api.getBpmnXml(processDefinitionId).then((res: string) => {
+              console.log("bpmnXml result: ", res);
+              setDiagram(res);
+              return res;
             });
-            return res;
-          });
+          },
         },
-      },
-      {
-        queryKey: ['bpmnElements', data.id],
-        queryFn: async () => {
-          await api.getBpmnElements(data.id).then((res: any) => {
-            console.log('bpmnElements result: ', res);
-            return res;
-          });
+        {
+          queryKey: ["tasks", id],
+          queryFn: async () => {
+            console.log("fetching tasks...");
+            await api.getAllTasks(id).then((res: Task[]) => {
+              setTasks(res);
+              return res;
+            });
+          },
         },
-      },
-      {
-        queryKey: ['processInstance', data.id],
-        queryFn: async () => {
-          await api.getProcessInstanceById(data.id).then((res: any[]) => {
-            console.log('processQuery result: ', res);
-            //setProcesses(res);
-            return res;
-          });
+        {
+          queryKey: ["getProcessDefinitionById", processDefinitionId],
+          queryFn: async () => {
+            console.log("fetching getProcessDefinitionById...");
+            await api
+              .getProcessDefinitionById(processDefinitionId)
+              .then((res: any) => {
+                console.log("getProcessDefinitionByIds result: ", res);
+                setProcessDefinitionData(res);
+                return res;
+              });
+          },
         },
-      },
-    ],
-  });
+        {
+          queryKey: ["processInstance", id],
+          queryFn: async () => {
+            console.log("fetching processInstance of id: ", id);
+            await api.getProcessInstanceById(id).then((res: any) => {
+              console.log("processQuery result: ", res);
+              setCurrentActiveTask(res.activityId ? res.activityId : "");
+              setProcessInstance({
+                id: res.id,
+                businessKey: res.businessKey,
+                processKey: res.processDefinitionName,
+                documentation: "",
+                startDate: new Date(res.startTime),
+                state: true,
+                group: "",
+                ids: {
+                  id: res.id,
+                  processDefinitionId: res.processDefinitionId,
+                },
+              });
+
+              //setProcesses(res);
+              return res;
+            });
+          },
+        },
+      ],
+    });
 
   useEffect(() => {
     const container = containerRef.current;
 
     bpmnViewerRef.current = new BpmnJS({ container });
 
-    bpmnViewerRef.current.on('import.done', () => {
-      bpmnViewerRef.current.get('canvas').zoom('fit-viewport');
+    bpmnViewerRef.current.on("import.done", () => {
+      bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
     });
-
-    if (processInstance.isSuccess) {
-      setCurrentActiveTask(processInstance.data.activityId);
-    }
 
     if (bpmnQuery.isSuccess) {
       //setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
       bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
-        const overlays = bpmnViewerRef.current?.get('overlays');
-        overlays.add(currentActiveTask, 'note', {
+        const overlays = bpmnViewerRef.current?.get("overlays");
+        overlays.add(currentActiveTask, "note", {
           position: {
             bottom: 18,
             right: 18,
@@ -133,25 +141,25 @@ const Visualize = (props: VisualizeProps) => {
       <Stack
         spacing={2}
         sx={{
-          flexWrap: 'wrap',
-          alignContent: 'center',
-          alignItems: 'center',
+          flexWrap: "wrap",
+          alignContent: "center",
+          alignItems: "center",
         }}
       >
         <div
           className="react-bpmn-diagram-container"
           ref={containerRef}
-          style={{ width: '100%', height: '450px' }}
+          style={{ width: "100%", height: "450px" }}
         />
         <Tabs
           tabs={[
             {
-              label: 'Description',
-              iconId: 'fr-icon-window-line',
+              label: "Description",
+              iconId: "fr-icon-window-line",
               content: (
                 <GeneralInfo
                   date="date"
-                  processID={id}
+                  processID={id ? id : "id"}
                   documentation="documentation"
                   activeTask="activeTask"
                   processKey="processKey"
@@ -161,33 +169,33 @@ const Visualize = (props: VisualizeProps) => {
               ),
             },
             {
-              label: 'Variables',
-              iconId: 'fr-icon-article-line',
+              label: "Variables",
+              iconId: "fr-icon-article-line",
               content: (
                 <Variables
                   variables={[
                     {
-                      name: 'variable1',
-                      type: 'string',
-                      value: 'value1',
+                      name: "variable1",
+                      type: "string",
+                      value: "value1",
                     },
                     {
-                      name: 'variable2',
-                      type: 'string',
-                      value: 'value2',
+                      name: "variable2",
+                      type: "string",
+                      value: "value2",
                     },
                   ]}
                 />
               ),
             },
             {
-              label: 'Tâches (Description)',
-              iconId: 'fr-icon-terminal-box-line',
+              label: "Tâches (Description)",
+              iconId: "fr-icon-terminal-box-line",
               content: <Tasks bpmnTitle="Nom du bpmn ou autre titre" />,
             },
             {
-              label: 'Tâches manuelles',
-              iconId: 'fr-icon-user-line',
+              label: "Tâches manuelles",
+              iconId: "fr-icon-user-line",
               content: <TasksManual tasks={tasks} />,
             },
           ]}

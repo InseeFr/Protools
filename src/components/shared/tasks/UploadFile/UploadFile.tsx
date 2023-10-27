@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Box, Card, Typography, CardContent, Stack } from '@mui/material';
-import ReactJson from 'react-json-view';
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, Card, Typography, CardContent, Stack } from "@mui/material";
+import ReactJson from "react-json-view";
 
-import Button from '@codegouvfr/react-dsfr/Button';
+import Button from "@codegouvfr/react-dsfr/Button";
 import { useApi } from "../../../../lib/hooks/useApi";
 import { useMutation } from "@tanstack/react-query";
 
-interface UploadFileProps {
-  taskId: string;
-}
-
-const UploadFile = (props: UploadFileProps) => {
+const UploadFile = () => {
   const api = useApi();
+  const { taskId } = useParams();
   const [files, setFiles] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     console.log("submit");
-    await api.executeTask(props.taskId, files);
+    await api.executeTask(taskId, files);
     navigate(-1);
   };
 

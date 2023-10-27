@@ -48,7 +48,6 @@ export const useApi = () => {
             apiUrl,
             oidcClient ? oidcClient.accessToken : ''
         )
-        console.log('getProcessInstanceById', response)
         return response;
     });
 
@@ -58,8 +57,17 @@ export const useApi = () => {
             apiUrl,
             oidcClient ? oidcClient.accessToken : ''
         ) 
-        console.log('getProcessDefinitions', response)
         return response;
+    });
+
+    const getProcessDefinitionById = useConstCallback((processDefinitionId) => {
+        const response = processInfoApi.getProcessDefinitionById(
+            processDefinitionId,
+            apiUrl,
+            oidcClient ? oidcClient.accessToken : ''
+        )
+        return response;
+    
     });
 
     const getAllTasks: Function = useConstCallback((processInstanceId) => processInfoApi.getAllTasks(
@@ -88,6 +96,7 @@ export const useApi = () => {
         getProcessInstances,
         getProcessInstanceById,
         getProcessDefinitions,
+        getProcessDefinitionById,
         getAllTasks,
         getVariables,
         getBpmnElements

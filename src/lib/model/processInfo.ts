@@ -7,7 +7,7 @@ class ProcessInfo {
         public startDate: Date,
         public state: boolean,
         public group: string,
-        public other: string,
+        public ids: Record<string, string>,
   ) {}
 }
 

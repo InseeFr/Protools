@@ -11,27 +11,27 @@ import NotFound from '../../components/pages/notFound/NotFound';
 // Temp routing
 const routes: RouteObject[] = [
   {
-    path: '/',
+    path: "/",
     element: <Home />,
   },
   {
-    path: '/visualize/:id',
-    element: <Visualize id="" />,
+    path: "/visualize/:id/:processDefinitionId",
+    element: <Visualize />,
   },
   {
-    path: '/launch',
+    path: "/launch",
     element: <Launch />,
   },
   {
-    path: '/upload-context',
+    path: "/upload-context/:taskId",
     element: <UploadFile />,
   },
   {
-    path: '/validation-task',
+    path: "/validation-task/:taskId",
     element: <ValidateTask />,
   },
   {
-    path: '*',
+    path: "*",
     element: <NotFound />,
   },
 ];
