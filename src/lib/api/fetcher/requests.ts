@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import fetcher from './fetcher';
+import { fetcher } from './fetcher';
 
 export const getRequest = (url: string, token: string, body?: any) => {
   return fetcher(`${url}`, 'GET', token, body? body : null);

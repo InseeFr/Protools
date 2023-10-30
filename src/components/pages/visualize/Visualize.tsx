@@ -45,7 +45,6 @@ const Visualize = () => {
           queryFn: () => {
             console.log("fetching bpmnXml...");
             return api.getBpmnXml(processDefinitionId).then((res: string) => {
-              console.log("bpmnXml result: ", res);
               setDiagram(res);
               return res;
             });
@@ -113,9 +112,11 @@ const Visualize = () => {
     });
 
     if (bpmnQuery.isSuccess) {
+      console.log("Importing diagram...");
       //setDiagram(bpmnQuery.data);
       const bpmnXml = bpmnQuery.data;
       bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
+        console.log("Diagram imported");
         const overlays = bpmnViewerRef.current?.get("overlays");
         overlays.add(currentActiveTask, "note", {
           position: {

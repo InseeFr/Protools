@@ -3,6 +3,7 @@ import RunningTaskApi from '../../model/api/runningTaskApi';
 import Task from '../../model/tasks';
 import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
+import { fetcher, fetcherXml } from '../fetcher/fetcher';
 
 export function getProcessDefinitions(
   apiUrl: string,
@@ -81,25 +82,15 @@ export function getBpmnXml(
   processDefinitionId: string,
   apiUrl: string,
   accessToken: string
-): Promise<any> {
-  try {
-    getRequest(
+): Promise<String> {
+  return fetcherXml(
       `${apiUrl}repository/process-definitions/${processDefinitionId}/resourcedata`,
-      accessToken || ''
-      ).then((res) => {
-      console.log('getBpmnXml Raw Results: ', res);
-      const responsexml = res.data;
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(responsexml, 'text/xml');
-      const xmlString = new XMLSerializer().serializeToString(xmlDoc);
-      console.log('xml String: ', xmlString);
-      return Promise.resolve(xmlString);
-    });
-  } catch (error) {
-    console.error('Error fetching or parsing XML:', error);
-    throw error;
-  };
-  return Promise.resolve();
+      'GET',
+      accessToken || '',
+      null
+    ).then((response) => {
+      return Promise.resolve(response.data!);
+     });
 }
 
 export function getVariables(
