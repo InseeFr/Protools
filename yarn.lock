@@ -1153,6 +1153,13 @@ big-integer@^1.6.16:
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
 
+bpmn-js-collapse-subprocess@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/bpmn-js-collapse-subprocess/-/bpmn-js-collapse-subprocess-0.1.1.tgz#92b6758dbc74bd485165db7f7997a68b73e7c49f"
+  integrity sha512-N+zyvpBlLJSJ8o0sEsFygIGatZ6v0tT/Un4fNEY38qUTHWPExe8jdo+p2r85BLjR0iDYM+0rPtmL5NNASXyfug==
+  dependencies:
+    min-dash "^3.5.2"
+
 bpmn-js@^13.2.0:
   version "13.2.2"
   resolved "https://registry.yarnpkg.com/bpmn-js/-/bpmn-js-13.2.2.tgz#5cd4c64e8e459306e8f16d85895a20d6d098d790"
@@ -2781,6 +2788,11 @@ mimic-fn@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-4.0.0.tgz#60a90550d5cb0b239cca65d893b1a53b29871ecc"
   integrity sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==
+
+min-dash@^3.5.2:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/min-dash/-/min-dash-3.8.1.tgz#09a8bd8a041d65eec4732042cde9cb24a6e84b0d"
+  integrity sha512-evumdlmIlg9mbRVPbC4F5FuRhNmcMS5pvuBUbqb1G9v09Ro0ImPEgz5n3khir83lFok1inKqVDjnKEg3GpDxQg==
 
 min-dash@^4.0.0, min-dash@^4.1.0:
   version "4.1.1"

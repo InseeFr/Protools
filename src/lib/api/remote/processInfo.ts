@@ -4,6 +4,7 @@ import Task from '../../model/tasks';
 import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
 import { fetcher, fetcherXml } from '../fetcher/fetcher';
+import Variable from '../../model/api/variable';
 
 export function getProcessDefinitions(
   apiUrl: string,
@@ -97,11 +98,16 @@ export function getVariables(
   processInstanceId: string,
   apiUrl: string,
   accessToken: string
-): Promise<any> {
+): Promise<Variable> {
   return getRequest(
     `${apiUrl}runtime/process-instances/${processInstanceId}/variables`,
     accessToken || ''
-  );
+  ).then((res) => {
+    if (res.data.length > 0) {
+      return res.data.find((variable: any) => variable.name === "context");
+    }
+    return Promise.resolve({});
+  });
 }
 
 export function getBpmnElements(

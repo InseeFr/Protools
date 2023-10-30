@@ -1,30 +1,24 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@codegouvfr/react-dsfr/Button';
+import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
+import ProcessInfo from "../../../lib/model/processInfo";
+import moment from "moment";
 
 interface GeneralInfoProps {
-  date: string;
-  processID: string;
-  documentation: string;
-  activeTask: string;
-  processKey: string;
-  businessKey: string;
-  state: boolean;
+  processDefinitionData: ProcessDefinitionDataApi;
+  processInstance: ProcessInfo;
 }
 
 const GeneralInfo = (props: GeneralInfoProps) => {
   const navigate = useNavigate();
-  const {
-    date,
-    processID,
-    documentation,
-    activeTask,
-    processKey,
-    businessKey,
-    state,
-  } = props;
+  const { processDefinitionData, processInstance } = props;
   return (
-    <Stack direction="row" alignItems="flex-start">
+    <Stack
+      direction="row"
+      alignItems="flex-start"
+      justifyContent="space-between"
+    >
       <Stack
         direction="row"
         alignItems="flex-start"
@@ -41,7 +35,9 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               sx={{ marginLeft: 1 }}
               align="left"
             >
-              {documentation}
+              {processInstance.documentation
+                ? processInstance.documentation
+                : "Aucune documentation"}
             </Typography>
           </Grid>
           <Grid item container xs={12} direction="row" alignItems="baseline">
@@ -49,7 +45,9 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               Nom de l&apos;enquête:
             </Typography>
             <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {businessKey}
+              {processInstance.businessKey
+                ? processInstance.businessKey
+                : "Aucun nom d'enquête"}
             </Typography>
           </Grid>
           <Grid item container xs={12} direction="row" alignItems="baseline">
@@ -57,7 +55,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               Type d&apos;enquête:
             </Typography>
             <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {processKey}
+              {processDefinitionData.name ? processDefinitionData.name : "..."}
             </Typography>
           </Grid>
           <Grid item container xs={12} direction="row" alignItems="baseline">
@@ -65,31 +63,16 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               ProcessID:
             </Typography>
             <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {processID}
+              {processInstance.id ? processInstance.id : "..."}
             </Typography>
           </Grid>
-          <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
-              Groupe habilité:
-            </Typography>
-            <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              ...
-            </Typography>
-          </Grid>
-          <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
-              Tâches manuelles en attente:
-            </Typography>
-            <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {activeTask}
-            </Typography>
-          </Grid>
+
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
               Date de création:
             </Typography>
             <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {date}
+              {moment(processInstance.startDate).format("DD/MM/YYYY HH:mm")}
             </Typography>
           </Grid>
         </Stack>
@@ -99,12 +82,12 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               État:
             </Typography>
             <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {state ? 'Actif' : 'Inactif'}
+              {processInstance.state ? "Actif" : "Inactif"}
             </Typography>
           </Grid>
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
-              Autre info:
+              Version:
             </Typography>
             <Typography
               color="primary"
@@ -112,12 +95,9 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               align="left"
               sx={{ marginLeft: 1 }}
             >
-              Autres informations au sujet de l'enquête
-            </Typography>
-          </Grid>
-          <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
-              ...
+              {processDefinitionData.version
+                ? processDefinitionData.version
+                : "..."}
             </Typography>
           </Grid>
         </Stack>
@@ -125,7 +105,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
 
       <Stack
         spacing={2}
-        sx={{ padding: '0.2rem 2.8rem', minwidth: '15%' }}
+        sx={{ padding: "0.2rem 2.8rem", minwidth: "15%" }}
         alignItems="flex-start"
       >
         <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
@@ -133,14 +113,16 @@ const GeneralInfo = (props: GeneralInfoProps) => {
         </Typography>
         <Button
           iconId="fr-icon-pause-circle-line"
-          onClick={() => console.log('clicked')}
+          disabled
+          onClick={() => console.log("clicked")}
         >
-          {state ? 'Suspendre' : 'Relancer'}
+          {processInstance.state ? "Suspendre" : "Relancer"}
         </Button>
         <Button
           iconId="fr-icon-delete-line"
           priority="secondary"
-          onClick={() => navigate('/visualize')}
+          disabled
+          onClick={() => navigate("/visualize")}
         >
           Supprimer
         </Button>

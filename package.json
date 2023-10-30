@@ -23,6 +23,7 @@
     "@tanstack/react-query-devtools": "^4.29.19",
     "@types/node": "^20.3.1",
     "bpmn-js": "^13.2.0",
+    "bpmn-js-collapse-subprocess": "^0.1.1",
     "diagram-js-minimap": "^4.1.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
