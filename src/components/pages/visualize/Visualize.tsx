@@ -19,7 +19,10 @@ import { useApi } from "../../../lib/hooks/useApi";
 import ProcessInfo from "../../../lib/model/processInfo";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
-import FlowElements from "../../../lib/model/api/FlowElements";
+import FlowElements from "../../../lib/model/flowElements";
+import { HistoricActivity } from "../../../lib/model/api/historicActivity";
+import HistoryActivity from "./History";
+import moment from "moment";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -36,9 +39,10 @@ const Visualize = () => {
   );
   const [variables, setVariables] = useState<Variable>();
   const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>();
-
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
+
+  const [history, setHistory] = useState<ReactNode[][]>();
 
   const api = useApi();
 
@@ -49,6 +53,7 @@ const Visualize = () => {
     processInstanceQuery,
     variableQuery,
     bpmnElementQuery,
+    historyQuery,
   ] = useQueries({
     queries: [
       {
@@ -146,6 +151,31 @@ const Visualize = () => {
             });
         },
       },
+      {
+        queryKey: ["history", id],
+        queryFn: async () => {
+          //console.log("fetching history of id: ", id);
+          return await api
+            .getHistoricActivity(id)
+            .then((res: HistoricActivity[]) => {
+              //console.log("history result: ", res);
+              const historicActivity: ReactNode[][] = [];
+              res.forEach((element: HistoricActivity) => {
+                //console.log("element: ", element);
+                historicActivity.push([
+                  //element.id,
+                  element.activityId,
+                  element.activityName,
+                  element.activityType,
+                  moment(element.endTime).format("DD/MM/YYYY HH:mm"),
+                  element.durationInMillis,
+                ]);
+              });
+              setHistory(historicActivity);
+              return res;
+            });
+        },
+      },
     ],
   });
 
@@ -185,7 +215,7 @@ const Visualize = () => {
     }
   }, [diagram]);
 
-  if (diagram.length > 0 && rendered && bpmnElements) {
+  if (diagram.length > 0 && rendered && bpmnElements && history) {
     return (
       <Stack
         spacing={2}
@@ -201,6 +231,7 @@ const Visualize = () => {
           style={{ width: "100%", height: "450px" }}
         />
         <Tabs
+          style={{ width: "120%" }}
           tabs={[
             {
               label: "Description",
@@ -213,7 +244,7 @@ const Visualize = () => {
               ),
             },
             {
-              label: "Variables",
+              label: "Contexte",
               iconId: "fr-icon-article-line",
               content: <Variables variables={variables!} />,
             },
@@ -231,6 +262,11 @@ const Visualize = () => {
               label: "Tâches manuelles",
               iconId: "fr-icon-user-line",
               content: <TasksManual tasks={tasks} />,
+            },
+            {
+              label: "Historique",
+              iconId: "fr-icon-success-line",
+              content: <HistoryActivity history={history} />,
             },
           ]}
         />

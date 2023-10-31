@@ -5,7 +5,8 @@ import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
 import { fetcher, fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
-import FlowElements from '../../model/api/FlowElements';
+import FlowElements from '../../model/flowElements';
+import { HistoricActivity } from '../../model/api/historicActivity';
 
 export function getProcessDefinitions(
   apiUrl: string,
@@ -125,7 +126,7 @@ export function getBpmnElements(
       const flowElementsData = process.flowElements;
       flowElementsData.forEach((flowElement: any) => {
         flowElements.push({
-          id: flowElement.id,
+          id: flowElement.id.length > 30 ? flowElement.id.substring(0, 30) + ' [...]' : flowElement.id,
           name: flowElement.name,
           documentation: flowElement.documentation ? flowElement.documentation : '',
           asynchronous: flowElement.asynchronous ? flowElement.asynchronous : false,
@@ -133,11 +134,37 @@ export function getBpmnElements(
         } as FlowElements);
       }
       );
-    console.log('flowElements: ', flowElements)
+    //console.log('flowElements: ', flowElements)
     return Promise.resolve(flowElements);
   });
 
   //return Promise.resolve(flowElements);
+}
+
+const getHistoricActivity = (
+  processInstanceId: string,
+  apiUrl: string,
+  accessToken: string
+): Promise<HistoricActivity[]> => {
+  const historicActivities: HistoricActivity[] = [];
+  return getRequest(
+    `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
+    accessToken || ''
+  ).then((res) => {
+    res.data && res.data.data.forEach((historicActivity: any) => {
+  if (historicActivity.activityType !== "sequenceFlow") {
+    historicActivities.push({
+      activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
+      activityName: historicActivity.activityName,
+      activityType: historicActivity.activityType,
+      executionId: historicActivity.executionId,
+      endTime: historicActivity.endTime,
+      durationInMillis: historicActivity.durationInMillis / 1000
+    } as HistoricActivity);
+  }
+});
+    return Promise.resolve(historicActivities);
+   });
 }
 
 export const processInfoApi = {
@@ -149,4 +176,5 @@ export const processInfoApi = {
   getBpmnXml,
   getVariables,
   getBpmnElements,
+  getHistoricActivity
 };
