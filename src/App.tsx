@@ -9,8 +9,7 @@ import {
 } from './lib/utils/provider/configProvider';
 import Layout from './components/shared/layout/Layout';
 import Router from './lib/routes/router';
-import './App.css';
-import { useContext } from 'react';
+import "./App.css";
 
 const queryClient = new QueryClient();
 

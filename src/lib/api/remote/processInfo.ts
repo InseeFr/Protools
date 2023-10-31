@@ -5,6 +5,7 @@ import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
 import { fetcher, fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
+import FlowElements from '../../model/api/FlowElements';
 
 export function getProcessDefinitions(
   apiUrl: string,
@@ -111,14 +112,32 @@ export function getVariables(
 }
 
 export function getBpmnElements(
-  processInstanceId: string,
+  processDefinitionId: string,
   apiUrl: string,
   accessToken: string
-): Promise<any> {
+): Promise<FlowElements[]> {
+  const flowElements: FlowElements[] = [];
   return getRequest(
-    `${apiUrl}repository/process-instances/${processInstanceId}`,
+    `${apiUrl}repository/process-definitions/${processDefinitionId}/model`,
     accessToken || ''
-  );
+  ).then((res) => {
+      const process = res.data.processes[0];
+      const flowElementsData = process.flowElements;
+      flowElementsData.forEach((flowElement: any) => {
+        flowElements.push({
+          id: flowElement.id,
+          name: flowElement.name,
+          documentation: flowElement.documentation ? flowElement.documentation : '',
+          asynchronous: flowElement.asynchronous ? flowElement.asynchronous : false,
+          eventDefinitions: flowElement.eventDefinitions ? flowElement.eventDefinitions : [],
+        } as FlowElements);
+      }
+      );
+    console.log('flowElements: ', flowElements)
+    return Promise.resolve(flowElements);
+  });
+
+  //return Promise.resolve(flowElements);
 }
 
 export const processInfoApi = {

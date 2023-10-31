@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactNode } from "react";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ import { useApi } from "../../../lib/hooks/useApi";
 import ProcessInfo from "../../../lib/model/processInfo";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
+import FlowElements from "../../../lib/model/api/FlowElements";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -34,6 +35,7 @@ const Visualize = () => {
     {} as ProcessInfo
   );
   const [variables, setVariables] = useState<Variable>();
+  const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>();
 
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
@@ -46,6 +48,7 @@ const Visualize = () => {
     processDefinitionQuery,
     processInstanceQuery,
     variableQuery,
+    bpmnElementQuery,
   ] = useQueries({
     queries: [
       {
@@ -70,12 +73,13 @@ const Visualize = () => {
       },
       {
         queryKey: ["getProcessDefinitionById", processDefinitionId],
+        refetchOnWindowFocus: false,
         queryFn: async () => {
           //console.log("fetching getProcessDefinitionById...");
           return await api
             .getProcessDefinitionById(processDefinitionId)
             .then((res: any) => {
-              console.log("getProcessDefinitionByIds result: ", res);
+              //console.log("getProcessDefinitionByIds result: ", res);
               setProcessDefinitionData(res);
               return res;
             });
@@ -118,6 +122,30 @@ const Visualize = () => {
           });
         },
       },
+      {
+        queryKey: ["bpmnElements", processDefinitionId],
+        refetchOnWindowFocus: false,
+        queryFn: async () => {
+          //console.log("fetching bpmnElement of id: ", id);
+          return await api
+            .getBpmnElements(processDefinitionId)
+            .then((res: FlowElements[]) => {
+              //console.log("bpmnElement raw: ", res);
+              const bpmnElements: ReactNode[][] = [];
+              res.forEach((element: FlowElements) => {
+                //console.log("element: ", element);
+                bpmnElements.push([
+                  element.id,
+                  element.name,
+                  element.eventDefinitions.length > 0 ? "Event" : "Tâche",
+                  element.documentation,
+                ]);
+              });
+              setBpmnElements(bpmnElements);
+              return res;
+            });
+        },
+      },
     ],
   });
 
@@ -157,7 +185,7 @@ const Visualize = () => {
     }
   }, [diagram]);
 
-  if (diagram.length > 0 && rendered) {
+  if (diagram.length > 0 && rendered && bpmnElements) {
     return (
       <Stack
         spacing={2}
@@ -192,7 +220,12 @@ const Visualize = () => {
             {
               label: "Tâches (Description)",
               iconId: "fr-icon-terminal-box-line",
-              content: <Tasks bpmnTitle="Nom du bpmn ou autre titre" />,
+              content: (
+                <Tasks
+                  bpmnElements={bpmnElements!}
+                  processName={processInstance.processKey}
+                />
+              ),
             },
             {
               label: "Tâches manuelles",
