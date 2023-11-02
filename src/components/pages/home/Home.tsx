@@ -14,10 +14,11 @@ const Home = () => {
   // TODO: Parsing des processus en cours
 
   const api = useApi();
-
+  
   const processInstanceQuery = useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
       console.log("processQuery result: ", res);
+
       res.data.data.map((process: any) => {
         const processInfo: ProcessInfo = {
           id: process.id,
@@ -41,7 +42,7 @@ const Home = () => {
     });
     return response;
   });
-
+  
   return (
     <Stack
       spacing={2}
