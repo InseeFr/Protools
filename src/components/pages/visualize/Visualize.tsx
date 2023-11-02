@@ -75,8 +75,7 @@ const Visualize = () => {
 
             console.log("Importing diagram...");
             //setDiagram(bpmnQuery.data);
-            const bpmnXml = bpmnQuery.data;
-            bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
+            bpmnViewerRef.current?.importXML(res).then(() => {
               console.log("Diagram imported");
 
               // const overlays = bpmnViewerRef.current?.get("overlays");
