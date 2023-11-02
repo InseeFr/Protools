@@ -210,12 +210,15 @@ const Visualize = () => {
         //   html: '<div class="diagram-note">🦊</div>',
         // });
         // TEMP
-        setRendered(true);
+        setTimeout(() => {
+          setRendered(true);
+        }, 1000);
+        
       });
     }
   }, [diagram]);
 
-  if (diagram.length > 0 && rendered && bpmnElements && history) {
+  if (diagram.length > 0 && rendered === true && bpmnElements && history) {
     return (
       <Stack
         spacing={2}
