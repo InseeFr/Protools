@@ -91,9 +91,10 @@ const Visualize = () => {
               // });
               // TEMP
               bpmnViewerRef.current?.get("canvas").resized();
+
               setTimeout(() => {
                 setRendered(true);
-              }, 1000);
+              }, 500);
             });
             return res;
           });
@@ -212,6 +213,10 @@ const Visualize = () => {
     ],
   });
 
+  useEffect(() => {
+    document.getElementById("containerBPMN")?.focus();
+  }, [rendered]);
+
   if (diagram.length > 0 && rendered === true && bpmnElements && history) {
     return (
       <Stack
@@ -223,7 +228,7 @@ const Visualize = () => {
         }}
       >
         <div
-          className="containerBPMN"
+          id="containerBPMN"
           ref={containerRef}
           style={{ width: "100%", height: "450px" }}
         />
