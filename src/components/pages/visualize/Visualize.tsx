@@ -20,9 +20,9 @@ import ProcessInfo from "../../../lib/model/processInfo";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
 import FlowElements from "../../../lib/model/flowElements";
-import { HistoricActivity } from "../../../lib/model/api/historicActivity";
 import HistoryActivity from "./History";
 import moment from "moment";
+import HistoricActivity from "../../../lib/model/api/historicActivity";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
