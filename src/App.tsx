@@ -14,7 +14,7 @@ import "./App.css";
 const queryClient = new QueryClient();
 
 function App() {
-  
+  console.log("App"); 
   
   return (
     <MuiDsfrThemeProvider>
