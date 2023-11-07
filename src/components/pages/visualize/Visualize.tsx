@@ -71,6 +71,11 @@ const Visualize = () => {
 
             console.log("Importing diagram...");
             console.log("Diagram: ", res);
+
+            bpmnViewerRef.current.on("import.done", () => {
+              bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
+            });
+
             //setDiagram(bpmnQuery.data);
             try {
               bpmnViewerRef.current?.importXML(res).then(() => {
