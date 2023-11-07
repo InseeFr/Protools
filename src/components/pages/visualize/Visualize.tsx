@@ -27,8 +27,6 @@ import HistoricActivity from "../../../lib/model/api/historicActivity";
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
   const [rendered, setRendered] = useState<boolean>(false);
-  const [currentActiveTask, setCurrentActiveTask] =
-    useState<string>("uploadContext");
   const [diagram, setDiagram] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
   // @ts-expect-error BpmnJS is not typed
@@ -46,15 +44,7 @@ const Visualize = () => {
 
   const api = useApi();
 
-  const [
-    bpmnQuery,
-    taskQuery,
-    processDefinitionQuery,
-    processInstanceQuery,
-    variableQuery,
-    bpmnElementQuery,
-    historyQuery,
-  ] = useQueries({
+  useQueries({
     queries: [
       {
         queryKey: ["bpmnXml", processDefinitionId],
@@ -137,7 +127,6 @@ const Visualize = () => {
           //console.log("fetching processInstance of id: ", id);
           return await api.getProcessInstanceById(id).then((res: any) => {
             //console.log("processQuery result: ", res);
-            setCurrentActiveTask(res.activityId ? res.activityId : "");
             setProcessInstance({
               id: res.id,
               businessKey: res.businessKey,

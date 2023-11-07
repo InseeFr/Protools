@@ -5,7 +5,6 @@ import ReactJson from "react-json-view";
 
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useApi } from "../../../../lib/hooks/useApi";
-import { useMutation } from "@tanstack/react-query";
 
 const UploadFile = () => {
   const api = useApi();

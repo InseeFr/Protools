@@ -22,7 +22,6 @@ const Launch = () => {
   const [processKey, setProcessKey] = useState("");
   const [businessKey, setBusinessKey] = useState("test");
   const [isContextOpen, setIsContextOpen] = useState(false);
-  const [variables, setVariables] = useState([] as any); // eslint-disable-line @typescript-eslint/no-explicit-any -> TODO: fix any
   const [files, setFiles] = useState("");
 
   const [openError, setOpenError] = useState(false);
@@ -38,9 +37,9 @@ const Launch = () => {
 
   const startProcess: MutationFunction<
     any,
-    { processKey: string; businessKey: string; variables: any }
-  > = async ({ processKey, businessKey, variables }) => {
-    const response = await api.startProcess(processKey, businessKey, variables);
+    { processKey: string; businessKey: string; files: any }
+  > = async ({ processKey, businessKey, files }) => {
+    const response = await api.startProcess(processKey, businessKey, files);
     return response.data;
   };
 
@@ -70,7 +69,7 @@ const Launch = () => {
       ? mutate({
           processKey: processKey,
           businessKey,
-          variables,
+          files,
         })
       : console.error("processKey is empty");
   };

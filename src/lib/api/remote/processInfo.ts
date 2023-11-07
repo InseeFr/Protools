@@ -1,9 +1,8 @@
 import ProcessDefinitionDataApi from '../../model/api/processDefinitionData';
-import RunningTaskApi from '../../model/api/runningTaskApi';
 import Task from '../../model/tasks';
 import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
-import { fetcher, fetcherXml } from '../fetcher/fetcher';
+import { fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
 import FlowElements from '../../model/flowElements';
 import HistoricActivity from '../../model/api/historicActivity';

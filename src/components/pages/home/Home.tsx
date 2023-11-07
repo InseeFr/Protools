@@ -2,9 +2,9 @@ import { Stack, Typography } from '@mui/material';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 import ProcessInfo from '../../../lib/model/processInfo';
 import OnGoingProcess from './OngoingProcess';
-import { useEffect, useState } from 'react';
-import { useApi } from '../../../lib/hooks/useApi';
-import { useQuery } from '@tanstack/react-query';
+import { useState } from "react";
+import { useApi } from "../../../lib/hooks/useApi";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const Home = () => {
 
   const api = useApi();
 
-  const processInstanceQuery = useQuery(["processInstances"], async () => {
+  useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
       console.log("processQuery result: ", res);
 
