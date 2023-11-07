@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Card,
   Typography,
   CardContent,
   Stack,
-  MenuItem,
   CircularProgress,
 } from "@mui/material";
 import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
@@ -20,9 +19,6 @@ import { useNavigate } from "react-router-dom";
 import ErrorDialog from "../../shared/dialogs/ErrorDialog";
 
 const Launch = () => {
-  const [processes, setProcesses] = useState<
-    Array<{ key: string; name: string }>
-  >([]);
   const [processKey, setProcessKey] = useState("");
   const [businessKey, setBusinessKey] = useState("test");
   const [isContextOpen, setIsContextOpen] = useState(false);
@@ -33,13 +29,11 @@ const Launch = () => {
 
   const api = useApi();
   const navigate = useNavigate();
-  const processQuery = useQuery(["processDefinition"], async () => {
-    const response = await api.getProcessDefinitions().then((res: any[]) => {
-      console.log("processQuery result: ", res);
-      setProcesses(res);
-      return res;
-    });
-    return response;
+  const processQuery = useQuery({
+    queryKey: ["processDefinitions"],
+    queryFn: () => {
+      return api.getProcessDefinitions();
+    },
   });
 
   const startProcess: MutationFunction<
@@ -61,27 +55,8 @@ const Launch = () => {
     },
   });
 
-  // useEffect(() => {
-  //   if (processQuery.isSuccess) {
-  //     const processDefinitions: any = processQuery.data;
-  //     console.log("processQuery: ", processQuery);
-  //     const processList = processDefinitions.map((processDefinition: any) => ({
-  //       key: processDefinition.key,
-  //       name: processDefinition.name,
-  //     }));
-  //     setProcesses(processList);
-  //     console.log("processQuery.isSuccess", processList);
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [processQuery.isSuccess]);
-
   useEffect(() => {
-    console.log("fetch process: ", processes);
-  }, [processes]);
-
-  useEffect(() => {
-    console.log("processQuery.isSuccess: ", processQuery.isSuccess);
+    console.log("processQuery updated:  ", processQuery.data);
   }, [processQuery.isSuccess]);
 
   const handleStartProcess = () => {
@@ -91,30 +66,17 @@ const Launch = () => {
       "and business key",
       businessKey
     );
-    mutate({
-      processKey:
-        processKey.length > 1 ? processKey : "chargementContexteEnqueteur",
-      businessKey,
-      variables,
-    });
+    processKey.length > 1
+      ? mutate({
+          processKey: processKey,
+          businessKey,
+          variables,
+        })
+      : console.error("processKey is empty");
   };
 
-  if (processQuery.isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          width: "90%",
-        }}
-      >
-        <CircularProgress />
-        <Typography>Chargement des données</Typography>
-      </Box>
-    );
-  }
-  if (processQuery.isSuccess) {
+  if (processQuery.isSuccess && processQuery.data.length > 0) {
+    console.log(processQuery);
     return (
       <>
         <Box
@@ -135,22 +97,21 @@ const Launch = () => {
                   label="BPMN à lancer"
                   nativeSelectProps={{
                     value: processKey,
-                    onChange: (event) => setProcessKey(event.target.value),
+                    onChange: (event) => {
+                      console.log(event);
+                      setProcessKey(event.target.value);
+                    },
                   }}
                 >
-                  <MenuItem value="">
-                    <em>Selectionnez une option</em>
-                  </MenuItem>
-                  {processes.map(
-                    (process) => (
-                      console.log("process: ", process),
-                      (
-                        <MenuItem key={process.key} value={process.key}>
-                          {process.name}
-                        </MenuItem>
-                      )
-                    )
-                  )}
+                  {processQuery.data.map((process: any) => {
+                    console.log("process option: ", process);
+                    console.log("process.key: ", process.key);
+                    return (
+                      <option key={process.key} value={process.key}>
+                        {process.name}
+                      </option>
+                    );
+                  })}
                 </Select>
 
                 <Input
@@ -232,6 +193,20 @@ const Launch = () => {
           errorDescription="Une erreur s'est produite lors du lancement du processus."
         />
       </>
+    );
+  } else {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          width: "90%",
+        }}
+      >
+        <CircularProgress />
+        <Typography>Chargement des données</Typography>
+      </Box>
     );
   }
 };

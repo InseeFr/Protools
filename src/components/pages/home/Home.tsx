@@ -5,6 +5,7 @@ import OnGoingProcess from './OngoingProcess';
 import { useEffect, useState } from 'react';
 import { useApi } from '../../../lib/hooks/useApi';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -14,7 +15,7 @@ const Home = () => {
   // TODO: Parsing des processus en cours
 
   const api = useApi();
-  
+
   const processInstanceQuery = useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
       console.log("processQuery result: ", res);
@@ -42,7 +43,7 @@ const Home = () => {
     });
     return response;
   });
-  
+
   return (
     <Stack
       spacing={2}
@@ -55,13 +56,10 @@ const Home = () => {
       <Typography variant="h1">Home</Typography>
 
       <OnGoingProcess processes={processes} />
-      <Button
-        linkProps={{
-          href: "/launch",
-        }}
-      >
-        Lancer un processus
-      </Button>
+
+      <Link to={`/launch`} style={{ textDecoration: "none" }}>
+        <Button>Lancer un processus</Button>
+      </Link>
     </Stack>
   );
 };

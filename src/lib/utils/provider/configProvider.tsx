@@ -27,7 +27,6 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
 
   useEffect(() => {
     if (!isConfigLoaded) {
-      setIsConfigLoaded(true);
       getConfig().then((data: any) => {
         setConfig({
           apiUrl: data.API_URL,

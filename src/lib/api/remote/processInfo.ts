@@ -6,28 +6,29 @@ import { getRequest } from '../fetcher/requests';
 import { fetcher, fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
 import FlowElements from '../../model/flowElements';
-import { HistoricActivity } from '../../model/api/historicActivity';
+import HistoricActivity from '../../model/api/historicActivity';
 
 export function getProcessDefinitions(
   apiUrl: string,
   accessToken: string
 ): Promise<any[]> {
 
-  const processLaunchInfo: any[] = [];
-  getRequest(`${apiUrl}repository/process-definitions`, accessToken || '').then((response) => {
-    
+
+  return getRequest(`${apiUrl}repository/process-definitions`, accessToken || '').then((response) => {
+    //console.log('response', response);
     deleteDuplicatesByKey(response.data);
+    const processLaunchInfo: any[] = [];
     response.data.data.forEach((processDefinition: any) => {
-      
-          processLaunchInfo.push({
-              key: processDefinition.key,
-              name: processDefinition.name
-          }); 
+        processLaunchInfo.push({
+            key: processDefinition.key,
+            name: processDefinition.name
+        }); 
       
     });
+    return Promise.resolve(processLaunchInfo);
   });
     
-   return Promise.resolve(processLaunchInfo); 
+  
 }
 
 export function getProcessDefinitionById(

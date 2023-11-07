@@ -69,33 +69,35 @@ const Visualize = () => {
               additionalModules: [minimapModule],
             });
 
-            bpmnViewerRef.current.on("import.done", () => {
-              bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
-            });
-
             console.log("Importing diagram...");
+            console.log("Diagram: ", res);
             //setDiagram(bpmnQuery.data);
-            bpmnViewerRef.current?.importXML(res).then(() => {
-              console.log("Diagram imported");
+            try {
+              bpmnViewerRef.current?.importXML(res).then(() => {
+                console.log("Diagram imported");
 
-              // const overlays = bpmnViewerRef.current?.get("overlays");
-              // overlays.add(currentActiveTask, "note", {
-              //   position: {
-              //     bottom: 18,
-              //     right: 18,
-              //   },
-              //   scale: {
-              //     min: 1.2,
-              //   },
-              //   html: '<div class="diagram-note">🦊</div>',
-              // });
-              // TEMP
-              bpmnViewerRef.current?.get("canvas").resized();
-
-              setTimeout(() => {
+                // const overlays = bpmnViewerRef.current?.get("overlays");
+                // overlays.add(currentActiveTask, "note", {
+                //   position: {
+                //     bottom: 18,
+                //     right: 18,
+                //   },
+                //   scale: {
+                //     min: 1.2,
+                //   },
+                //   html: '<div class="diagram-note">🦊</div>',
+                // });
+                // TEMP
+                bpmnViewerRef.current?.get("canvas").resized();
                 setRendered(true);
-              }, 500);
-            });
+              });
+            } catch (error) {
+              console.error("Error importing diagram", error);
+              bpmnViewerRef.current?.importXML("").then(() => {
+                bpmnViewerRef.current?.get("canvas").resized();
+                setRendered(true);
+              });
+            }
             return res;
           });
         },
