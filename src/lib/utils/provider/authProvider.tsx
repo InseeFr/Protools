@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
   return config.authType === "none" ? (
-    <NoAuthProvider setOidcClient={setOidcClient}>{children}</NoAuthProvider>
+    <NoAuthProvider>{children}</NoAuthProvider>
   ) : oidcClient === null ? (
     <Layout>
       <Box display="flex" justifyContent="center" alignItems="center">

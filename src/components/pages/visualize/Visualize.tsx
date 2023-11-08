@@ -77,7 +77,7 @@ const Visualize = () => {
                 //     min: 1.2,
                 //   },
                 //   html: '<div class="diagram-note">🦊</div>',
-                // });
+                // });g
                 // TEMP
                 bpmnViewerRef.current?.get("canvas").resized();
                 setRendered(true);
