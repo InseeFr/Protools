@@ -20,15 +20,13 @@ import ProcessInfo from "../../../lib/model/processInfo";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
 import FlowElements from "../../../lib/model/flowElements";
-import { HistoricActivity } from "../../../lib/model/api/historicActivity";
 import HistoryActivity from "./History";
 import moment from "moment";
+import HistoricActivity from "../../../lib/model/api/historicActivity";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
   const [rendered, setRendered] = useState<boolean>(false);
-  const [currentActiveTask, setCurrentActiveTask] =
-    useState<string>("uploadContext");
   const [diagram, setDiagram] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
   // @ts-expect-error BpmnJS is not typed
@@ -46,15 +44,7 @@ const Visualize = () => {
 
   const api = useApi();
 
-  const [
-    bpmnQuery,
-    taskQuery,
-    processDefinitionQuery,
-    processInstanceQuery,
-    variableQuery,
-    bpmnElementQuery,
-    historyQuery,
-  ] = useQueries({
+  useQueries({
     queries: [
       {
         queryKey: ["bpmnXml", processDefinitionId],
@@ -62,6 +52,47 @@ const Visualize = () => {
           console.log("fetching bpmnXml...");
           return api.getBpmnXml(processDefinitionId).then((res: string) => {
             setDiagram(res);
+            const container = containerRef.current;
+
+            bpmnViewerRef.current = new BpmnJS({
+              container,
+              additionalModules: [minimapModule],
+            });
+
+            console.log("Importing diagram...");
+            console.log("Diagram: ", res);
+
+            bpmnViewerRef.current.on("import.done", () => {
+              bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
+            });
+
+            //setDiagram(bpmnQuery.data);
+            try {
+              bpmnViewerRef.current?.importXML(res).then(() => {
+                console.log("Diagram imported");
+
+                // const overlays = bpmnViewerRef.current?.get("overlays");
+                // overlays.add(currentActiveTask, "note", {
+                //   position: {
+                //     bottom: 18,
+                //     right: 18,
+                //   },
+                //   scale: {
+                //     min: 1.2,
+                //   },
+                //   html: '<div class="diagram-note">🦊</div>',
+                // });
+                // TEMP
+                bpmnViewerRef.current?.get("canvas").resized();
+                setRendered(true);
+              });
+            } catch (error) {
+              console.error("Error importing diagram", error);
+              bpmnViewerRef.current?.importXML("").then(() => {
+                bpmnViewerRef.current?.get("canvas").resized();
+                setRendered(true);
+              });
+            }
             return res;
           });
         },
@@ -96,7 +127,6 @@ const Visualize = () => {
           //console.log("fetching processInstance of id: ", id);
           return await api.getProcessInstanceById(id).then((res: any) => {
             //console.log("processQuery result: ", res);
-            setCurrentActiveTask(res.activityId ? res.activityId : "");
             setProcessInstance({
               id: res.id,
               businessKey: res.businessKey,
@@ -180,42 +210,10 @@ const Visualize = () => {
   });
 
   useEffect(() => {
-    const container = containerRef.current;
+    document.getElementById("containerBPMN")?.focus();
+  }, [rendered]);
 
-    bpmnViewerRef.current = new BpmnJS({
-      container,
-      additionalModules: [minimapModule],
-    });
-
-    bpmnViewerRef.current.on("import.done", () => {
-      bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
-    });
-
-    if (bpmnQuery.isSuccess) {
-      console.log("Importing diagram...");
-      //setDiagram(bpmnQuery.data);
-      const bpmnXml = bpmnQuery.data;
-      bpmnViewerRef.current?.importXML(bpmnXml).then(() => {
-        console.log("Diagram imported");
-
-        // const overlays = bpmnViewerRef.current?.get("overlays");
-        // overlays.add(currentActiveTask, "note", {
-        //   position: {
-        //     bottom: 18,
-        //     right: 18,
-        //   },
-        //   scale: {
-        //     min: 1.2,
-        //   },
-        //   html: '<div class="diagram-note">🦊</div>',
-        // });
-        // TEMP
-        setRendered(true);
-      });
-    }
-  }, [diagram]);
-
-  if (diagram.length > 0 && rendered && bpmnElements && history) {
+  if (diagram.length > 0 && rendered === true && bpmnElements && history) {
     return (
       <Stack
         spacing={2}
@@ -226,7 +224,7 @@ const Visualize = () => {
         }}
       >
         <div
-          className="react-bpmn-diagram-container"
+          id="containerBPMN"
           ref={containerRef}
           style={{ width: "100%", height: "450px" }}
         />

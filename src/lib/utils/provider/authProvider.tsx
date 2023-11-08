@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     if (config.authType === "oidc" && oidcClient === null) {
-      //console.log("loadConf");
+      console.log("loadConf");
       loadConf();
     }
   }, [config.authType, oidcClient, config.identityProvider]);

@@ -26,14 +26,18 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
   });
 
   useEffect(() => {
-    getConfig().then((data: any) => {
-      setConfig({
-        apiUrl: data.API_URL,
-        authType: data.AUTH_TYPE,
-        identityProvider: data.IDENTITY_PROVIDER,
+    if (!isConfigLoaded) {
+      getConfig().then((data: any) => {
+        setConfig({
+          apiUrl: data.API_URL,
+          authType: data.AUTH_TYPE,
+          identityProvider: data.IDENTITY_PROVIDER,
+        });
+        setIsConfigLoaded(true);
       });
-      setIsConfigLoaded(true);
-    });
+    } else {
+      console.log("Config already loaded");
+    }
   }, []);
 
   const context = useMemo(() => config, [config]);

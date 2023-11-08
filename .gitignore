@@ -31,10 +31,7 @@ yarn-error.log*
 config.json
 .env
 /.vscode
-```
-/public/dsfr/
+
 /public/configuration.json
 /public/oidc.json
-
-**/
 
