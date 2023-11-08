@@ -62,10 +62,6 @@ const Visualize = () => {
             console.log("Importing diagram...");
             console.log("Diagram: ", res);
 
-            bpmnViewerRef.current.on("import.done", () => {
-              bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
-            });
-
             //setDiagram(bpmnQuery.data);
             try {
               bpmnViewerRef.current?.importXML(res).then(() => {
@@ -85,11 +81,14 @@ const Visualize = () => {
                 // TEMP
                 bpmnViewerRef.current?.get("canvas").resized();
                 setRendered(true);
+                bpmnViewerRef.current.on("import.done", () => {
+                  bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
+                });
               });
             } catch (error) {
               console.error("Error importing diagram", error);
               bpmnViewerRef.current?.importXML("").then(() => {
-                bpmnViewerRef.current?.get("canvas").resized();
+                bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
                 setRendered(true);
               });
             }
