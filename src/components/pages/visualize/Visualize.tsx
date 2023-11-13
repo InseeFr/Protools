@@ -183,67 +183,65 @@ const Visualize = () => {
     ],
   });
 
-  if (diagram.length > 0 && bpmnElements && history) {
-    return (
-      <Stack
-        spacing={2}
-        sx={{
-          flexWrap: "wrap",
-          alignContent: "center",
-          alignItems: "center",
+  return diagram.length > 0 && bpmnElements && history ? (
+    <Stack
+      spacing={2}
+      sx={{
+        flexWrap: "wrap",
+        alignContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        id="canvas"
+        style={{
+          width: "100%",
+          height: "450px",
+          marginBottom: "2rem",
         }}
-      >
-        <div
-          id="canvas"
-          style={{
-            width: "100%",
-            height: "70%",
-          }}
-        />
-        <Tabs
-          style={{ width: "120%" }}
-          tabs={[
-            {
-              label: "Description",
-              iconId: "fr-icon-window-line",
-              content: (
-                <GeneralInfo
-                  processDefinitionData={processDefinitionData}
-                  processInstance={processInstance}
-                />
-              ),
-            },
-            {
-              label: "Contexte",
-              iconId: "fr-icon-article-line",
-              content: <Variables variables={variables!} />,
-            },
-            {
-              label: "Tâches (Description)",
-              iconId: "fr-icon-terminal-box-line",
-              content: (
-                <Tasks
-                  bpmnElements={bpmnElements!}
-                  processName={processInstance.processKey}
-                />
-              ),
-            },
-            {
-              label: "Tâches manuelles",
-              iconId: "fr-icon-user-line",
-              content: <TasksManual tasks={tasks} />,
-            },
-            {
-              label: "Historique",
-              iconId: "fr-icon-success-line",
-              content: <HistoryActivity history={history} />,
-            },
-          ]}
-        />
-      </Stack>
-    );
-  }
-  return (
+      />
+      <Tabs
+        style={{ width: "120%" }}
+        tabs={[
+          {
+            label: "Description",
+            iconId: "fr-icon-window-line",
+            content: (
+              <GeneralInfo
+                processDefinitionData={processDefinitionData}
+                processInstance={processInstance}
+              />
+            ),
+          },
+          {
+            label: "Contexte",
+            iconId: "fr-icon-article-line",
+            content: <Variables variables={variables!} />,
+          },
+          {
+            label: "Tâches (Description)",
+            iconId: "fr-icon-terminal-box-line",
+            content: (
+              <Tasks
+                bpmnElements={bpmnElements!}
+                processName={processInstance.processKey}
+              />
+            ),
+          },
+          {
+            label: "Tâches manuelles",
+            iconId: "fr-icon-user-line",
+            content: <TasksManual tasks={tasks} />,
+          },
+          {
+            label: "Historique",
+            iconId: "fr-icon-success-line",
+            content: <HistoryActivity history={history} />,
+          },
+        ]}
+      />
+    </Stack>
+  ) : (
     <Box display="flex" justifyContent="center" alignItems="center">
       <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
         <CircularProgress />
