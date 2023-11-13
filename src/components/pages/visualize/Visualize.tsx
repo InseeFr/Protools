@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useRef, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-// eslint-disable-next-line import/extensions
-import BpmnJS from "bpmn-js/dist/bpmn-navigated-viewer.production.min.js";
 import GeneralInfo from "./GeneralInfo";
 import Variables from "./Variables";
 import Tasks from "./Tasks";
@@ -23,14 +21,11 @@ import FlowElements from "../../../lib/model/flowElements";
 import HistoryActivity from "./History";
 import moment from "moment";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
+import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
-  const [rendered, setRendered] = useState<boolean>(false);
   const [diagram, setDiagram] = useState<string>("");
-  const containerRef = useRef<HTMLDivElement>(null);
-  // @ts-expect-error BpmnJS is not typed
-  const bpmnViewerRef = useRef<BpmnJS>();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [processInstance, setProcessInstance] = useState<ProcessInfo>(
     {} as ProcessInfo
@@ -43,55 +38,35 @@ const Visualize = () => {
   const [history, setHistory] = useState<ReactNode[][]>();
 
   const api = useApi();
+  const viewer = new NavigatedViewer({
+    additionalModules: [minimapModule],
+  });
 
   useQueries({
     queries: [
       {
         queryKey: ["bpmnXml", processDefinitionId],
+        refetchOnWindowFocus: false,
+        // refetchOnReconnect: false,
         queryFn: () => {
           console.log("fetching bpmnXml...");
           return api.getBpmnXml(processDefinitionId).then((res: string) => {
             setDiagram(res);
-            const container = containerRef.current;
+            console.log("Got a diagram ");
+            viewer
+              .importXML(res)
+              .then(() => {
+                console.log("diagram loaded");
+                const canvasElement = document.querySelector(
+                  "#canvas"
+                ) as HTMLElement;
+                viewer.attachTo(canvasElement);
+                (viewer as any).get("canvas").zoom("fit-viewport");
+              })
 
-            bpmnViewerRef.current = new BpmnJS({
-              container,
-              additionalModules: [minimapModule],
-            });
-
-            console.log("Importing diagram...");
-            console.log("Diagram: ", res);
-
-            //setDiagram(bpmnQuery.data);
-            try {
-              bpmnViewerRef.current?.importXML(res).then(() => {
-                console.log("Diagram imported");
-
-                // const overlays = bpmnViewerRef.current?.get("overlays");
-                // overlays.add(currentActiveTask, "note", {
-                //   position: {
-                //     bottom: 18,
-                //     right: 18,
-                //   },
-                //   scale: {
-                //     min: 1.2,
-                //   },
-                //   html: '<div class="diagram-note">🦊</div>',
-                // });g
-                // TEMP
-                bpmnViewerRef.current?.get("canvas").resized();
-                setRendered(true);
-                bpmnViewerRef.current.on("import.done", () => {
-                  bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
-                });
+              .catch((err: any) => {
+                console.log("error", err);
               });
-            } catch (error) {
-              console.error("Error importing diagram", error);
-              bpmnViewerRef.current?.importXML("").then(() => {
-                bpmnViewerRef.current.get("canvas").zoom("fit-viewport");
-                setRendered(true);
-              });
-            }
             return res;
           });
         },
@@ -208,11 +183,7 @@ const Visualize = () => {
     ],
   });
 
-  useEffect(() => {
-    document.getElementById("containerBPMN")?.focus();
-  }, [rendered]);
-
-  if (diagram.length > 0 && rendered === true && bpmnElements && history) {
+  if (diagram.length > 0 && bpmnElements && history) {
     return (
       <Stack
         spacing={2}
@@ -223,9 +194,11 @@ const Visualize = () => {
         }}
       >
         <div
-          id="containerBPMN"
-          ref={containerRef}
-          style={{ width: "100%", height: "450px" }}
+          id="canvas"
+          style={{
+            width: "100%",
+            height: "70%",
+          }}
         />
         <Tabs
           style={{ width: "120%" }}
@@ -275,6 +248,7 @@ const Visualize = () => {
       <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
         <CircularProgress />
         <Typography variant="h2">Chargement des données...</Typography>
+        <div id="canvas" />
       </Stack>
     </Box>
   );
