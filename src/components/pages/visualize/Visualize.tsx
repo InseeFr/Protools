@@ -30,12 +30,18 @@ const Visualize = () => {
   const [processInstance, setProcessInstance] = useState<ProcessInfo>(
     {} as ProcessInfo
   );
-  const [variables, setVariables] = useState<Variable>();
-  const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>();
+  const [variables, setVariables] = useState<Variable>({
+    name: "Nom de la variable",
+    type: "Type de la variable",
+    value: '{"Value": "Valeur de la variable"}',
+  } as Variable);
+  const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>(
+    [] as ReactNode[][]
+  );
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
-  const [history, setHistory] = useState<ReactNode[][]>();
+  const [history, setHistory] = useState<ReactNode[][]>([] as ReactNode[][]);
 
   const api = useApi();
   const viewer = new NavigatedViewer({
@@ -193,7 +199,7 @@ const Visualize = () => {
     ],
   });
 
-  return diagram.length > 0 && bpmnElements && history ? (
+  return (
     <Stack
       spacing={2}
       sx={{
@@ -204,61 +210,54 @@ const Visualize = () => {
     >
       <div
         id="canvas"
-        // style={{
-        //   width: "100%",
-        //   height: "450px",
-        //   marginBottom: "2rem",
-        // }}
+        style={{
+          width: "100%",
+          height: "450px",
+          marginBottom: "2rem",
+        }}
       />
-      <Tabs
-        style={{ width: "120%" }}
-        tabs={[
-          {
-            label: "Description",
-            iconId: "fr-icon-window-line",
-            content: (
-              <GeneralInfo
-                processDefinitionData={processDefinitionData}
-                processInstance={processInstance}
-              />
-            ),
-          },
-          {
-            label: "Contexte",
-            iconId: "fr-icon-article-line",
-            content: <Variables variables={variables!} />,
-          },
-          {
-            label: "Tâches (Description)",
-            iconId: "fr-icon-terminal-box-line",
-            content: (
-              <Tasks
-                bpmnElements={bpmnElements!}
-                processName={processInstance.processKey}
-              />
-            ),
-          },
-          {
-            label: "Tâches manuelles",
-            iconId: "fr-icon-user-line",
-            content: <TasksManual tasks={tasks} />,
-          },
-          {
-            label: "Historique",
-            iconId: "fr-icon-success-line",
-            content: <HistoryActivity history={history} />,
-          },
-        ]}
-      />
+        <Tabs
+          style={{ width: "120%" }}
+          tabs={[
+            {
+              label: "Description",
+              iconId: "fr-icon-window-line",
+              content: (
+                <GeneralInfo
+                  processDefinitionData={processDefinitionData}
+                  processInstance={processInstance}
+                />
+              ),
+            },
+            {
+              label: "Contexte",
+              iconId: "fr-icon-article-line",
+              content: <Variables variables={variables} />,
+            },
+            {
+              label: "Tâches (Description)",
+              iconId: "fr-icon-terminal-box-line",
+              content: (
+                <Tasks
+                  bpmnElements={bpmnElements!}
+                  processName={processInstance.processKey}
+                />
+              ),
+            },
+            {
+              label: "Tâches manuelles",
+              iconId: "fr-icon-user-line",
+              content: <TasksManual tasks={tasks} />,
+            },
+            {
+              label: "Historique",
+              iconId: "fr-icon-success-line",
+              content: <HistoryActivity history={history ? history : []} />,
+            },
+          ]}
+        />
+      
     </Stack>
-  ) : (
-    <Box display="flex" justifyContent="center" alignItems="center">
-      <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
-        <CircularProgress />
-        <Typography variant="h2">Chargement des données...</Typography>
-        <div id="canvas" />
-      </Stack>
-    </Box>
   );
 };
 export default Visualize;

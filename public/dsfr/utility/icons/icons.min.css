@@ -1,3 +1,27 @@
+.fr-icon-arrow-left-s-line::before,
+.fr-icon-arrow-left-s-line::after {
+    -webkit-mask-image: url("../../icons/system/arrow-left-s-line.svg");
+    mask-image: url("../../icons/system/arrow-left-s-line.svg");
+}
+
+.fr-icon-checkbox-circle-line::before,
+.fr-icon-checkbox-circle-line::after {
+    -webkit-mask-image: url("../../icons/system/checkbox-circle-line.svg");
+    mask-image: url("../../icons/system/checkbox-circle-line.svg");
+}
+
+.fr-icon-pause-circle-line::before,
+.fr-icon-pause-circle-line::after {
+    -webkit-mask-image: url("../../icons/media/pause-circle-line.svg");
+    mask-image: url("../../icons/media/pause-circle-line.svg");
+}
+
+.fr-icon-delete-line::before,
+.fr-icon-delete-line::after {
+    -webkit-mask-image: url("../../icons/system/delete-bin-line.svg");
+    mask-image: url("../../icons/system/delete-bin-line.svg");
+}
+
 .fr-icon-window-line::before,
 .fr-icon-window-line::after {
     -webkit-mask-image: url("../../icons/business/window-line.svg");
@@ -28,30 +52,6 @@
     mask-image: url("../../icons/user/user-line.svg");
 }
 
-.fr-icon-arrow-left-s-line::before,
-.fr-icon-arrow-left-s-line::after {
-    -webkit-mask-image: url("../../icons/system/arrow-left-s-line.svg");
-    mask-image: url("../../icons/system/arrow-left-s-line.svg");
-}
-
-.fr-icon-checkbox-circle-line::before,
-.fr-icon-checkbox-circle-line::after {
-    -webkit-mask-image: url("../../icons/system/checkbox-circle-line.svg");
-    mask-image: url("../../icons/system/checkbox-circle-line.svg");
-}
-
-.fr-icon-pause-circle-line::before,
-.fr-icon-pause-circle-line::after {
-    -webkit-mask-image: url("../../icons/media/pause-circle-line.svg");
-    mask-image: url("../../icons/media/pause-circle-line.svg");
-}
-
-.fr-icon-delete-line::before,
-.fr-icon-delete-line::after {
-    -webkit-mask-image: url("../../icons/system/delete-bin-line.svg");
-    mask-image: url("../../icons/system/delete-bin-line.svg");
-}
-
 .fr-icon-admin-line::before,
 .fr-icon-admin-line::after {
     -webkit-mask-image: url("../../icons/user/admin-line.svg");
@@ -77,6 +77,26 @@
 }
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .fr-icon-arrow-left-s-line::before,
+    .fr-icon-arrow-left-s-line::after {
+        background-image: url("../../icons/system/arrow-left-s-line.svg");
+    }
+    
+    .fr-icon-checkbox-circle-line::before,
+    .fr-icon-checkbox-circle-line::after {
+        background-image: url("../../icons/system/checkbox-circle-line.svg");
+    }
+    
+    .fr-icon-pause-circle-line::before,
+    .fr-icon-pause-circle-line::after {
+        background-image: url("../../icons/media/pause-circle-line.svg");
+    }
+    
+    .fr-icon-delete-line::before,
+    .fr-icon-delete-line::after {
+        background-image: url("../../icons/system/delete-bin-line.svg");
+    }
+    
     .fr-icon-window-line::before,
     .fr-icon-window-line::after {
         background-image: url("../../icons/business/window-line.svg");
@@ -100,26 +120,6 @@
     .fr-icon-user-line::before,
     .fr-icon-user-line::after {
         background-image: url("../../icons/user/user-line.svg");
-    }
-    
-    .fr-icon-arrow-left-s-line::before,
-    .fr-icon-arrow-left-s-line::after {
-        background-image: url("../../icons/system/arrow-left-s-line.svg");
-    }
-    
-    .fr-icon-checkbox-circle-line::before,
-    .fr-icon-checkbox-circle-line::after {
-        background-image: url("../../icons/system/checkbox-circle-line.svg");
-    }
-    
-    .fr-icon-pause-circle-line::before,
-    .fr-icon-pause-circle-line::after {
-        background-image: url("../../icons/media/pause-circle-line.svg");
-    }
-    
-    .fr-icon-delete-line::before,
-    .fr-icon-delete-line::after {
-        background-image: url("../../icons/system/delete-bin-line.svg");
     }
     
     .fr-icon-admin-line::before,

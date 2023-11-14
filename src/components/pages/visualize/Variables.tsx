@@ -8,7 +8,7 @@ interface VariablesProps {
 }
 const Variables = (props: VariablesProps) => {
   const { variables } = props;
-
+  //console.log("variables", variables.value);
   return (
     <Stack spacing={2} sx={{ textAlign: "start", marginTop: 1.5 }}>
       <Typography variant="h6">Variables de contexte</Typography>
