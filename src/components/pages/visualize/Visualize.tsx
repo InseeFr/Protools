@@ -47,7 +47,7 @@ const Visualize = () => {
       {
         queryKey: ["bpmnXml", processDefinitionId],
         refetchOnWindowFocus: false,
-        // refetchOnReconnect: false,
+        refetchOnReconnect: false,
         queryFn: () => {
           console.log("fetching bpmnXml...");
           return api.getBpmnXml(processDefinitionId).then((res: string) => {
@@ -73,6 +73,8 @@ const Visualize = () => {
       },
       {
         queryKey: ["tasks", id],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         queryFn: async () => {
           //console.log("fetching tasks...");
           return await api.getAllTasks(id).then((res: Task[]) => {
@@ -84,6 +86,7 @@ const Visualize = () => {
       {
         queryKey: ["getProcessDefinitionById", processDefinitionId],
         refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         queryFn: async () => {
           //console.log("fetching getProcessDefinitionById...");
           return await api
@@ -97,6 +100,8 @@ const Visualize = () => {
       },
       {
         queryKey: ["processInstance", id],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         queryFn: async () => {
           //console.log("fetching processInstance of id: ", id);
           return await api.getProcessInstanceById(id).then((res: any) => {
@@ -122,6 +127,8 @@ const Visualize = () => {
       },
       {
         queryKey: ["variables", id],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         queryFn: async () => {
           //console.log("fetching variables of id: ", id);
           return await api.getVariables(id).then((res: any) => {
@@ -134,6 +141,7 @@ const Visualize = () => {
       {
         queryKey: ["bpmnElements", processDefinitionId],
         refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         queryFn: async () => {
           //console.log("fetching bpmnElement of id: ", id);
           return await api
@@ -157,6 +165,8 @@ const Visualize = () => {
       },
       {
         queryKey: ["history", id],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
         queryFn: async () => {
           //console.log("fetching history of id: ", id);
           return await api
@@ -194,11 +204,11 @@ const Visualize = () => {
     >
       <div
         id="canvas"
-        style={{
-          width: "100%",
-          height: "450px",
-          marginBottom: "2rem",
-        }}
+        // style={{
+        //   width: "100%",
+        //   height: "450px",
+        //   marginBottom: "2rem",
+        // }}
       />
       <Tabs
         style={{ width: "120%" }}
