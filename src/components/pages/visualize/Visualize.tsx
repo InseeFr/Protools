@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, ReactNode } from "react";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
@@ -25,7 +25,6 @@ import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
-  const [diagram, setDiagram] = useState<string>("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [processInstance, setProcessInstance] = useState<ProcessInfo>(
     {} as ProcessInfo
@@ -57,7 +56,6 @@ const Visualize = () => {
         queryFn: () => {
           console.log("fetching bpmnXml...");
           return api.getBpmnXml(processDefinitionId).then((res: string) => {
-            setDiagram(res);
             console.log("Got a diagram ");
             viewer
               .importXML(res)
@@ -216,47 +214,46 @@ const Visualize = () => {
           marginBottom: "2rem",
         }}
       />
-        <Tabs
-          style={{ width: "120%" }}
-          tabs={[
-            {
-              label: "Description",
-              iconId: "fr-icon-window-line",
-              content: (
-                <GeneralInfo
-                  processDefinitionData={processDefinitionData}
-                  processInstance={processInstance}
-                />
-              ),
-            },
-            {
-              label: "Contexte",
-              iconId: "fr-icon-article-line",
-              content: <Variables variables={variables} />,
-            },
-            {
-              label: "Tâches (Description)",
-              iconId: "fr-icon-terminal-box-line",
-              content: (
-                <Tasks
-                  bpmnElements={bpmnElements!}
-                  processName={processInstance.processKey}
-                />
-              ),
-            },
-            {
-              label: "Tâches manuelles",
-              iconId: "fr-icon-user-line",
-              content: <TasksManual tasks={tasks} />,
-            },
-            {
-              label: "Historique",
-              iconId: "fr-icon-success-line",
-              content: <HistoryActivity history={history ? history : []} />,
-            },
-          ]}
-        />
-      
+      <Tabs
+        style={{ width: "120%" }}
+        tabs={[
+          {
+            label: "Description",
+            iconId: "fr-icon-window-line",
+            content: (
+              <GeneralInfo
+                processDefinitionData={processDefinitionData}
+                processInstance={processInstance}
+              />
+            ),
+          },
+          {
+            label: "Contexte",
+            iconId: "fr-icon-article-line",
+            content: <Variables variables={variables} />,
+          },
+          {
+            label: "Tâches (Description)",
+            iconId: "fr-icon-terminal-box-line",
+            content: (
+              <Tasks
+                bpmnElements={bpmnElements!}
+                processName={processInstance.processKey}
+              />
+            ),
+          },
+          {
+            label: "Tâches manuelles",
+            iconId: "fr-icon-user-line",
+            content: <TasksManual tasks={tasks} />,
+          },
+          {
+            label: "Historique",
+            iconId: "fr-icon-success-line",
+            content: <HistoryActivity history={history ? history : []} />,
+          },
+        ]}
+      />
     </Stack>
   );
 };
