@@ -33,10 +33,26 @@ export const createOidcClient = async (evtUserActivity: any ,
   };
 
   const loadUserInfo = async () => {
-    const userinfo = await keycloakInstance.loadUserInfo();
-    // @ts-expect-error => loadUserInfo() has a return type of {}
-    return { ...userinfo, id: userinfo.preferred_username };
+    if (!isAuthenticated) {
+      return {
+        firstName: 'Fake',
+        lastName: 'User',
+      };
+    }
+    const userInfo = await keycloakInstance.loadUserProfile();
+    const { firstName, lastName } = userInfo;
+    if (firstName && lastName === undefined) {
+      return {
+        firstName: 'Fake',
+        lastName: 'User',
+      };
+    }
+    return {
+      firstName,
+      lastName,
+    };
   };
+  
 
   if (!isAuthenticated) {
     return {
