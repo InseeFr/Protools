@@ -88,7 +88,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           isUserLoggedIn: false,
           login: () => {},
           accessToken: "",
-          oidcUser: null,
+          oidcUser: {
+            firstName: "Utilisateur",
+            lastName: "inconnu",
+          },
         }
       }
     >

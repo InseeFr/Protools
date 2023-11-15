@@ -29,7 +29,9 @@ const Layout = ({ children }: LayoutProps) => {
             linkProps: {
               href: "/",
             },
-            text: user.firstName + " " + user.lastName,
+            text: user
+              ? user.firstName + " " + user.lastName
+              : "Utilisateur inconnu",
           },
         ]}
         serviceTagline="Orchestration des protocoles d'enquêtes"

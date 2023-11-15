@@ -35,16 +35,16 @@ export const createOidcClient = async (evtUserActivity: any ,
   const loadUserInfo = async () => {
     if (!isAuthenticated) {
       return {
-        firstName: 'Fake',
-        lastName: 'User',
+        firstName: 'Utilisateur',
+        lastName: 'inconnu',
       };
     }
     const userInfo = await keycloakInstance.loadUserProfile();
     const { firstName, lastName } = userInfo;
     if (firstName && lastName === undefined) {
       return {
-        firstName: 'Fake',
-        lastName: 'User',
+        firstName: 'Utilisateur',
+        lastName: 'inconnu',
       };
     }
     return {
