@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       <Box display="flex" justifyContent="center" alignItems="center">
         <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
           <CircularProgress />
-          <Typography variant="h2">Client OIDC is null</Typography>
+          <Typography variant="h2">Authentification en cours</Typography>
         </Stack>
       </Box>
     </Layout>
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           <Box display="flex" justifyContent="center" alignItems="center">
             <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
               <CircularProgress />
-              <Typography variant="h2">Connexion en cours</Typography>
+              <Typography variant="h2">Authentification en cours</Typography>
             </Stack>
           </Box>
         </Layout>
