@@ -22,7 +22,8 @@ const Launch = () => {
   const [processKey, setProcessKey] = useState("");
   const [businessKey, setBusinessKey] = useState("test");
   const [isContextOpen, setIsContextOpen] = useState(false);
-  const [files, setFiles] = useState("");
+  const [files, setFiles] = useState("{}");
+  const [error, setError] = useState(false);
 
   const [openError, setOpenError] = useState(false);
 
@@ -37,9 +38,10 @@ const Launch = () => {
 
   const startProcess: MutationFunction<
     any,
-    { processKey: string; businessKey: string; files: any }
-  > = async ({ processKey, businessKey, files }) => {
-    const response = await api.startProcess(processKey, businessKey, files);
+    { processKey: string; businessKey: string }
+  > = async ({ processKey, businessKey }) => {
+    //TODO : Fix files
+    const response = await api.startProcess(processKey, businessKey);
     return response.data;
   };
 
@@ -69,13 +71,12 @@ const Launch = () => {
       ? mutate({
           processKey: processKey,
           businessKey,
-          files,
+          //files,
         })
-      : console.error("processKey is empty");
+      : setError(true);
   };
 
   if (processQuery.isSuccess && processQuery.data.length > 0) {
-    console.log(processQuery);
     return (
       <>
         <Box
@@ -94,17 +95,20 @@ const Launch = () => {
                 <Select
                   hint="Protocole d'enquête"
                   label="BPMN à lancer"
+                  state={error ? "error" : "default"}
+                  stateRelatedMessage="Veuillez sélectionner un processus"
                   nativeSelectProps={{
                     value: processKey,
                     onChange: (event) => {
-                      console.log(event);
+                      //console.log(event);
                       setProcessKey(event.target.value);
                     },
                   }}
                 >
+                  <option value="" disabled hidden>
+                    Selectionnez une option
+                  </option>
                   {processQuery.data.map((process: any) => {
-                    console.log("process option: ", process);
-                    console.log("process.key: ", process.key);
                     return (
                       <option key={process.key} value={process.key}>
                         {process.name}

@@ -2,15 +2,15 @@ import { postRequest } from "../fetcher/requests";
 
 export function startProcess(
   processDefinitionKey: string,
-  variables: any[],
   businessKey: string,
+  //variables: any[],
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
   return postRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
     processDefinitionKey,
-    variables,
     businessKey,
+    //variables,
     returnVariables: false,
   });
 }
