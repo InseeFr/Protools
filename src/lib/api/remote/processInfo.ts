@@ -105,10 +105,17 @@ export function getVariables(
     `${apiUrl}runtime/process-instances/${processInstanceId}/variables`,
     accessToken || ''
   ).then((res) => {
+    console.log('res', res)
     if (res.data.length > 0) {
-      return res.data.find((variable: any) => variable.name === "context");
+      if (res.data.find((variable: any) => variable.name === "context")) {
+        return res.data.find((variable: any) => variable.name === "context")
+      };
     }
-    return Promise.resolve({});
+    return Promise.resolve({
+    name: "Nom de la variable",
+    type: "Type de la variable",
+    value: '{"Value": "Aucune variable de contexte n\'a été renseignée"}',
+  } as Variable);
   });
 }
 

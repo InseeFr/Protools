@@ -133,10 +133,10 @@ const Visualize = () => {
         queryKey: ["variables", id],
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
-        queryFn: async () => {
+        queryFn: () => {
           //console.log("fetching variables of id: ", id);
-          return await api.getVariables(id).then((res: any) => {
-            //console.log("variables result: ", res);
+          return api.getVariables(id).then((res: any) => {
+            console.log("variables result: ", res);
             setVariables(res);
             return res;
           });
