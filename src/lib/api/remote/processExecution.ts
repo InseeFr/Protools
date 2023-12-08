@@ -3,10 +3,19 @@ import { postRequest } from "../fetcher/requests";
 export function startProcess(
   processDefinitionKey: string,
   businessKey: string,
-  //variables: any[],
+  variables: string,
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
+  if (variables) { 
+    let context = [{ "name": "context","value": JSON.stringify(variables) }]
+    return postRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
+      processDefinitionKey,
+      businessKey,
+      variables: context,
+      returnVariables: false,
+    });
+  }
   return postRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
     processDefinitionKey,
     businessKey,

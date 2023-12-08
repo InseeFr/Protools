@@ -22,7 +22,7 @@ const Launch = () => {
   const [processKey, setProcessKey] = useState("");
   const [businessKey, setBusinessKey] = useState("test");
   const [isContextOpen, setIsContextOpen] = useState(false);
-  const [files, setFiles] = useState("{}");
+  const [variables, setVariables] = useState("");
   const [error, setError] = useState(false);
 
   const [openError, setOpenError] = useState(false);
@@ -38,16 +38,15 @@ const Launch = () => {
 
   const startProcess: MutationFunction<
     any,
-    { processKey: string; businessKey: string }
+    { processKey: string; businessKey: string; variables: string }
   > = async ({ processKey, businessKey }) => {
     //TODO : Fix files
-    const response = await api.startProcess(processKey, businessKey);
+    const response = await api.startProcess(processKey, businessKey, variables);
     return response.data;
   };
 
   const { mutate } = useMutation(["startProcess"], startProcess, {
     onSuccess: () => {
-      console.log("onSuccess");
       navigate("/");
     },
     onError: () => {
@@ -71,7 +70,7 @@ const Launch = () => {
       ? mutate({
           processKey: processKey,
           businessKey,
-          //files,
+          variables,
         })
       : setError(true);
   };
@@ -152,7 +151,6 @@ const Launch = () => {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         const reader = new FileReader();
-                        console.log("File", file);
                         if (file) {
                           reader.readAsText(file, "UTF-8");
                           reader.onload = (
@@ -160,14 +158,14 @@ const Launch = () => {
                           ) => {
                             const { result } = event.target as FileReader;
                             const json = JSON.parse(result as string);
-                            setFiles(json);
-                            console.log("JSON", json);
+                            setVariables(json);
+                            console.log("JSON uploaded", json);
                           };
                         }
                       }}
                     />
-                    {files && (
-                      <ReactJson src={JSON.parse(JSON.stringify(files))} />
+                    {variables && (
+                      <ReactJson src={JSON.parse(JSON.stringify(variables))} />
                     )}
                   </Stack>
                 )}

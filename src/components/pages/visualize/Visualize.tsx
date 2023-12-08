@@ -136,7 +136,6 @@ const Visualize = () => {
         queryFn: () => {
           //console.log("fetching variables of id: ", id);
           return api.getVariables(id).then((res: any) => {
-            console.log("variables result: ", res);
             setVariables(res);
             return res;
           });

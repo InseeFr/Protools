@@ -105,8 +105,9 @@ export function getVariables(
     `${apiUrl}runtime/process-instances/${processInstanceId}/variables`,
     accessToken || ''
   ).then((res) => {
-    console.log('res', res)
+    console.log('res variables', res)
     if (res.data.length > 0) {
+      console.log('res.data', res.data)
       if (res.data.find((variable: any) => variable.name === "context")) {
         return res.data.find((variable: any) => variable.name === "context")
       };

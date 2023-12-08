@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.15,
+    flex: 0.35,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
@@ -43,7 +43,7 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.4,
+    flex: 0.2,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
@@ -82,13 +82,12 @@ const columns: GridColDef[] = [
 ];
 const OnGoingProcess = (props: OnGoingProcessProps) => {
   const { processes } = props;
-  console.log(processes);
   return (
     <Box
       sx={{
-        width: '100%',
-        '& .columns--header': {
-          fontWeight: '700',
+        width: "100%",
+        "& .columns--header": {
+          fontWeight: "700",
         },
         p: 2,
       }}
@@ -98,7 +97,7 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
         columns={columns}
         autoHeight
         pagination
-        getRowClassName={() => 'row--style'}
+        getRowClassName={() => "row--style"}
       />
     </Box>
   );

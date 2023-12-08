@@ -16,10 +16,10 @@ export const useApi = () => {
         oidcClient ? oidcClient.accessToken : ''
     ));
     
-    const startProcess: Function = useConstCallback((processDefinitionKey, businessKey) => processExecutionApi.startProcess(
+    const startProcess: Function = useConstCallback((processDefinitionKey, businessKey, variables) => processExecutionApi.startProcess(
         processDefinitionKey,
         businessKey,
-        //variables,
+        variables,
         apiUrl,
         oidcClient ? oidcClient.accessToken : ''
     ));

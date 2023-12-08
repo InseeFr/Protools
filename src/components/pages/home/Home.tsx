@@ -18,8 +18,6 @@ const Home = () => {
 
   useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
-      console.log("processQuery result: ", res);
-
       res.data.data.map((process: any) => {
         const processInfo: ProcessInfo = {
           id: process.id,
