@@ -1,4 +1,9 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbar,
+} from "@mui/x-data-grid";
 import { FiChevronRight } from "react-icons/fi";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
@@ -108,6 +113,20 @@ const HistoryTable = (props: HistoryTableProps) => {
         columns={columns}
         autoHeight
         pagination
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+          },
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "startTime", sort: "desc" }],
+          },
+        }}
         getRowClassName={() => "row--style"}
       />
     </Box>
