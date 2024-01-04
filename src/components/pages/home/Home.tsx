@@ -58,6 +58,9 @@ const Home = () => {
       <Link to={`/launch`} style={{ textDecoration: "none" }}>
         <Button>Lancer un processus</Button>
       </Link>
+      <Link to={`/history`} style={{ textDecoration: "none" }}>
+        <Button priority="secondary">Historique des processus</Button>
+      </Link>
     </Stack>
   );
 };

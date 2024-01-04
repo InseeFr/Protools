@@ -6,6 +6,7 @@ import { fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
 import FlowElements from '../../model/flowElements';
 import HistoricActivity from '../../model/api/historicActivity';
+import { HistoryProcess } from '../../model/api/historyProcess';
 
 export function getProcessDefinitions(
   apiUrl: string,
@@ -175,6 +176,40 @@ const getHistoricActivity = (
    });
 }
 
+const getHistoryProcessInstance = (
+  apiUrl: string,
+  accessToken: string
+
+): Promise<HistoryProcess[]> => {
+  const historyProcess: HistoryProcess[] = [];
+  return getRequest(
+    `${apiUrl}history/historic-process-instances`,
+    accessToken || ''
+  ).then((res) => {
+    res.data && res.data.data.forEach((historicProcess: any) => {
+      historyProcess.push({
+        id: historicProcess.id,
+        businessKey: historicProcess.businessKey,
+        processDefinitionId: historicProcess.processDefinitionId,
+        processDefinitionUrl: historicProcess.processDefinitionUrl,
+        startTime: historicProcess.startTime,
+        endTime: historicProcess.endTime,
+        durationInMillis: historicProcess.durationInMillis,
+        startUserId: historicProcess.startUserId,
+        startActivityId: historicProcess.startActivityId,
+        endActivityId: historicProcess.endActivityId,
+        deleteReason: historicProcess.deleteReason,
+        superProcessInstanceId: historicProcess.superProcessInstanceId,
+        url: historicProcess.url,
+        variables: historicProcess.variables,
+        tenantId: historicProcess.tenantId
+      } as HistoryProcess);
+    });
+    return Promise.resolve(historyProcess);
+   });
+ }
+
+
 export const processInfoApi = {
   getProcessDefinitions,
   getProcessDefinitionById,
@@ -184,5 +219,6 @@ export const processInfoApi = {
   getBpmnXml,
   getVariables,
   getBpmnElements,
-  getHistoricActivity
+  getHistoricActivity, 
+  getHistoryProcessInstance
 };
