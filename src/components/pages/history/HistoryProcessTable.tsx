@@ -9,7 +9,7 @@ import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 
-interface HistoryTableProps {
+interface HistoryProcessTableProps {
   history: HistoryProcess[];
 }
 const columns: GridColDef[] = [
@@ -96,7 +96,7 @@ const columns: GridColDef[] = [
     ),
   },
 ];
-const HistoryTable = (props: HistoryTableProps) => {
+const HistoryProcessTable = (props: HistoryProcessTableProps) => {
   const { history } = props;
   return (
     <Box
@@ -133,4 +133,4 @@ const HistoryTable = (props: HistoryTableProps) => {
   );
 };
 
-export default HistoryTable;
+export default HistoryProcessTable;

@@ -5,7 +5,10 @@ import { useApi } from "../../../lib/hooks/useApi";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
-import HistoryTable from "./HistoryTable";
+import HistoryProcessTable from "./HistoryProcessTable";
+import Tabs from "@codegouvfr/react-dsfr/Tabs";
+import HistoricActivity from "../../../lib/model/api/historicActivity";
+import HistoryActivityTable from "./HistoryActivityTable";
 // import { useNavigate } from 'react-router-dom';
 
 const History = () => {
@@ -14,6 +17,10 @@ const History = () => {
   const [HistoryProcesses, setHistoryProcessProcesses] = useState<
     HistoryProcess[]
   >([]);
+
+  const [HistoryActivities, setHistoryProcessActivities] = useState<
+    HistoricActivity[]
+  >([]);
   // TODO: Parsing des processus en cours
 
   const api = useApi();
@@ -21,6 +28,14 @@ const History = () => {
   useQuery(["historyProcess"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
       setHistoryProcessProcesses(res);
+      return res;
+    });
+    return response;
+  });
+
+  useQuery(["historyActivity"], async () => {
+    const response = await api.getAllHistoricActivity().then((res: any) => {
+      setHistoryProcessActivities(res);
       return res;
     });
     return response;
@@ -36,8 +51,22 @@ const History = () => {
       }}
     >
       <Typography variant="h1">Historique des Processus</Typography>
+      <Tabs
+        style={{ width: "120%" }}
+        tabs={[
+          {
+            label: "Processus",
+            iconId: "fr-icon-window-line",
+            content: <HistoryProcessTable history={HistoryProcesses} />,
+          },
 
-      <HistoryTable history={HistoryProcesses} />
+          {
+            label: "Activités",
+            iconId: "fr-icon-window-line",
+            content: <HistoryActivityTable history={HistoryActivities} />,
+          },
+        ]}
+      />
 
       <Link to={`/launch`} style={{ textDecoration: "none" }}>
         <Button>Lancer un processus</Button>

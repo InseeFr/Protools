@@ -176,6 +176,31 @@ const getHistoricActivity = (
    });
 }
 
+const getAllHistoricActivity = (
+  apiUrl: string,
+  accessToken: string
+): Promise<HistoricActivity[]>  => { 
+  const historicActivities: HistoricActivity[] = [];
+  return getRequest(
+    `${apiUrl}history/historic-activity-instances`,
+    accessToken || ''
+  ).then((res) => {
+    res.data && res.data.data.forEach((historicActivity: any) => {
+  if (historicActivity.activityType !== "sequenceFlow") {
+    historicActivities.push({
+      activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
+      activityName: historicActivity.activityName,
+      activityType: historicActivity.activityType,
+      executionId: historicActivity.executionId,
+      endTime: historicActivity.endTime,
+      durationInMillis: historicActivity.durationInMillis / 1000
+    } as HistoricActivity);
+  }
+});
+    return Promise.resolve(historicActivities);
+   });
+}
+
 const getHistoryProcessInstance = (
   apiUrl: string,
   accessToken: string
@@ -220,5 +245,6 @@ export const processInfoApi = {
   getVariables,
   getBpmnElements,
   getHistoricActivity, 
+  getAllHistoricActivity,
   getHistoryProcessInstance
 };

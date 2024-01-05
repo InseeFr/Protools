@@ -94,7 +94,13 @@ export const useApi = () => {
          oidcClient ? oidcClient.accessToken : ''
     ));
 
-    const getHistoryProcessInstance: Function = useConstCallback((processInstanceId) => processInfoApi.getHistoryProcessInstance(
+     const getAllHistoricActivity: Function = useConstCallback(() => processInfoApi.getAllHistoricActivity(
+        apiUrl,
+         oidcClient ? oidcClient.accessToken : ''
+    )
+    );
+
+    const getHistoryProcessInstance: Function = useConstCallback(() => processInfoApi.getHistoryProcessInstance(
         apiUrl,
          oidcClient ? oidcClient.accessToken : ''
     )
@@ -113,6 +119,7 @@ export const useApi = () => {
         getVariables,
         getBpmnElements,
         getHistoricActivity, 
+        getAllHistoricActivity,
         getHistoryProcessInstance
     }
 };

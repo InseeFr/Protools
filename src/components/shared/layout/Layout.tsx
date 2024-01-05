@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Header } from "@codegouvfr/react-dsfr/Header";
 import ErrorBoundary from "./ErrorBoundary";
 import { AuthContext } from "../../../lib/utils/provider/authProvider";
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -46,6 +47,7 @@ const Layout = ({ children }: LayoutProps) => {
           {children}
         </div>
       </ErrorBoundary>
+      <Footer />
     </>
   );
 };
