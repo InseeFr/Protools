@@ -6,6 +6,7 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
+import moment from "moment";
 
 interface HistoryActivityTableProps {
   history: HistoricActivity[];
@@ -19,7 +20,7 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.2,
+    flex: 0.4,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
@@ -38,7 +39,7 @@ const columns: GridColDef[] = [
     flex: 0.1,
   },
   {
-    field: "processInstanceId",
+    field: "executionId",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Processus Associé
@@ -49,19 +50,33 @@ const columns: GridColDef[] = [
     flex: 0.25,
   },
   {
-    field: "finished",
+    field: "endTime",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Date de fin
       </Typography>
     ),
-    type: "boolean",
 
     headerClassName: "columns--header",
-    flex: 0.18,
+    flex: 0.12,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value.toString()}</Typography>
+      <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
     ),
+  },
+  {
+    field: "durationInMillis",
+    renderHeader: () => (
+      <Typography variant="h6" fontWeight={600}>
+        Durée
+      </Typography>
+    ),
+    headerClassName: "columns--header",
+    flex: 0.1,
+    renderCell: (params: GridRenderCellParams) => {
+      const duration = moment.duration(params.value);
+      const formattedDuration = `${Math.floor(duration.asMilliseconds())} ms`;
+      return <Typography>{formattedDuration}</Typography>;
+    },
   },
 ];
 const HistoryActivityTable = (props: HistoryActivityTableProps) => {
@@ -78,6 +93,9 @@ const HistoryActivityTable = (props: HistoryActivityTableProps) => {
     >
       <DataGrid
         rows={history}
+        getRowId={(row) => {
+          return row.activityId + row.endTime;
+        }}
         columns={columns}
         autoHeight
         pagination

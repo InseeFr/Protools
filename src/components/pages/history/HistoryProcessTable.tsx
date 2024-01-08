@@ -4,7 +4,6 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-import { FiChevronRight } from "react-icons/fi";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
@@ -21,7 +20,7 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.1,
+    flex: 0.35,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
@@ -37,7 +36,7 @@ const columns: GridColDef[] = [
       <Typography>{params.value}</Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.15,
+    flex: 0.22,
   },
   {
     field: "startTime",
@@ -46,10 +45,8 @@ const columns: GridColDef[] = [
         Date de lancement
       </Typography>
     ),
-    type: "date",
-
     headerClassName: "columns--header",
-    flex: 0.18,
+    flex: 0.2,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
     ),
@@ -61,10 +58,8 @@ const columns: GridColDef[] = [
         Date de fin
       </Typography>
     ),
-    type: "date",
-
     headerClassName: "columns--header",
-    flex: 0.18,
+    flex: 0.2,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
     ),
@@ -76,24 +71,13 @@ const columns: GridColDef[] = [
         Durée
       </Typography>
     ),
-    type: "date",
     headerClassName: "columns--header",
-    flex: 0.18,
+    flex: 0.08,
     renderCell: (params: GridRenderCellParams) => {
       const duration = moment.duration(params.value);
       const formattedDuration = `${Math.floor(duration.asHours())} h`;
       return <Typography>{formattedDuration}</Typography>;
     },
-  },
-  {
-    field: "ids",
-    headerName: " ",
-    headerClassName: "columns--header",
-    flex: 0.1,
-    align: "center",
-    renderCell: (params: GridRenderCellParams) => (
-      <FiChevronRight fontSize={21} />
-    ),
   },
 ];
 const HistoryProcessTable = (props: HistoryProcessTableProps) => {

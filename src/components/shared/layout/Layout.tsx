@@ -13,41 +13,47 @@ const Layout = ({ children }: LayoutProps) => {
   const user = oidcClient?.oidcUser;
   return (
     <>
-      <Header
-        brandTop={false}
-        homeLinkProps={{
-          href: "/",
-          title: "Protools - Accueil",
-        }}
-        operatorLogo={{
-          alt: "Logo Insee",
-          imgUrl: "/insee.png",
-          orientation: "vertical",
-        }}
-        quickAccessItems={[
-          {
-            iconId: "fr-icon-admin-line",
-            linkProps: {
-              href: "/",
-            },
-            text: user
-              ? user.firstName + " " + user.lastName
-              : "Utilisateur inconnu",
-          },
-        ]}
-        serviceTagline="Orchestration des protocoles d'enquêtes"
-        serviceTitle="Protools"
-      />
-      <ErrorBoundary>
-        <div
-          style={{
-            padding: "1.5rem",
+      {" "}
+      <div
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
+        <Header
+          brandTop={false}
+          homeLinkProps={{
+            href: "/",
+            title: "Protools - Accueil",
           }}
-        >
-          {children}
-        </div>
-      </ErrorBoundary>
-      <Footer />
+          operatorLogo={{
+            alt: "Logo Insee",
+            imgUrl: "/insee.png",
+            orientation: "vertical",
+          }}
+          quickAccessItems={[
+            {
+              iconId: "fr-icon-admin-line",
+              linkProps: {
+                href: "/",
+              },
+              text: user
+                ? user.firstName + " " + user.lastName
+                : "Utilisateur inconnu",
+            },
+          ]}
+          serviceTagline="Orchestration des protocoles d'enquêtes"
+          serviceTitle="Protools"
+        />
+        <ErrorBoundary>
+          <div
+            style={{
+              flexGrow: 1,
+              padding: "1.5rem",
+            }}
+          >
+            {children}
+          </div>
+        </ErrorBoundary>
+        <Footer />
+      </div>
     </>
   );
 };
