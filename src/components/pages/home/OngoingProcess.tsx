@@ -1,9 +1,14 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { FiChevronRight } from 'react-icons/fi';
-import { Box, Typography } from '@mui/material';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-import ProcessInfo from '../../../lib/model/processInfo';
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbar,
+} from "@mui/x-data-grid";
+import { FiChevronRight } from "react-icons/fi";
+import { Box, Typography } from "@mui/material";
+import moment from "moment";
+import { Link } from "react-router-dom";
+import ProcessInfo from "../../../lib/model/processInfo";
 
 interface OnGoingProcessProps {
   processes: ProcessInfo[];
@@ -95,9 +100,23 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
       <DataGrid
         rows={processes}
         columns={columns}
-        autoHeight
-        pagination
         getRowClassName={() => "row--style"}
+        disableColumnFilter
+        disableColumnSelector
+        paginationMode="server"
+        rowModel="server"
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+          },
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "startTime", sort: "desc" }],
+          },
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[5, 10, 25]}
       />
     </Box>
   );

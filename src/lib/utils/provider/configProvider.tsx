@@ -5,12 +5,14 @@ export interface ConfigContextType {
   apiUrl: string;
   authType: string;
   identityProvider: string;
+  version: string;
 }
 
 export const ConfigContext = createContext<ConfigContextType>({
-  apiUrl: '',
-  authType: '',
-  identityProvider: '',
+  apiUrl: "",
+  authType: "",
+  identityProvider: "",
+  version: "",
 });
 
 interface ConfigProviderProps {
@@ -23,6 +25,7 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
     apiUrl: "",
     authType: "none",
     identityProvider: "",
+    version: "",
   });
 
   useEffect(() => {
@@ -32,6 +35,7 @@ export const ConfigProvider = ({ children }: ConfigProviderProps) => {
           apiUrl: data.API_URL,
           authType: data.AUTH_TYPE,
           identityProvider: data.IDENTITY_PROVIDER,
+          version: data.APP_VERSION,
         });
         setIsConfigLoaded(true);
       });
