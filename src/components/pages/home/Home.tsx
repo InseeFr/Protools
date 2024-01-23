@@ -17,12 +17,12 @@ const Home = () => {
 
   useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
-      setProcesses(res)
+      setProcesses(res);
       return res;
     });
     return response;
   });
-  s
+
   return (
     <Stack
       spacing={2}

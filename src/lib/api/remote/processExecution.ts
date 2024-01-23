@@ -51,8 +51,20 @@ export function executeTask(
   });
 }
 
+export function stopProcess(
+  processInstanceId: string,
+  apiUrl: string,
+  accessToken: string
+): Promise<any> {
+  return postRequest(`${apiUrl}runtime/process-instances/${processInstanceId}`, accessToken || '', {
+    action: 'delete',
+  });
+
+}
+
 export const processExecutionApi = {
   startProcess,
   uploadContext,
   executeTask,
+  stopProcess,
 };

@@ -67,10 +67,19 @@ const Visualize = () => {
                 viewer.attachTo(canvasElement);
                 (viewer as any).get("canvas").zoom("fit-viewport");
               })
+              const elementRegistry = (viewer as any).get("elementRegistry");
+              const modeling = (viewer as any).get("modeling");
 
-              .catch((err: any) => {
-                console.log("error", err);
-              });
+              elementRegistry
+                .forEach((element: any) => {
+                  if (element.businessObject.$type === "bpmn:SubProcess") {
+                    modeling.toggleCollapse(element);
+                  }
+                })
+
+                .catch((err: any) => {
+                  console.log("error", err);
+                });
             return res;
           });
         },

@@ -93,7 +93,7 @@ const Launch = () => {
               <Stack spacing={2} sx={{ textAlign: "start", marginTop: 2 }}>
                 <Select
                   hint="Protocole d'enquête"
-                  label="BPMN à lancer"
+                  label="Modèle de processus"
                   state={error ? "error" : "default"}
                   stateRelatedMessage="Veuillez sélectionner un processus"
                   nativeSelectProps={{

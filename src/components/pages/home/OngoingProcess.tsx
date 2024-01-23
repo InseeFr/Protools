@@ -1,9 +1,4 @@
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridToolbar,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { FiChevronRight } from "react-icons/fi";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
@@ -14,19 +9,6 @@ interface OnGoingProcessProps {
   processes: ProcessInfo[];
 }
 const columns: GridColDef[] = [
-  {
-    field: "processKey",
-    renderHeader: () => (
-      <Typography variant="h6" fontWeight={600}>
-        Nom
-      </Typography>
-    ),
-    headerClassName: "columns--header",
-    flex: 0.35,
-    renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
-    ),
-  },
   {
     field: "businessKey",
     renderHeader: () => (
@@ -39,6 +21,19 @@ const columns: GridColDef[] = [
     ),
     headerClassName: "columns--header",
     flex: 0.15,
+  },
+  {
+    field: "processKey",
+    renderHeader: () => (
+      <Typography variant="h6" fontWeight={600}>
+        Nom
+      </Typography>
+    ),
+    headerClassName: "columns--header",
+    flex: 0.35,
+    renderCell: (params: GridRenderCellParams) => (
+      <Typography>{params.value}</Typography>
+    ),
   },
   {
     field: "documentation",
@@ -104,7 +99,6 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
         disableColumnFilter
         disableColumnSelector
         paginationMode="server"
-        rowModel="server"
         slotProps={{
           toolbar: {
             showQuickFilter: true,
