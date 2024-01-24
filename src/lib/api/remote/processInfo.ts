@@ -44,8 +44,28 @@ export function getProcessDefinitionById(
 export function getProcessInstance(
   apiUrl: string,
   accessToken: string,
-): Promise<any> {
-  return getRequest(`${apiUrl}runtime/process-instances`, accessToken || '');
+): Promise<ProcessInfo[]> {
+  const res = getRequest(`${apiUrl}runtime/process-instances`, accessToken || '').then((res) => {
+    const response = res.data.data.map((process: any) => {
+        const processInfo: ProcessInfo = {
+          id: process.id,
+          businessKey: process.businessKey,
+          processKey: process.processDefinitionName,
+          documentation: "",
+          startDate: new Date(process.startTime),
+          state: true,
+          group: "",
+          ids: {
+            id: process.id,
+            processDefinitionId: process.processDefinitionId,
+          },
+        };
+        console.log("Add processInfo to DataTable: ", processInfo);
+        
+      });
+      return response;
+  })
+  return Promise.resolve(res);
 }
 
 export function getProcessInstanceById(

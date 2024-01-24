@@ -97,8 +97,6 @@ const HistoryActivityTable = (props: HistoryActivityTableProps) => {
           return row.activityId + row.endTime;
         }}
         columns={columns}
-        autoHeight
-        pagination
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
@@ -109,6 +107,13 @@ const HistoryActivityTable = (props: HistoryActivityTableProps) => {
           },
         }}
         getRowClassName={() => "row--style"}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "startTime", sort: "desc" }],
+          },
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[5, 10, 25]}
       />
     </Box>
   );

@@ -95,8 +95,6 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
       <DataGrid
         rows={history}
         columns={columns}
-        autoHeight
-        pagination
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
@@ -110,7 +108,9 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
           sorting: {
             sortModel: [{ field: "startTime", sort: "desc" }],
           },
+          pagination: { paginationModel: { pageSize: 10 } },
         }}
+        pageSizeOptions={[5, 10, 25]}
         getRowClassName={() => "row--style"}
       />
     </Box>
