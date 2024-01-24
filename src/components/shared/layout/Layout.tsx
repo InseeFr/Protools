@@ -21,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
           brandTop={false}
           homeLinkProps={{
             href: "/",
+            target: "_self",
             title: "Protools - Accueil",
           }}
           operatorLogo={{
@@ -32,7 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
             {
               iconId: "fr-icon-admin-line",
               linkProps: {
-                href: "/",
+                href: "#",
               },
               text: user
                 ? user.firstName + " " + user.lastName

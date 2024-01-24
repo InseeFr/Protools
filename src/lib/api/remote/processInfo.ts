@@ -7,6 +7,7 @@ import Variable from '../../model/api/variable';
 import FlowElements from '../../model/flowElements';
 import HistoricActivity from '../../model/api/historicActivity';
 import { HistoryProcess } from '../../model/api/historyProcess';
+import ProcessInfo from '../../model/processInfo';
 
 export function getProcessDefinitions(
   apiUrl: string,

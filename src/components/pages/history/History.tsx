@@ -26,7 +26,7 @@ const History = () => {
   const api = useApi();
 
   useQuery(["historyProcess"], async () => {
-    const response = await api.getProcessInstances().then((res: any) => {
+    const response = await api.getHistoryProcessInstance().then((res: any) => {
       setHistoryProcessProcesses(res.data.data);
       return res;
     });

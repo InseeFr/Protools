@@ -106,6 +106,12 @@ export const useApi = () => {
     )
     );
 
+    const stopProcess: Function = useConstCallback((processInstanceId) => processExecutionApi.stopProcess(
+        processInstanceId,
+        apiUrl,
+        oidcClient ? oidcClient.accessToken : ''
+    ));
+
     return {
         executeTask,
         startProcess,
@@ -120,6 +126,7 @@ export const useApi = () => {
         getBpmnElements,
         getHistoricActivity, 
         getAllHistoricActivity,
-        getHistoryProcessInstance
+        getHistoryProcessInstance, 
+        stopProcess
     }
 };
