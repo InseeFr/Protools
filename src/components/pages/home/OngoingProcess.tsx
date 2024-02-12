@@ -1,4 +1,9 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbar,
+} from "@mui/x-data-grid";
 import { FiChevronRight } from "react-icons/fi";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
@@ -95,9 +100,10 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
       <DataGrid
         rows={processes}
         columns={columns}
-        getRowClassName={() => "row--style"}
         disableColumnFilter
         disableColumnSelector
+        disableDensitySelector
+        slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
             showQuickFilter: true,
@@ -110,6 +116,7 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
           pagination: { paginationModel: { pageSize: 10 } },
         }}
         pageSizeOptions={[5, 10, 25]}
+        getRowClassName={() => "row--style"}
       />
     </Box>
   );

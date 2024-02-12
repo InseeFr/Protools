@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Grid, Typography } from "@mui/material";
 import { ConfigContext } from "../../../lib/utils/provider/configProvider";
 
