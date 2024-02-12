@@ -98,6 +98,8 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
         getRowClassName={() => "row--style"}
         disableColumnFilter
         disableColumnSelector
+        paginationMode='server'
+        rowModel ='server'
         slotProps={{
           toolbar: {
             showQuickFilter: true,
