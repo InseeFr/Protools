@@ -18,6 +18,7 @@ const Home = () => {
   useQuery(["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
       setProcesses(res);
+      console.log(res);
       return res;
     });
     return response;

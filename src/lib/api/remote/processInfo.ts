@@ -61,10 +61,12 @@ export function getProcessInstance(
             processDefinitionId: process.processDefinitionId,
           },
         };
-        console.log("Add processInfo to DataTable: ", processInfo);
+        return processInfo;
         
-      });
-      return response;
+    });
+    console.log('DataTable', response);
+    return response;
+    
   })
   return Promise.resolve(res);
 }

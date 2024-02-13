@@ -86,6 +86,7 @@ const columns: GridColDef[] = [
   },
 ];
 const OnGoingProcess = (props: OnGoingProcessProps) => {
+  console.log(props);
   const { processes } = props;
   return (
     <Box
