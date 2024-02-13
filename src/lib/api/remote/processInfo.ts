@@ -1,6 +1,6 @@
 import ProcessDefinitionDataApi from '../../model/api/processDefinitionData';
 import Task from '../../model/tasks';
-import { deleteDuplicatesByKey } from '../../utils/processUtils';
+//import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
 import { fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
@@ -17,12 +17,12 @@ export function getProcessDefinitions(
 
   return getRequest(`${apiUrl}repository/process-definitions`, accessToken || '').then((response) => {
     //console.log('response', response);
-    deleteDuplicatesByKey(response.data);
+    //deleteDuplicatesByKey(response.data);
     const processLaunchInfo: any[] = [];
     response.data.data.forEach((processDefinition: any) => {
         processLaunchInfo.push({
             key: processDefinition.key,
-            name: processDefinition.name
+            name: processDefinition.name + ' - version: ' + processDefinition.version,
         }); 
       
     });
