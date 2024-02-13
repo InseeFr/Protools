@@ -9,12 +9,21 @@ const Tasks = (props: TasksProps) => {
   const { bpmnElements, processName } = props;
   //console.log("bpmnElement result:", bpmnElements);
   return (
-    <Table
-      caption={processName}
-      data={bpmnElements}
-      fixed
-      headers={["id", "Libellé", "Type", "Documentation"]}
-    />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
+    >
+      <Table
+        caption={processName}
+        data={bpmnElements}
+        fixed
+        headers={["id", "Libellé", "Type", "Documentation"]}
+      />
+    </div>
   );
 };
 

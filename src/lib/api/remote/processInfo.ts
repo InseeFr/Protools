@@ -183,9 +183,9 @@ const getHistoricActivity = (
     `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
     accessToken || ''
   ).then((res) => {
+    console.log('History result', res)
     res.data && res.data.data.forEach((historicActivity: any) => {
-  if (historicActivity.activityType !== "sequenceFlow") {
-    historicActivities.push({
+      historicActivities.push({
       activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
       activityName: historicActivity.activityName,
       activityType: historicActivity.activityType,
@@ -193,8 +193,8 @@ const getHistoricActivity = (
       endTime: historicActivity.endTime,
       durationInMillis: historicActivity.durationInMillis / 1000
     } as HistoricActivity);
-  }
-});
+    });
+    //console.log('historicActivities', historicActivities)
     return Promise.resolve(historicActivities);
    });
 }

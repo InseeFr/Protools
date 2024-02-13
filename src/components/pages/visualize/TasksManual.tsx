@@ -60,13 +60,22 @@ const TasksManual = (props: TasksManualProps) => {
       }}
     >
       {tasks.length > 0 && (
-        <DataGrid
-          rows={tasks}
-          columns={columns}
-          autoHeight
-          pagination
-          getRowClassName={() => "row--style"}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <DataGrid
+            rows={tasks}
+            columns={columns}
+            autoHeight
+            pagination
+            getRowClassName={() => "row--style"}
+          />
+        </div>
       )}
       {tasks.length === 0 && (
         <Typography variant="body1">Aucune tâche manuelle</Typography>

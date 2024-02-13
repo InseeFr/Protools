@@ -8,10 +8,19 @@ const HistoryActivity = (props: HistoryProps) => {
   const { history } = props;
   //console.log("History result:", history);
   return (
-    <Table
-      data={history}
-      headers={["id", "Libellé", "Type", "Date Fin", "Durée (sec)"]}
-    />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
+    >
+      <Table
+        data={history}
+        headers={["id", "Libellé", "Type", "Date Fin", "Durée (sec)"]}
+      />
+    </div>
   );
 };
 
