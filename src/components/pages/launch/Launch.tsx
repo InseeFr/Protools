@@ -45,7 +45,7 @@ const Launch = () => {
     return response.data;
   };
 
-  const { mutate } = useMutation(["startProcess"], startProcess, {
+  const { mutate } = useMutation({["startProcess"], startProcess, {
     onSuccess: () => {
       navigate("/");
     },
@@ -53,7 +53,7 @@ const Launch = () => {
       console.log("onError");
       setOpenError(true);
     },
-  });
+  }});
 
   useEffect(() => {
     console.log("processQuery updated:  ", processQuery.data);
@@ -92,7 +92,7 @@ const Launch = () => {
 
               <Stack spacing={2} sx={{ textAlign: "start", marginTop: 2 }}>
                 <Select
-                  hint="Protocole d'enquête"
+                  hint="Choisir un modèle de processus dans la liste déroulante"
                   label="Modèle de processus"
                   state={error ? "error" : "default"}
                   stateRelatedMessage="Veuillez sélectionner un processus"
@@ -117,7 +117,7 @@ const Launch = () => {
                 </Select>
 
                 <Input
-                  hintText="Saisir la Business key"
+                  hintText="Saisir un identifiant pour le processus"
                   label="Identifiant métier"
                   nativeInputProps={{
                     onChange: (event) => {

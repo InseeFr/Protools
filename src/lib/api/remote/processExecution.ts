@@ -39,16 +39,24 @@ export function uploadContext(
   );
 }
 
-export function executeTask(
+export function executeTaskContext(
   taskId: string,
-  variables: any[],
+  variables: string,
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
+  let context = [{ "name": "context", "value": JSON.stringify(variables) }]
+  console.log('Upload context with variables : ', context)
   return postRequest(`${apiUrl}runtime/tasks/${taskId}`, accessToken || '', {
-    action: 'complete',
-    variables,
+  action: 'complete',
+  variables: context,
+  }).then(response => {
+    if (response.status !== 200) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+   
   });
+  
 }
 
 export function stopProcess(
@@ -65,6 +73,6 @@ export function stopProcess(
 export const processExecutionApi = {
   startProcess,
   uploadContext,
-  executeTask,
+  executeTaskContext,
   stopProcess,
 };

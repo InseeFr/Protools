@@ -9,7 +9,7 @@ export const useApi = () => {
     const oidcClient = useContext(AuthContext);
     const { apiUrl } = useContext(ConfigContext);
     
-    const executeTask: Function = useConstCallback((taskID, variables) => processExecutionApi.executeTask(
+    const executeTaskContext: Function = useConstCallback((taskID, variables) => processExecutionApi.executeTaskContext(
         taskID,
         variables,
         apiUrl,
@@ -113,7 +113,7 @@ export const useApi = () => {
     ));
 
     return {
-        executeTask,
+        executeTaskContext,
         startProcess,
         uploadContext,
         getBpmnXml,

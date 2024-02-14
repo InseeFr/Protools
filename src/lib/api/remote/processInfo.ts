@@ -91,9 +91,9 @@ export function getAllTasks(
   const tasks: Task[] = [];
     
   getRequest(`${apiUrl}runtime/tasks?processInstanceId=${processInstanceId}`, accessToken || '').then((response) => {
-    //console.log('response tasks', response);
-    (response.data && response.data.length > 0) ? 
-      response.data.forEach((task: any) => {
+    //console.log('All tasks:', response);
+    (response.data && response.data.data.length > 0) ? 
+      response.data.data.forEach((task: any) => {
           tasks.push({
               id: task.id,
               label: task.name,
@@ -129,7 +129,7 @@ export function getVariables(
     `${apiUrl}runtime/process-instances/${processInstanceId}/variables`,
     accessToken || ''
   ).then((res) => {
-    console.log('res variables', res)
+    //console.log('res variables', res)
     if (res.data.length > 0) {
       console.log('res.data', res.data)
       if (res.data.find((variable: any) => variable.name === "context")) {
@@ -183,7 +183,7 @@ const getHistoricActivity = (
     `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
     accessToken || ''
   ).then((res) => {
-    console.log('History result', res)
+    //console.log('History result', res)
     res.data && res.data.data.forEach((historicActivity: any) => {
       historicActivities.push({
       activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,

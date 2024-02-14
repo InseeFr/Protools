@@ -15,14 +15,14 @@ const Home = () => {
 
   const api = useApi();
 
-  useQuery(["processInstances"], async () => {
+  useQuery({["processInstances"], async () => {
     const response = await api.getProcessInstances().then((res: any) => {
       setProcesses(res);
       console.log(res);
       return res;
     });
     return response;
-  });
+  }});
   return (
     <Stack
       spacing={2}
