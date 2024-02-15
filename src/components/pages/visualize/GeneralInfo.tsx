@@ -60,18 +60,6 @@ const GeneralInfo = (props: GeneralInfoProps) => {
                 variant="body2"
                 sx={{ marginLeft: 1 }}
               >
-                {processInstance.id ? processInstance.id : "..."}
-              </Typography>
-            </Grid>
-            <Grid item container xs={12} direction="row" alignItems="baseline">
-              <Typography color="primary" variant="h6">
-                Nom de l&apos;enquête:
-              </Typography>
-              <Typography
-                color="primary"
-                variant="body2"
-                sx={{ marginLeft: 1 }}
-              >
                 {processInstance.businessKey
                   ? processInstance.businessKey
                   : "Aucun nom d'enquête"}
@@ -79,7 +67,31 @@ const GeneralInfo = (props: GeneralInfoProps) => {
             </Grid>
             <Grid item container xs={12} direction="row" alignItems="baseline">
               <Typography color="primary" variant="h6">
-                Type d&apos;enquête:
+                Identifiant Technique:
+              </Typography>
+              <Typography
+                color="primary"
+                variant="body2"
+                sx={{ marginLeft: 1 }}
+              >
+                {processInstance.id ? processInstance.id : "..."}
+              </Typography>
+            </Grid>
+            <Grid item container xs={12} direction="row" alignItems="baseline">
+              <Typography color="primary" variant="h6">
+                Date de création:
+              </Typography>
+              <Typography
+                color="primary"
+                variant="body2"
+                sx={{ marginLeft: 1 }}
+              >
+                {moment(processInstance.startDate).format("DD/MM/YYYY HH:mm")}
+              </Typography>
+            </Grid>
+            <Grid item container xs={12} direction="row" alignItems="baseline">
+              <Typography color="primary" variant="h6">
+                Modèle de processus:
               </Typography>
               <Typography
                 color="primary"
@@ -105,25 +117,9 @@ const GeneralInfo = (props: GeneralInfoProps) => {
                 : "Aucune documentation"}
             </Typography>
           </Grid>
-
-          <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
-              Date de création:
-            </Typography>
-            <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {moment(processInstance.startDate).format("DD/MM/YYYY HH:mm")}
-            </Typography>
-          </Grid>
         </Stack>
+
         <Stack spacing={1}>
-          <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
-              État:
-            </Typography>
-            <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
-              {processInstance.state ? "Actif" : "Inactif"}
-            </Typography>
-          </Grid>
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
               Version:
@@ -137,6 +133,14 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               {processDefinitionData.version
                 ? processDefinitionData.version
                 : "..."}
+            </Typography>
+          </Grid>
+          <Grid item container xs={12} direction="row" alignItems="baseline">
+            <Typography color="primary" variant="h6">
+              État:
+            </Typography>
+            <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
+              {processInstance.state ? "Actif" : "Inactif"}
             </Typography>
           </Grid>
         </Stack>

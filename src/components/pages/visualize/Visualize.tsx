@@ -151,7 +151,7 @@ const Visualize = () => {
         queryFn: async () => {
           //console.log("fetching processInstance of id: ", id);
           return await api.getProcessInstanceById(id).then((res: any) => {
-            //console.log("processQuery result: ", res);
+            console.log("processQuery result: ", res);
             setProcessInstance({
               id: res.id,
               businessKey: res.businessKey,
@@ -196,6 +196,7 @@ const Visualize = () => {
               const bpmnElements: ReactNode[][] = [];
               res.forEach((element: FlowElements) => {
                 //console.log("element: ", element);
+
                 bpmnElements.push([
                   element.id,
                   element.name,

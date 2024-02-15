@@ -154,18 +154,20 @@ export function getBpmnElements(
     `${apiUrl}repository/process-definitions/${processDefinitionId}/model`,
     accessToken || ''
   ).then((res) => {
-      const process = res.data.processes[0];
-      const flowElementsData = process.flowElements;
-      flowElementsData.forEach((flowElement: any) => {
-        flowElements.push({
-          id: flowElement.id.length > 30 ? flowElement.id.substring(0, 30) + ' [...]' : flowElement.id,
-          name: flowElement.name,
-          documentation: flowElement.documentation ? flowElement.documentation : '',
-          asynchronous: flowElement.asynchronous ? flowElement.asynchronous : false,
-          eventDefinitions: flowElement.eventDefinitions ? flowElement.eventDefinitions : [],
-        } as FlowElements);
-      }
-      );
+    const process = res.data.processes[0];
+   //console.log('process', process);
+    const flowElementsData = process.flowElements;
+    flowElementsData.forEach((flowElement: any) => {
+    if (flowElement.name !== null) {
+      flowElements.push({
+        id: flowElement.id.length > 30 ? flowElement.id.substring(0, 30) + ' [...]' : flowElement.id,
+        name: flowElement.name,
+        documentation: flowElement.documentation ? flowElement.documentation : '',
+        asynchronous: flowElement.asynchronous ? flowElement.asynchronous : false,
+        eventDefinitions: flowElement.eventDefinitions ? flowElement.eventDefinitions : [],
+      } as FlowElements);
+    }
+    });
     //console.log('flowElements: ', flowElements)
     return Promise.resolve(flowElements);
   });
@@ -173,19 +175,28 @@ export function getBpmnElements(
   //return Promise.resolve(flowElements);
 }
 
-const getHistoricActivity = (
+const getHistoricActivity = async (
   processInstanceId: string,
   apiUrl: string,
   accessToken: string
 ): Promise<HistoricActivity[]> => {
   const historicActivities: HistoricActivity[] = [];
-  return getRequest(
-    `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
+
+  const executionResponse = await getRequest(
+    `${apiUrl}runtime/executions`,
     accessToken || ''
-  ).then((res) => {
-    //console.log('History result', res)
-    res.data && res.data.data.forEach((historicActivity: any) => {
-      historicActivities.push({
+  );
+  console.log('Execution result', executionResponse);
+  const executionId = executionResponse.data.data.find((execution: any) => execution.processInstanceId === processInstanceId).id;
+
+  const historyResponseExec = await getRequest(
+    `${apiUrl}history/historic-activity-instances?executionId=${executionId}`,
+    accessToken || ''
+  );
+  console.log('History result', historyResponseExec);
+
+  historyResponseExec.data && historyResponseExec.data.data.forEach((historicActivity: any) => {
+    historicActivities.push({
       activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
       activityName: historicActivity.activityName,
       activityType: historicActivity.activityType,
@@ -193,10 +204,28 @@ const getHistoricActivity = (
       endTime: historicActivity.endTime,
       durationInMillis: historicActivity.durationInMillis / 1000
     } as HistoricActivity);
-    });
-    //console.log('historicActivities', historicActivities)
-    return Promise.resolve(historicActivities);
-   });
+  });
+
+  const historyResponseProc = await getRequest(
+    `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
+    accessToken || ''
+  );
+
+  historyResponseProc.data && historyResponseProc.data.data.forEach((historicActivity: any) => {
+
+    if (historicActivity.activityType !== "sequenceFlow") {
+      historicActivities.push({
+        activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
+        activityName: historicActivity.activityName,
+        activityType: historicActivity.activityType,
+        executionId: historicActivity.executionId,
+        endTime: historicActivity.endTime,
+        durationInMillis: historicActivity.durationInMillis / 1000
+      } as HistoricActivity);
+    }
+  });
+  //console.log('historicActivities', historicActivities)
+  return historicActivities;
 }
 
 const getAllHistoricActivity = (

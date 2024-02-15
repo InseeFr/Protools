@@ -1,4 +1,4 @@
-import { postRequest } from "../fetcher/requests";
+import { deleteRequest, postRequest } from "../fetcher/requests";
 
 export function startProcess(
   processDefinitionKey: string,
@@ -64,9 +64,7 @@ export function stopProcess(
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  return postRequest(`${apiUrl}runtime/process-instances/${processInstanceId}`, accessToken || '', {
-    action: 'delete',
-  });
+  return deleteRequest(`${apiUrl}runtime/process-instances/${processInstanceId}`, accessToken || '');
 
 }
 
