@@ -28,7 +28,8 @@ const GeneralInfo = (props: GeneralInfoProps) => {
     return await api.stopProcess(id as string);
   };
 
-  const mutate = useMutation(["deleteProcess"], deleteProcessMutationFunction, {
+  const mutate = useMutation({
+    mutationFn: deleteProcessMutationFunction,
     onSuccess: () => {
       navigate("/");
     },

@@ -50,6 +50,49 @@ const Visualize = () => {
   useQueries({
     queries: [
       {
+        queryKey: ["history", id],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        queryFn: async () => {
+          //console.log("fetching history of id: ", id);
+          return await api
+            .getHistoricActivity(id)
+            .then((res: HistoricActivity[]) => {
+              //console.log("history result: ", res);
+              const historicActivity: ReactNode[][] = [];
+              res.forEach((element: HistoricActivity) => {
+                //console.log("element: ", element);
+                historicActivity.push([
+                  //element.id,
+                  element.activityId,
+                  element.activityName,
+                  element.activityType,
+                  moment(element.endTime).format("DD/MM/YYYY HH:mm"),
+                  element.durationInMillis,
+                ]);
+              });
+              console.log("historicActivity: ", historicActivity);
+              setHistory(historicActivity);
+              const overlays = (viewer as any).get("overlays");
+              overlays.add(
+                historicActivity[historicActivity.length - 1][0],
+                "note",
+                {
+                  position: {
+                    bottom: 18,
+                    right: 18,
+                  },
+                  scale: {
+                    min: 1.2,
+                  },
+                  html: '<div class="diagram-note">🦊</div>',
+                }
+              );
+              return res;
+            });
+        },
+      },
+      {
         queryKey: ["bpmnXml", processDefinitionId],
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
@@ -66,8 +109,6 @@ const Visualize = () => {
                 ) as HTMLElement;
                 viewer.attachTo(canvasElement);
                 (viewer as any).get("canvas").zoom("fit-viewport");
-
-                
               })
               .catch((err: any) => {
                 console.log("error", err);
@@ -163,33 +204,6 @@ const Visualize = () => {
                 ]);
               });
               setBpmnElements(bpmnElements);
-              return res;
-            });
-        },
-      },
-      {
-        queryKey: ["history", id],
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        queryFn: async () => {
-          //console.log("fetching history of id: ", id);
-          return await api
-            .getHistoricActivity(id)
-            .then((res: HistoricActivity[]) => {
-              //console.log("history result: ", res);
-              const historicActivity: ReactNode[][] = [];
-              res.forEach((element: HistoricActivity) => {
-                //console.log("element: ", element);
-                historicActivity.push([
-                  //element.id,
-                  element.activityId,
-                  element.activityName,
-                  element.activityType,
-                  moment(element.endTime).format("DD/MM/YYYY HH:mm"),
-                  element.durationInMillis,
-                ]);
-              });
-              setHistory(historicActivity);
               return res;
             });
         },

@@ -37,16 +37,14 @@ const columns: GridColDef[] = [
     minWidth: 90,
     description: "Exécuter cett tâche",
     renderCell: (params: GridRenderCellParams) => (
-      console.log("params", params),
-      (
-        <Link
-          to={{
-            pathname: `/upload-context/${params.row.id}`,
-          }}
-        >
-          <FiUserPlus />
-        </Link>
-      )
+      //console.log("params", params),
+      <Link
+        to={{
+          pathname: `/upload-context/${params.row.id}`,
+        }}
+      >
+        <FiUserPlus />
+      </Link>
     ),
   },
 ];
