@@ -25,20 +25,28 @@ const History = () => {
 
   const api = useApi();
 
-  useQuery(["historyProcess"], async () => {
-    const response = await api.getHistoryProcessInstance().then((res: any) => {
-      setHistoryProcessProcesses(res.data.data);
-      return res;
-    });
-    return response;
+  useQuery({
+    queryKey: ["historyProcess"],
+    queryFn: async () => {
+      const response = await api
+        .getHistoryProcessInstance()
+        .then((res: any) => {
+          setHistoryProcessProcesses(res.data.data);
+          return res;
+        });
+      return response;
+    },
   });
 
-  useQuery(["historyActivity"], async () => {
-    const response = await api.getAllHistoricActivity().then((res: any) => {
-      setHistoryProcessActivities(res);
-      return res;
-    });
-    return response;
+  useQuery({
+    queryKey: ["historyActivity"],
+    queryFn: async () => {
+      const response = await api.getAllHistoricActivity().then((res: any) => {
+        setHistoryProcessActivities(res);
+        return res;
+      });
+      return response;
+    },
   });
 
   return (

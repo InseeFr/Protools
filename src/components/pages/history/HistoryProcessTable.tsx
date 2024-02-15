@@ -102,6 +102,11 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
         slotProps={{
           toolbar: {
             showQuickFilter: true,
+            quickFilterProps: {
+              inputProps: {
+                placeholder: "Recherche",
+              },
+            },
           },
         }}
         initialState={{

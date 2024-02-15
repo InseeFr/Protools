@@ -104,6 +104,11 @@ const HistoryActivityTable = (props: HistoryActivityTableProps) => {
         slotProps={{
           toolbar: {
             showQuickFilter: true,
+            quickFilterProps: {
+              inputProps: {
+                placeholder: "Recherche",
+              },
+            },
           },
         }}
         getRowClassName={() => "row--style"}
