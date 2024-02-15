@@ -45,7 +45,8 @@ const Launch = () => {
     return response.data;
   };
 
-  const { mutate } = useMutation({["startProcess"], startProcess, {
+  const { mutate } = useMutation({
+    mutationFn: startProcess,
     onSuccess: () => {
       navigate("/");
     },
@@ -53,7 +54,7 @@ const Launch = () => {
       console.log("onError");
       setOpenError(true);
     },
-  }});
+  });
 
   useEffect(() => {
     console.log("processQuery updated:  ", processQuery.data);

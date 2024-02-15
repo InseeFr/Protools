@@ -34,10 +34,22 @@ const Layout = ({ children }: LayoutProps) => {
               iconId: "fr-icon-admin-line",
               linkProps: {
                 href: "#",
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                },
+                onMouseOver: (e: React.MouseEvent) => {
+                  (e.target as HTMLElement).style.backgroundColor = "inherit";
+                },
+                onMouseOut: (e: React.MouseEvent) => {
+                  (e.target as HTMLElement).style.backgroundColor = "inherit";
+                },
+                style: {
+                  cursor: "default",
+                },
               },
               text: user
                 ? user.firstName + " " + user.lastName
-                : "Utilisateur inconnu",
+                : "Utilisateur non authentifié",
             },
           ]}
           serviceTagline="Orchestration des protocoles d'enquêtes"

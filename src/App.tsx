@@ -18,7 +18,7 @@ function App() {
     <MuiDsfrThemeProvider>
       <ConfigProvider>
         <AuthProvider>
-          <QueryClientProvider client={queryClient} contextSharing>
+          <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
             <Layout>
               <RouterProvider router={Router} />

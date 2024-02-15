@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
     field: "businessKey",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Type
+        Identifiant
       </Typography>
     ),
     renderCell: (params: GridRenderCellParams) => (
@@ -31,7 +31,7 @@ const columns: GridColDef[] = [
     field: "processKey",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Nom
+        Modèle de processus
       </Typography>
     ),
     headerClassName: "columns--header",
@@ -86,7 +86,7 @@ const columns: GridColDef[] = [
   },
 ];
 const OnGoingProcess = (props: OnGoingProcessProps) => {
-  console.log(props);
+  //console.log(props);
   const { processes } = props;
   return (
     <Box
@@ -108,6 +108,11 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
         slotProps={{
           toolbar: {
             showQuickFilter: true,
+            quickFilterProps: {
+              inputProps: {
+                placeholder: "Recherche",
+              },
+            },
           },
         }}
         initialState={{
