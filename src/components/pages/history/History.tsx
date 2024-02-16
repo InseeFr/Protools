@@ -14,11 +14,11 @@ import HistoryActivityTable from "./HistoryActivityTable";
 const History = () => {
   // const navigate = useNavigate()
 
-  const [HistoryProcesses, setHistoryProcessProcesses] = useState<
+  const [historyProcesses, setHistoryProcessProcesses] = useState<
     HistoryProcess[]
   >([]);
 
-  const [HistoryActivities, setHistoryProcessActivities] = useState<
+  const [historyActivities, setHistoryProcessActivities] = useState<
     HistoricActivity[]
   >([]);
   // TODO: Parsing des processus en cours
@@ -31,7 +31,8 @@ const History = () => {
       const response = await api
         .getHistoryProcessInstance()
         .then((res: any) => {
-          setHistoryProcessProcesses(res.data.data);
+          setHistoryProcessProcesses(res);
+
           return res;
         });
       return response;
@@ -65,13 +66,13 @@ const History = () => {
           {
             label: "Processus",
             iconId: "fr-icon-window-line",
-            content: <HistoryProcessTable history={HistoryProcesses} />,
+            content: <HistoryProcessTable history={historyProcesses} />,
           },
 
           {
             label: "Activités",
             iconId: "fr-icon-window-line",
-            content: <HistoryActivityTable history={HistoryActivities} />,
+            content: <HistoryActivityTable history={historyActivities} />,
           },
         ]}
       />

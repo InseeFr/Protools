@@ -82,6 +82,7 @@ const columns: GridColDef[] = [
 ];
 const HistoryProcessTable = (props: HistoryProcessTableProps) => {
   const { history } = props;
+  console.log("history", history);
   return (
     <Box
       sx={{

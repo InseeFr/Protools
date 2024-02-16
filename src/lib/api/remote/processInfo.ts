@@ -263,7 +263,9 @@ const getHistoryProcessInstance = (
     `${apiUrl}history/historic-process-instances`,
     accessToken || ''
   ).then((res) => {
+    
     res.data && res.data.data.forEach((historicProcess: any) => {
+      
       historyProcess.push({
         id: historicProcess.id,
         businessKey: historicProcess.businessKey,
@@ -282,6 +284,7 @@ const getHistoryProcessInstance = (
         tenantId: historicProcess.tenantId
       } as HistoryProcess);
     });
+    console.log('historyProcess', historyProcess)
     return Promise.resolve(historyProcess);
    });
  }
