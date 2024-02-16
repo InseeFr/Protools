@@ -16,10 +16,14 @@ const HistoryActivity = (props: HistoryProps) => {
         height: "100%",
       }}
     >
-      <Table
-        data={history}
-        headers={["id", "Libellé", "Type", "Date Fin", "Durée (sec)"]}
-      />
+      {history.length > 0 ? (
+        <Table
+          data={history}
+          headers={["id", "Libellé", "Type", "Date Fin", "Durée (sec)"]}
+        />
+      ) : (
+        <p>Historique vide</p>
+      )}
     </div>
   );
 };

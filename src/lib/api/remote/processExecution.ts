@@ -58,6 +58,24 @@ export function executeTaskContext(
   });
   
 }
+export function executeTask(
+  taskId: string,
+  
+  apiUrl: string,
+  accessToken: string
+): Promise<any> {
+  
+  return postRequest(`${apiUrl}runtime/tasks/${taskId}`, accessToken || '', {
+  action: 'complete',
+  
+  }).then(response => {
+    if (response.status !== 200) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+   
+  });
+  
+}
 
 export function stopProcess(
   processInstanceId: string,
@@ -72,5 +90,6 @@ export const processExecutionApi = {
   startProcess,
   uploadContext,
   executeTaskContext,
+  executeTask,
   stopProcess,
 };

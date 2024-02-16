@@ -237,6 +237,7 @@ const getAllHistoricActivity = (
     `${apiUrl}history/historic-activity-instances`,
     accessToken || ''
   ).then((res) => {
+    console.log('res', res);
     res.data && res.data.data.forEach((historicActivity: any) => {
   if (historicActivity.activityType !== "sequenceFlow") {
     historicActivities.push({
@@ -284,7 +285,7 @@ const getHistoryProcessInstance = (
         tenantId: historicProcess.tenantId
       } as HistoryProcess);
     });
-    console.log('historyProcess', historyProcess)
+    //console.log('historyProcess', historyProcess)
     return Promise.resolve(historyProcess);
    });
  }

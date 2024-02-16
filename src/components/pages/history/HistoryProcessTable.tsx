@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
     field: "businessKey",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Type
+        Identifiant
       </Typography>
     ),
     renderCell: (params: GridRenderCellParams) => (
