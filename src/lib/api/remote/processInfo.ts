@@ -48,11 +48,12 @@ export function getProcessInstance(
 ): Promise<ProcessInfo[]> {
   const res = getRequest(`${apiUrl}runtime/process-instances`, accessToken || '').then((res) => {
     const response = res.data.data.map((process: any) => {
+      console.log(' process', process)
         const processInfo: ProcessInfo = {
           id: process.id,
           businessKey: process.businessKey,
           processKey: process.processDefinitionName,
-          documentation: "",
+          documentation: process.processDefinitionDescription,
           startDate: new Date(process.startTime),
           state: true,
           group: "",
@@ -234,7 +235,7 @@ const getAllHistoricActivity = (
 ): Promise<HistoricActivity[]>  => { 
   const historicActivities: HistoricActivity[] = [];
   return getRequest(
-    `${apiUrl}history/historic-activity-instances`,
+    `${apiUrl}history/historic-activity-instances?size=100`,
     accessToken || ''
   ).then((res) => {
     console.log('res', res);
@@ -261,7 +262,7 @@ const getHistoryProcessInstance = (
 ): Promise<HistoryProcess[]> => {
   const historyProcess: HistoryProcess[] = [];
   return getRequest(
-    `${apiUrl}history/historic-process-instances`,
+    `${apiUrl}history/historic-process-instances?size=100`,
     accessToken || ''
   ).then((res) => {
     

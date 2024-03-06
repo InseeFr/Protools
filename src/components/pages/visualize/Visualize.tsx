@@ -156,7 +156,7 @@ const Visualize = () => {
               id: res.id,
               businessKey: res.businessKey,
               processKey: res.processDefinitionName,
-              documentation: "",
+              documentation: res.processDefinitionDescription,
               startDate: new Date(res.startTime),
               state: true,
               group: "",

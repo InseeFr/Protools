@@ -25,7 +25,7 @@ const columns: GridColDef[] = [
       <Typography>{params.value}</Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.15,
+    flex: 0.1,
   },
   {
     field: "processKey",
@@ -35,7 +35,7 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.35,
+    flex: 0.28,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{params.value}</Typography>
     ),
@@ -48,31 +48,33 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.2,
+    flex: 0.35,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
+      <Typography align="left">{params.value}</Typography>
     ),
   },
   {
     field: "startDate",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Date de lancement
+        Lancement
       </Typography>
     ),
     type: "date",
 
     headerClassName: "columns--header",
-    flex: 0.18,
+    flex: 0.1,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
+      <Typography align="left">
+        {moment(params.value).format("DD/MM/YY HH:mm")}
+      </Typography>
     ),
   },
   {
     field: "ids",
     headerName: " ",
     headerClassName: "columns--header",
-    flex: 0.1,
+    flex: 0.08,
     align: "center",
     renderCell: (params: GridRenderCellParams) => (
       <Link
@@ -80,7 +82,7 @@ const columns: GridColDef[] = [
         style={{ textDecoration: "none" }}
         //state={{ ids: params.value }}
       >
-        <FiChevronRight fontSize={21} />
+        <FiChevronRight fontSize={24} />
       </Link>
     ),
   },
@@ -91,7 +93,7 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "120%",
         "& .columns--header": {
           fontWeight: "700",
         },
@@ -104,6 +106,7 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
+        getRowHeight={() => "auto"}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
