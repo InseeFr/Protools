@@ -22,10 +22,10 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
+      <Typography align="left">{params.value}</Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.1,
+    flex: 0.11,
   },
   {
     field: "processKey",
@@ -37,7 +37,7 @@ const columns: GridColDef[] = [
     headerClassName: "columns--header",
     flex: 0.28,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
+      <Typography align="left">{params.value}</Typography>
     ),
   },
   {

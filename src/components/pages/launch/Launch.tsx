@@ -42,6 +42,9 @@ const Launch = () => {
   > = async ({ processKey, businessKey }) => {
     //TODO : Fix files
     const response = await api.startProcess(processKey, businessKey, variables);
+    if (response.status !== 200) {
+      throw new Error("Erreur lors du lancement du processus");
+    }
     return response.data;
   };
 
@@ -51,7 +54,6 @@ const Launch = () => {
       navigate("/");
     },
     onError: () => {
-      console.log("onError");
       setOpenError(true);
     },
   });

@@ -22,10 +22,11 @@ export function getProcessDefinitions(
     response.data.data.forEach((processDefinition: any) => {
         processLaunchInfo.push({
             key: processDefinition.key,
-            name: processDefinition.name + ' - version: ' + processDefinition.version,
-        }); 
-      
+            name: processDefinition.name ,
+        });
     });
+      processLaunchInfo.sort((a, b) => a.name.localeCompare(b.name));
+
     return Promise.resolve(processLaunchInfo);
   });
     
@@ -90,7 +91,6 @@ export function getAllTasks(
 ): Promise<Task[]> {
 
   const tasks: Task[] = [];
-    
   getRequest(`${apiUrl}runtime/tasks?processInstanceId=${processInstanceId}`, accessToken || '').then((response) => {
     //console.log('All tasks:', response);
     (response.data && response.data.data.length > 0) ? 
@@ -194,9 +194,10 @@ const getHistoricActivity = async (
     `${apiUrl}history/historic-activity-instances?executionId=${executionId}`,
     accessToken || ''
   );
-  console.log('History result', historyResponseExec);
+  //console.log('History result', historyResponseExec);
 
   historyResponseExec.data && historyResponseExec.data.data.forEach((historicActivity: any) => {
+  if (historicActivity.activityType !== "sequenceFlow") {
     historicActivities.push({
       activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
       activityName: historicActivity.activityName,
@@ -205,8 +206,8 @@ const getHistoricActivity = async (
       endTime: historicActivity.endTime,
       durationInMillis: historicActivity.durationInMillis / 1000
     } as HistoricActivity);
-  });
-
+  }
+});
   const historyResponseProc = await getRequest(
     `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
     accessToken || ''
