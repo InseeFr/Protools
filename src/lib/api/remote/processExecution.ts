@@ -24,6 +24,21 @@ export function startProcess(
   });
 }
 
+export function startProcessWithContext(
+  processDefinitionKey: string,
+  businessKey: string,
+  apiUrl: string,
+  context: string,
+  accessToken: string
+): Promise<any> {
+    const contextObject = JSON.parse(context);
+
+  return postRequest(`${apiUrl}protools-process/create_process_instance_with_context?processDefinitionKey=${processDefinitionKey}&businessKey=${businessKey}`, accessToken || '', {
+  ...contextObject
+});
+}
+
+
 export function uploadContext(
   taskId: string,
   file: File,

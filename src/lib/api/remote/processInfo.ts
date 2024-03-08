@@ -15,7 +15,7 @@ export function getProcessDefinitions(
 ): Promise<any[]> {
 
 
-  return getRequest(`${apiUrl}repository/process-definitions?latest=true&size=100`, accessToken || '').then((response) => {
+  return getRequest(`${apiUrl}repository/process-definitions?latest=true&size=1000`, accessToken || '').then((response) => {
     console.log('response', response);
     deleteDuplicatesByKey(response.data);
     const processLaunchInfo: any[] = [];
@@ -236,7 +236,7 @@ const getAllHistoricActivity = (
 ): Promise<HistoricActivity[]>  => { 
   const historicActivities: HistoricActivity[] = [];
   return getRequest(
-    `${apiUrl}history/historic-activity-instances?size=100`,
+    `${apiUrl}history/historic-activity-instances?size=1000`,
     accessToken || ''
   ).then((res) => {
     console.log('res', res);
@@ -263,7 +263,7 @@ const getHistoryProcessInstance = (
 ): Promise<HistoryProcess[]> => {
   const historyProcess: HistoryProcess[] = [];
   return getRequest(
-    `${apiUrl}history/historic-process-instances?size=100`,
+    `${apiUrl}history/historic-process-instances?size=1000`,
     accessToken || ''
   ).then((res) => {
     
