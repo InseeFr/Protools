@@ -16,16 +16,16 @@ export function getProcessDefinitions(
 
 
   return getRequest(`${apiUrl}repository/process-definitions?latest=true&size=1000`, accessToken || '').then((response) => {
-    console.log('response', response);
+    //console.log('response', response);
     deleteDuplicatesByKey(response.data);
     const processLaunchInfo: any[] = [];
     response.data.data.forEach((processDefinition: any) => {
-        processLaunchInfo.push({
-            key: processDefinition.key,
-            name: processDefinition.name ,
-        });
+      processLaunchInfo.push({
+        key: processDefinition.key,
+        name: processDefinition.name,
+      });
     });
-      processLaunchInfo.sort((a, b) => a.name.localeCompare(b.name));
+    processLaunchInfo.sort((a, b) => a.name.localeCompare(b.name));
 
     return Promise.resolve(processLaunchInfo);
   });
@@ -49,26 +49,24 @@ export function getProcessInstance(
 ): Promise<ProcessInfo[]> {
   const res = getRequest(`${apiUrl}runtime/process-instances`, accessToken || '').then((res) => {
     const response = res.data.data.map((process: any) => {
-      console.log(' process', process)
-        const processInfo: ProcessInfo = {
+      //console.log(' process', process)
+      const processInfo: ProcessInfo = {
+        id: process.id,
+        businessKey: process.businessKey,
+        processKey: process.processDefinitionName,
+        documentation: process.processDefinitionDescription,
+        startDate: new Date(process.startTime),
+        state: true,
+        group: "",
+        ids: {
           id: process.id,
-          businessKey: process.businessKey,
-          processKey: process.processDefinitionName,
-          documentation: process.processDefinitionDescription,
-          startDate: new Date(process.startTime),
-          state: true,
-          group: "",
-          ids: {
-            id: process.id,
-            processDefinitionId: process.processDefinitionId,
-          },
-        };
-        return processInfo;
-        
+          processDefinitionId: process.processDefinitionId,
+        },
+      };
+      return processInfo;
     });
-    console.log('DataTable', response);
+    //console.log('DataTable', response);
     return response;
-    
   })
   return Promise.resolve(res);
 }

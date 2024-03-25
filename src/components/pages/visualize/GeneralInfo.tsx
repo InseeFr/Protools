@@ -1,6 +1,16 @@
-import { Grid, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@codegouvfr/react-dsfr/Button';
+import {
+  Grid,
+  IconButton,
+  Stack,
+  styled,
+  Tooltip,
+  tooltipClasses,
+  TooltipProps,
+  Typography,
+} from "@mui/material";
+import { FiInfo } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import ProcessInfo from "../../../lib/model/processInfo";
@@ -15,6 +25,15 @@ interface GeneralInfoProps {
 const modal = createModal({
   id: "delete-modal",
   isOpenedByDefault: false,
+});
+
+const NoMaxWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: "none",
+    fontSize: "1.1em",
+  },
 });
 
 const GeneralInfo = (props: GeneralInfoProps) => {
@@ -57,25 +76,23 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               </Typography>
               <Typography
                 color="primary"
-                variant="body2"
+                variant="body1"
                 sx={{ marginLeft: 1 }}
               >
                 {processInstance.businessKey
                   ? processInstance.businessKey
                   : "Aucun nom d'enquête"}
               </Typography>
-            </Grid>
-            <Grid item container xs={12} direction="row" alignItems="baseline">
-              <Typography color="primary" variant="h6">
-                Identifiant Technique:
-              </Typography>
-              <Typography
-                color="primary"
-                variant="body2"
-                sx={{ marginLeft: 1 }}
+              <NoMaxWidthTooltip
+                title={`Identifiant Technique: ${processInstance.id ? processInstance.id : "..."}`}
+                enterTouchDelay={0}
+                leaveTouchDelay={2000}
+                arrow
               >
-                {processInstance.id ? processInstance.id : "..."}
-              </Typography>
+                <IconButton>
+                  <FiInfo size={18} />
+                </IconButton>
+              </NoMaxWidthTooltip>
             </Grid>
             <Grid item container xs={12} direction="row" alignItems="baseline">
               <Typography color="primary" variant="h6">
@@ -83,7 +100,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               </Typography>
               <Typography
                 color="primary"
-                variant="body2"
+                variant="body1"
                 sx={{ marginLeft: 1 }}
               >
                 {moment(processInstance.startDate).format("DD/MM/YYYY HH:mm")}
@@ -95,20 +112,34 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               </Typography>
               <Typography
                 color="primary"
-                variant="body2"
+                variant="body1"
                 sx={{ marginLeft: 1 }}
               >
                 {processDefinitionData.name
                   ? processDefinitionData.name
                   : "..."}
               </Typography>
+              <NoMaxWidthTooltip
+                title={`Version: ${
+                  processDefinitionData.version
+                    ? processDefinitionData.version
+                    : "..."
+                }`}
+                enterTouchDelay={0}
+                leaveTouchDelay={2000}
+                arrow
+              >
+                <IconButton>
+                  <FiInfo size={18} />
+                </IconButton>
+              </NoMaxWidthTooltip>
             </Grid>
             <Typography color="primary" variant="h6">
               Description:
             </Typography>
             <Typography
               color="primary"
-              variant="body2"
+              variant="body1"
               sx={{ marginLeft: 1 }}
               align="left"
             >
@@ -122,53 +153,34 @@ const GeneralInfo = (props: GeneralInfoProps) => {
         <Stack spacing={1}>
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
-              Version:
-            </Typography>
-            <Typography
-              color="primary"
-              variant="body2"
-              align="left"
-              sx={{ marginLeft: 1 }}
-            >
-              {processDefinitionData.version
-                ? processDefinitionData.version
-                : "..."}
-            </Typography>
-          </Grid>
-          <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
               État:
             </Typography>
-            <Typography color="primary" variant="body2" sx={{ marginLeft: 1 }}>
+            <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
               {processInstance.state ? "Actif" : "Inactif"}
             </Typography>
           </Grid>
-        </Stack>
-      </Stack>
-
-      <Stack
-        spacing={2}
-        sx={{ padding: "0.2rem 2.8rem", minwidth: "15%" }}
-        alignItems="flex-start"
-      >
-        <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
-          Actions:
-        </Typography>
-        {/* <Button
+          <Grid item container xs={12} direction="row" alignItems="baseline">
+            <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
+              Actions:
+            </Typography>
+            {/* <Button
           iconId="fr-icon-pause-circle-line"
           disabled
           onClick={() => console.log("clicked")}
         >
           {processInstance.state ? "Suspendre" : "Relancer"}
         </Button> */}
-        <Button
-          iconId="fr-icon-delete-line"
-          priority="secondary"
-          nativeButtonProps={modal.buttonProps}
-        >
-          Arrêter
-        </Button>
+            <Button
+              iconId="fr-icon-delete-line"
+              priority="secondary"
+              nativeButtonProps={modal.buttonProps}
+            >
+              Arrêter
+            </Button>
+          </Grid>
+        </Stack>
       </Stack>
+
       <modal.Component
         title="Arrêter le processus"
         iconId="fr-icon-checkbox-circle-line"

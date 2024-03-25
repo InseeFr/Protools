@@ -28,16 +28,20 @@ export function startProcessWithContext(
   processDefinitionKey: string,
   businessKey: string,
   apiUrl: string,
-  context: string,
+  context: object,
   accessToken: string
 ): Promise<any> {
-    const contextObject = JSON.parse(context);
-
-  return postRequest(`${apiUrl}protools-process/create_process_instance_with_context?processDefinitionKey=${processDefinitionKey}&businessKey=${businessKey}`, accessToken || '', {
-  ...contextObject
-});
+  console.log("ProcessDefinitionKey : ", processDefinitionKey);
+  console.log("BusinessKey : ", businessKey);
+  console.log("Context : ", context);
+  return postRequest(
+    `${apiUrl}protools-process/create_process_instance_with_context?processDefinitionKey=${processDefinitionKey}&businessKey=${businessKey}`,
+    accessToken || "",
+    {
+      ...context,
+    }
+  );
 }
-
 
 export function uploadContext(
   taskId: string,
@@ -46,10 +50,10 @@ export function uploadContext(
   accessToken: string
 ): Promise<any> {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
   return postRequest(
     `${apiUrl}protools-process/upload-context/?taskID=${taskId}`,
-    accessToken || '',
+    accessToken || "",
     formData
   );
 }
@@ -60,36 +64,30 @@ export function executeTaskContext(
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  let context = [{ "name": "context", "value": JSON.stringify(variables) }]
-  console.log('Upload context with variables : ', context)
-  return postRequest(`${apiUrl}runtime/tasks/${taskId}`, accessToken || '', {
-  action: 'complete',
-  variables: context,
-  }).then(response => {
+  let context = [{ name: "context", value: JSON.stringify(variables) }];
+  console.log("Upload context with variables : ", context);
+  return postRequest(`${apiUrl}runtime/tasks/${taskId}`, accessToken || "", {
+    action: "complete",
+    variables: context,
+  }).then((response) => {
     if (response.status !== 200) {
       throw new Error(`Request failed with status code ${response.status}`);
     }
-   
   });
-  
 }
 export function executeTask(
   taskId: string,
-  
+
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  
-  return postRequest(`${apiUrl}runtime/tasks/${taskId}`, accessToken || '', {
-  action: 'complete',
-  
-  }).then(response => {
+  return postRequest(`${apiUrl}runtime/tasks/${taskId}`, accessToken || "", {
+    action: "complete",
+  }).then((response) => {
     if (response.status !== 200) {
       throw new Error(`Request failed with status code ${response.status}`);
     }
-   
   });
-  
 }
 
 export function stopProcess(
@@ -97,14 +95,17 @@ export function stopProcess(
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  return deleteRequest(`${apiUrl}runtime/process-instances/${processInstanceId}`, accessToken || '');
-
+  return deleteRequest(
+    `${apiUrl}runtime/process-instances/${processInstanceId}`,
+    accessToken || ""
+  );
 }
 
 export const processExecutionApi = {
   startProcess,
   uploadContext,
   executeTaskContext,
+  startProcessWithContext,
   executeTask,
   stopProcess,
 };

@@ -11,7 +11,6 @@ import { MutationFunction, useMutation, useQuery } from "@tanstack/react-query";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import Button from "@codegouvfr/react-dsfr/Button";
-import { ToggleSwitchGroup } from "@codegouvfr/react-dsfr/ToggleSwitchGroup";
 import ReactJson from "react-json-view";
 //import { getMockProcessDefinitions } from "../../../lib/api/mock/processInfo";
 import { useApi } from "../../../lib/hooks/useApi";
@@ -21,7 +20,6 @@ import ErrorDialog from "../../shared/dialogs/ErrorDialog";
 const Launch = () => {
   const [processKey, setProcessKey] = useState("");
   const [businessKey, setBusinessKey] = useState("test");
-  const [isContextOpen, setIsContextOpen] = useState(false);
   const [variables, setVariables] = useState("");
   const [error, setError] = useState(false);
 
@@ -40,8 +38,11 @@ const Launch = () => {
     any,
     { processKey: string; businessKey: string; variables: string }
   > = async ({ processKey, businessKey }) => {
-    //TODO : Fix files
-    const response = await api.startProcess(processKey, businessKey, variables);
+    const response = await api.startProcessWithContext(
+      processKey,
+      businessKey,
+      variables
+    );
     if (response.status !== 200) {
       throw new Error("Erreur lors du lancement du processus");
     }
@@ -58,18 +59,12 @@ const Launch = () => {
     },
   });
 
-  useEffect(() => {
-    console.log("processQuery updated:  ", processQuery.data);
-  }, [processQuery.isSuccess]);
+  // useEffect(() => {
+  //   console.log("processQuery updated:  ", processQuery.data);
+  // }, [processQuery.isSuccess]);
 
   const handleStartProcess = () => {
-    console.log(
-      "start process with key",
-      processKey,
-      "and business key",
-      businessKey
-    );
-    processKey.length > 1
+    processKey && businessKey && variables
       ? mutate({
           processKey: processKey,
           businessKey,
@@ -102,7 +97,6 @@ const Launch = () => {
                   nativeSelectProps={{
                     value: processKey,
                     onChange: (event) => {
-                      //console.log(event);
                       setProcessKey(event.target.value);
                     },
                   }}
@@ -129,49 +123,44 @@ const Launch = () => {
                     value: businessKey,
                   }}
                 />
-                <ToggleSwitchGroup
-                  toggles={[
-                    {
-                      defaultChecked: false,
-                      inputTitle: "context-toggle-1",
-                      label: "Télécharger le contexte au lancement",
-                      onChange: () => setIsContextOpen(!isContextOpen),
-                    },
-                  ]}
-                />
-                {isContextOpen && (
-                  <Stack
-                    spacing={2}
-                    sx={{ textAlign: "start", paddingBottom: 3 }}
+                <Stack
+                  spacing={1}
+                  sx={{ textAlign: "start", paddingBottom: 3 }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    style={{
+                      color:
+                        error && variables.length < 2 ? "#CE0500" : "inherit",
+                    }}
                   >
-                    <Typography variant="caption">
-                      Formats acceptés : json - Vous pourrez visualiser le
-                      fichier après l&apos;avoir déposé
-                    </Typography>
-                    <input
-                      type="file"
-                      accept="application/json"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        const reader = new FileReader();
-                        if (file) {
-                          reader.readAsText(file, "UTF-8");
-                          reader.onload = (
-                            event: ProgressEvent<FileReader>
-                          ) => {
-                            const { result } = event.target as FileReader;
-                            const json = JSON.parse(result as string);
-                            setVariables(json);
-                            console.log("JSON uploaded", json);
-                          };
-                        }
-                      }}
-                    />
-                    {variables && (
-                      <ReactJson src={JSON.parse(JSON.stringify(variables))} />
-                    )}
-                  </Stack>
-                )}
+                    Fichier de contexte
+                  </Typography>
+                  <Typography variant="caption">
+                    Formats acceptés : json - Vous pourrez visualiser le fichier
+                    après l&apos;avoir déposé
+                  </Typography>
+                  <input
+                    type="file"
+                    accept="application/json"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      const reader = new FileReader();
+                      if (file) {
+                        reader.readAsText(file, "UTF-8");
+                        reader.onload = (event: ProgressEvent<FileReader>) => {
+                          const { result } = event.target as FileReader;
+                          const json = JSON.parse(result as string);
+                          setVariables(json);
+                          console.log("JSON uploaded", json);
+                        };
+                      }
+                    }}
+                  />
+                  {variables && (
+                    <ReactJson src={JSON.parse(JSON.stringify(variables))} />
+                  )}{" "}
+                </Stack>
                 <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
                   <Button
                     iconId="fr-icon-arrow-left-s-line"
@@ -194,7 +183,7 @@ const Launch = () => {
         <ErrorDialog
           openError={openError}
           setOpenError={setOpenError}
-          errorDescription="Une erreur s'est produite lors du lancement du processus."
+          errorDescription="Une erreur s'est produite lors du lancement du processus. Veuillez vérifier que l'intégralité des champs."
         />
       </>
     );
