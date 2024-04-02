@@ -183,7 +183,7 @@ const Launch = () => {
         <ErrorDialog
           openError={openError}
           setOpenError={setOpenError}
-          errorDescription="Une erreur s'est produite lors du lancement du processus. Veuillez vérifier que l'intégralité des champs."
+          errorDescription="Une erreur s'est produite lors du lancement du processus. Veuillez vérifier l'intégralité des champs."
         />
       </>
     );

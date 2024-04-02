@@ -57,3 +57,47 @@ export const fetcherXml = async (url: string, method: string, token: string, bod
     return { error: true, status: 0, statusText: e.message };
   }
 };
+
+export const fetcherMultipart = async (
+  url: string,
+  method: string,
+  token: string,
+  body: { [key: string]: any }
+) => {
+  const json = JSON.stringify(body);
+  const blob = new Blob([json], { type: "application/json" });
+  const file = new File([blob], "file.json");
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const headers = {
+    Accept: "application/json",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  try {
+    console.log("fetcherMultipart", url, method, token, body);
+    const response = await fetch(url, {
+      headers: token
+        ? { ...headers, Authorization: `Bearer ${token}` }
+        : headers,
+      method,
+      body: formData,
+    });
+    const { ok, status, statusText } = response;
+    if (ok) {
+      try {
+        const data = await response.json();
+        return { data, status, statusText };
+      } catch (e: any) {
+        return { error: true, status, statusText: e.message };
+      }
+    } else {
+      return { error: true, status, statusText };
+    }
+  } catch (e: any) {
+    // network error
+    return { error: true, statusText: e.message };
+  }
+};

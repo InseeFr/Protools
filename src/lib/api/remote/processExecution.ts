@@ -1,4 +1,8 @@
-import { deleteRequest, postRequest } from "../fetcher/requests";
+import {
+  deleteRequest,
+  postMultiPartRequest,
+  postRequest,
+} from "../fetcher/requests";
 
 export function startProcess(
   processDefinitionKey: string,
@@ -7,16 +11,20 @@ export function startProcess(
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  if (variables) { 
-    let context = [{ "name": "context","value": JSON.stringify(variables) }]
-    return postRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
-      processDefinitionKey,
-      businessKey,
-      variables: context,
-      returnVariables: false,
-    });
+  if (variables) {
+    let context = [{ name: "context", value: JSON.stringify(variables) }];
+    return postRequest(
+      `${apiUrl}runtime/process-instances`,
+      accessToken || "",
+      {
+        processDefinitionKey,
+        businessKey,
+        variables: context,
+        returnVariables: false,
+      }
+    );
   }
-  return postRequest(`${apiUrl}runtime/process-instances`, accessToken || '', {
+  return postRequest(`${apiUrl}runtime/process-instances`, accessToken || "", {
     processDefinitionKey,
     businessKey,
     //variables,
@@ -28,18 +36,13 @@ export function startProcessWithContext(
   processDefinitionKey: string,
   businessKey: string,
   apiUrl: string,
-  context: object,
+  context: { [key: string]: any },
   accessToken: string
 ): Promise<any> {
-  console.log("ProcessDefinitionKey : ", processDefinitionKey);
-  console.log("BusinessKey : ", businessKey);
-  console.log("Context : ", context);
-  return postRequest(
-    `${apiUrl}protools-process/create_process_instance_with_context?processDefinitionKey=${processDefinitionKey}&businessKey=${businessKey}`,
+  return postMultiPartRequest(
+    `${apiUrl}protools-process/create_process_instance_with_context?processDefinitionId=${processDefinitionKey}&businessKey=${businessKey}`,
     accessToken || "",
-    {
-      ...context,
-    }
+    context
   );
 }
 
