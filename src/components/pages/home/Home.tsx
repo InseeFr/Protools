@@ -35,7 +35,7 @@ const Home = () => {
         alignItems: "center",
       }}
     >
-      <Typography variant="h1">Home</Typography>
+      <Typography variant="h1">Processus en cours</Typography>
 
       <OnGoingProcess processes={processes} />
 
