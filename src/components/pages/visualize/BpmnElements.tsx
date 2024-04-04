@@ -39,13 +39,22 @@ const BpmnElements = (props: BpmnElementsProps) => {
         p: 2,
       }}
     >
-      <DataGrid
-        rows={elements}
-        columns={columns}
-        autoHeight
-        pagination
-        getRowClassName={() => "row--style"}
-      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <DataGrid
+          rows={elements}
+          columns={columns}
+          autoHeight
+          pagination
+          getRowClassName={() => "row--style"}
+        />
+      </div>
     </Box>
   );
 };

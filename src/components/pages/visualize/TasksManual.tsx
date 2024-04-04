@@ -1,6 +1,6 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
-import { FiUserPlus } from 'react-icons/fi';
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
+import { FiUserPlus } from "react-icons/fi";
 import { Box, Typography } from "@mui/material";
 import Task from "../../../lib/model/tasks";
 
@@ -36,10 +36,11 @@ const columns: GridColDef[] = [
     flex: 0.1,
     minWidth: 90,
     description: "Exécuter cett tâche",
-    renderCell: () => (
+    renderCell: (params: GridRenderCellParams) => (
+      //console.log("params", params),
       <Link
         to={{
-          pathname: `/upload-context`,
+          pathname: `/upload-context/${params.row.id}`,
         }}
       >
         <FiUserPlus />
@@ -60,13 +61,22 @@ const TasksManual = (props: TasksManualProps) => {
       }}
     >
       {tasks.length > 0 && (
-        <DataGrid
-          rows={tasks}
-          columns={columns}
-          autoHeight
-          pagination
-          getRowClassName={() => "row--style"}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <DataGrid
+            rows={tasks}
+            columns={columns}
+            autoHeight
+            pagination
+            getRowClassName={() => "row--style"}
+          />
+        </div>
       )}
       {tasks.length === 0 && (
         <Typography variant="body1">Aucune tâche manuelle</Typography>

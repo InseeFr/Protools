@@ -21,6 +21,7 @@ export interface IOidcClient {
   isUserLoggedIn: boolean;
   login: () => void;
   accessToken: string;
+  oidcUser: any;
 }
 
 export const AuthContext = createContext<IOidcClient | null>(null);
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     if (config.authType === "oidc" && oidcClient === null) {
-      //console.log("loadConf");
+      console.log("loadConf");
       loadConf();
     }
   }, [config.authType, oidcClient, config.identityProvider]);
@@ -56,13 +57,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
   return config.authType === "none" ? (
-    <NoAuthProvider setOidcClient={setOidcClient}>{children}</NoAuthProvider>
+    <NoAuthProvider>{children}</NoAuthProvider>
   ) : oidcClient === null ? (
     <Layout>
       <Box display="flex" justifyContent="center" alignItems="center">
         <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
           <CircularProgress />
-          <Typography variant="h2">Connexion en cours</Typography>
+          <Typography variant="h2">Authentification en cours</Typography>
         </Stack>
       </Box>
     </Layout>
@@ -74,7 +75,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           <Box display="flex" justifyContent="center" alignItems="center">
             <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
               <CircularProgress />
-              <Typography variant="h2">Connexion en cours</Typography>
+              <Typography variant="h2">Authentification en cours</Typography>
             </Stack>
           </Box>
         </Layout>
@@ -87,6 +88,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           isUserLoggedIn: false,
           login: () => {},
           accessToken: "",
+          oidcUser: {
+            firstName: "Utilisateur",
+            lastName: "inconnu",
+          },
         }
       }
     >

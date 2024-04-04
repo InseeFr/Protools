@@ -23,10 +23,10 @@ const ErrorDialog = (props: ErrorDialogProps) => {
       </DialogTitle>
       <DialogContent
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <DialogContentText>
@@ -34,8 +34,7 @@ const ErrorDialog = (props: ErrorDialogProps) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        return (<Button onClick={() => setOpenError(false)}>Fermer</Button>
-        );
+        <Button onClick={() => setOpenError(false)}>Fermer</Button>
       </DialogActions>
     </Dialog>
   );
