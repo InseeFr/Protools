@@ -174,6 +174,24 @@ export function getBpmnElements(
   //return Promise.resolve(flowElements);
 }
 
+const getExecutionActivities = async (
+  processInstanceId: string,
+  apiUrl: string,
+  accessToken: string
+): Promise<String[]> => {
+  const executionActivities: String[] = [];
+  const executionResponse = await getRequest(
+    `${apiUrl}runtime/executions`,
+    accessToken || ""
+  );
+  executionResponse.data.data.forEach((execution: any) => {
+    if (execution.processInstanceId === processInstanceId) {
+      executionActivities.push(execution.activityId);
+    }
+  });
+  return executionActivities;
+};
+
 const getHistoricActivity = async (
   processInstanceId: string,
   apiUrl: string,
@@ -190,25 +208,29 @@ const getHistoricActivity = async (
 
   const historyResponseExec = await getRequest(
     `${apiUrl}history/historic-activity-instances?executionId=${executionId}`,
-    accessToken || ''
+    accessToken || ""
   );
   //console.log('History result', historyResponseExec);
 
-  historyResponseExec.data && historyResponseExec.data.data.forEach((historicActivity: any) => {
-  if (historicActivity.activityType !== "sequenceFlow") {
-    historicActivities.push({
-      activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
-      activityName: historicActivity.activityName,
-      activityType: historicActivity.activityType,
-      executionId: historicActivity.executionId,
-      endTime: historicActivity.endTime,
-      durationInMillis: historicActivity.durationInMillis / 1000
-    } as HistoricActivity);
-  }
-});
+  historyResponseExec.data &&
+    historyResponseExec.data.data.forEach((historicActivity: any) => {
+      if (historicActivity.activityType !== "sequenceFlow") {
+        historicActivities.push({
+          activityId:
+            historicActivity.activityId.length > 30
+              ? historicActivity.activityId.substring(0, 30) + " [...]"
+              : historicActivity.activityId,
+          activityName: historicActivity.activityName,
+          activityType: historicActivity.activityType,
+          executionId: historicActivity.executionId,
+          endTime: historicActivity.endTime,
+          durationInMillis: historicActivity.durationInMillis / 1000,
+        } as HistoricActivity);
+      }
+    });
   const historyResponseProc = await getRequest(
-    `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}`,
-    accessToken || ''
+    `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}?size=1000`,
+    accessToken || ""
   );
 
   historyResponseProc.data && historyResponseProc.data.data.forEach((historicActivity: any) => {
@@ -300,7 +322,8 @@ export const processInfoApi = {
   getBpmnXml,
   getVariables,
   getBpmnElements,
-  getHistoricActivity, 
+  getHistoricActivity,
   getAllHistoricActivity,
-  getHistoryProcessInstance
+  getHistoryProcessInstance,
+  getExecutionActivities
 };

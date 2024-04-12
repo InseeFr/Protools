@@ -54,16 +54,12 @@ const Visualize = () => {
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         queryFn: async () => {
-          //console.log("fetching history of id: ", id);
           return await api
             .getHistoricActivity(id)
             .then((res: HistoricActivity[]) => {
-              //console.log("history result: ", res);
               const historicActivity: ReactNode[][] = [];
               res.forEach((element: HistoricActivity) => {
-                //console.log("element: ", element);
                 historicActivity.push([
-                  //element.id,
                   element.activityId,
                   element.activityName,
                   element.activityType,
@@ -71,11 +67,22 @@ const Visualize = () => {
                   element.durationInMillis,
                 ]);
               });
-              console.log("historicActivity: ", historicActivity);
               setHistory(historicActivity);
+              return res;
+            }),
+          },
+      },
+      {
+        queryKey: ["executionActivity", processDefinitionId],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        queryFn: async () => {
+          return await api
+            .getExecutionActivities(processDefinitionId)
+            .then((res: any) => {
               const overlays = (viewer as any).get("overlays");
               overlays.add(
-                historicActivity[historicActivity.length - 1][0],
+                res[0],
                 "note",
                 {
                   position: {

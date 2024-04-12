@@ -154,6 +154,15 @@ export const useApi = () => {
     )
   );
 
+  const getExecutionActivities: Function = useConstCallback(
+    (processInstanceId) =>
+      processInfoApi.getExecutionActivities(
+        processInstanceId,
+        apiUrl,
+        oidcClient ? oidcClient.accessToken : ""
+      )
+  );
+
   return {
     executeTaskContext,
     startProcess,
@@ -172,5 +181,6 @@ export const useApi = () => {
     getHistoryProcessInstance,
     stopProcess,
     executeTask,
+    getExecutionActivities,
   };
 };

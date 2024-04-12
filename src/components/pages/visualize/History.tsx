@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 interface HistoryProps {
   history: ReactNode[][];
 }
+
+
 const HistoryActivity = (props: HistoryProps) => {
   const { history } = props;
   //console.log("History result:", history);
@@ -20,6 +22,7 @@ const HistoryActivity = (props: HistoryProps) => {
         <Table
           data={history}
           headers={["id", "Libellé", "Type", "Date Fin", "Durée (sec)"]}
+          fixed
         />
       ) : (
         <p>Historique vide</p>
