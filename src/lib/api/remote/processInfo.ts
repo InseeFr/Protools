@@ -184,8 +184,14 @@ const getExecutionActivities = async (
     `${apiUrl}runtime/executions`,
     accessToken || ""
   );
+  //console.log("ProcessInstanceId", processInstanceId);
   executionResponse.data.data.forEach((execution: any) => {
-    if (execution.processInstanceId === processInstanceId) {
+    //console.log("execution.processInstanceId", execution);
+    if (
+      execution.processInstanceId === processInstanceId &&
+      execution.activityId !== null
+    ) {
+      //console.log("execution.activityId", execution.activityId);
       executionActivities.push(execution.activityId);
     }
   });

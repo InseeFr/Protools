@@ -50,6 +50,30 @@ const Visualize = () => {
   useQueries({
     queries: [
       {
+        queryKey: ["executionActivity", processDefinitionId],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        queryFn: async () => {
+          return await api.getExecutionActivities(id).then((res: any) => {
+            console.log("executionActivity", res);
+            const overlays = (viewer as any).get("overlays");
+            res.forEach((element: any) => {
+              overlays.add(element, "note", {
+                position: {
+                  bottom: 18,
+                  right: 18,
+                },
+                scale: {
+                  min: 1.2,
+                },
+                html: `<div class="diagram-note">🦊</div>`,
+              });
+            });
+            return res;
+          });
+        },
+      },
+      {
         queryKey: ["history", id],
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
@@ -68,33 +92,6 @@ const Visualize = () => {
                 ]);
               });
               setHistory(historicActivity);
-              return res;
-            }),
-          },
-      },
-      {
-        queryKey: ["executionActivity", processDefinitionId],
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        queryFn: async () => {
-          return await api
-            .getExecutionActivities(processDefinitionId)
-            .then((res: any) => {
-              const overlays = (viewer as any).get("overlays");
-              overlays.add(
-                res[0],
-                "note",
-                {
-                  position: {
-                    bottom: 18,
-                    right: 18,
-                  },
-                  scale: {
-                    min: 1.2,
-                  },
-                  html: '<div class="diagram-note">🦊</div>',
-                }
-              );
               return res;
             });
         },
