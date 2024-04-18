@@ -1,28 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, ReactNode } from "react";
-import { Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { useQueries } from "@tanstack/react-query";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-import GeneralInfo from "./GeneralInfo";
-import Variables from "./Variables";
-import Tasks from "./Tasks";
-import TasksManual from "./TasksManual";
-import "bpmn-js/dist/assets/diagram-js.css";
+import { Stack } from "@mui/material";
+import { useQueries } from "@tanstack/react-query";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
-import "diagram-js-minimap/assets/diagram-js-minimap.css";
+import "bpmn-js/dist/assets/diagram-js.css";
+import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import minimapModule from "diagram-js-minimap";
-import Task from "../../../lib/model/tasks";
+import "diagram-js-minimap/assets/diagram-js-minimap.css";
+import moment from "moment";
+import { ReactNode, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useApi } from "../../../lib/hooks/useApi";
-import ProcessInfo from "../../../lib/model/processInfo";
+import HistoricActivity from "../../../lib/model/api/historicActivity";
+import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
 import FlowElements from "../../../lib/model/flowElements";
+import Task from "../../../lib/model/tasks";
+import GeneralInfo from "./GeneralInfo";
 import HistoryActivity from "./History";
-import moment from "moment";
-import HistoricActivity from "../../../lib/model/api/historicActivity";
-import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
-import { HistoryProcess } from "../../../lib/model/api/historyProcess";
+import Tasks from "./Tasks";
+import Variables from "./Variables";
+import OtherVariable from "./OtherVariables";
 
 const VisualizeHistory = () => {
   const { id, processDefinitionId } = useParams();
@@ -42,6 +41,16 @@ const VisualizeHistory = () => {
   const viewer = new NavigatedViewer({
     additionalModules: [minimapModule],
   });
+
+  const [context, setContext] = useState<Variable>({
+    name: "Nom de la variable",
+    type: "Type de la variable",
+    value: '{"Value": "Valeur de la variable"}',
+  } as Variable);
+
+  const [otherVariables, setOtherVariables] = useState<ReactNode[][]>(
+    [] as ReactNode[][]
+  );
 
   useQueries({
     queries: [
@@ -121,9 +130,24 @@ const VisualizeHistory = () => {
         queryFn: async () => {
           return await api.getHistoryProcessInstance(id).then((res: any) => {
             setProcessInstance(res);
-            //setVariables(res.variables);
-
-            //setProcesses(res);
+            return res;
+          });
+        },
+      },
+      {
+        queryKey: ["variables", id],
+        queryFn: async () => {
+          return await api.getHistoricVariablesInstances(id).then((res: any) => {
+            const context = res.find((element: Variable) => element.name === "context");
+            console.log("context: ", context);
+            setContext(context);
+            const nodes: ReactNode[][] = [];
+            res.forEach((element: Variable) => {
+              if (element.name !== "context") {
+                nodes.push([element.name, element.value, element.type, element.scope]);
+              }
+            });
+            setOtherVariables(nodes);
             return res;
           });
         },
@@ -186,11 +210,16 @@ const VisualizeHistory = () => {
               />
             ),
           },
-          // {
-          //   label: "Contexte",
-          //   iconId: "fr-icon-article-line",
-          //   content: <Variables variables={variables} />,
-          // },
+          {
+            label: "Contexte",
+            iconId: "fr-icon-article-line",
+            content: <Variables variables={context} />,
+          },
+          {
+            label: "Autres Variables",
+            iconId: "fr-icon-article-line",
+            content: <OtherVariable variables={otherVariables} />,
+          },
           {
             label: "Tâches (Description)",
             iconId: "fr-icon-terminal-box-line",

@@ -9,19 +9,11 @@ const getHistoricActivity = async (
     accessToken: string
 ): Promise<HistoricActivity[]> => {
     const historicActivities: HistoricActivity[] = [];
-
-    const executionResponse = await getRequest(
-        `${apiUrl}runtime/executions`,
-        accessToken || ''
-    );
-    console.log('Execution result', executionResponse);
-    const executionId = executionResponse.data.data.find((execution: any) => execution.processInstanceId === processInstanceId).id;
-    console.log("ExecutionId", executionId);
     const historyResponseExec = await getRequest(
-        `${apiUrl}history/historic-activity-instances?executionId=${executionId}`,
+        `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}&size=10000`,
         accessToken || ""
     );
-    console.log("History result", historyResponseExec);
+    //console.log("History result", historyResponseExec);
 
     historyResponseExec.data &&
         historyResponseExec.data.data.forEach((historicActivity: any) => {
@@ -39,24 +31,7 @@ const getHistoricActivity = async (
                 } as HistoricActivity);
             }
         });
-    const historyResponseProc = await getRequest(
-        `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}?size=1000`,
-        accessToken || ""
-    );
 
-    historyResponseProc.data && historyResponseProc.data.data.forEach((historicActivity: any) => {
-
-        if (historicActivity.activityType !== "sequenceFlow") {
-            historicActivities.push({
-                activityId: historicActivity.activityId.length > 30 ? historicActivity.activityId.substring(0, 30) + ' [...]' : historicActivity.activityId,
-                activityName: historicActivity.activityName,
-                activityType: historicActivity.activityType,
-                executionId: historicActivity.executionId,
-                endTime: historicActivity.endTime,
-                durationInMillis: historicActivity.durationInMillis / 1000
-            } as HistoricActivity);
-        }
-    });
     //console.log('historicActivities', historicActivities)
     return historicActivities;
 }
@@ -67,7 +42,7 @@ const getAllHistoricActivity = (
 ): Promise<HistoricActivity[]> => {
     const historicActivities: HistoricActivity[] = [];
     return getRequest(
-        `${apiUrl}history/historic-activity-instances?size=1000`,
+        `${apiUrl}history/historic-activity-instances?size=10000`,
         accessToken || ''
     ).then((res) => {
         console.log('res', res);
@@ -94,7 +69,7 @@ const getAllHistoryProcessInstance = (
 ): Promise<HistoryProcess[]> => {
     const historyProcess: HistoryProcess[] = [];
     return getRequest(
-        `${apiUrl}history/historic-process-instances?size=1000`,
+        `${apiUrl}history/historic-process-instances?size=10000`,
         accessToken || ''
     ).then((res) => {
 
@@ -162,15 +137,16 @@ const getHistoricVariablesInstances = (
 ): Promise<Variable[]> => {
     const variables: Variable[] = [];
     return getRequest(
-        `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}?size=10000`,
+        `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}&size=10000`,
         accessToken || ''
     ).then((res) => {
+        console.log('res getHistoricVariablesInstances', res);
         res.data && res.data.data.forEach((element: any) => {
             variables.push({
-                name: element.name,
-                type: element.type,
-                value: element.value,
-                scope: element.scope
+                name: element.variable.name,
+                type: element.variable.type,
+                value: element.variable.value,
+                scope: element.variable.scope
             } as Variable);
         });
         return Promise.resolve(variables);
