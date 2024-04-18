@@ -22,18 +22,14 @@ import HistoryActivity from "./History";
 import moment from "moment";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
+import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 
-const Visualize = () => {
+const VisualizeHistory = () => {
   const { id, processDefinitionId } = useParams();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [processInstance, setProcessInstance] = useState<ProcessInfo>(
-    {} as ProcessInfo
+  const [processInstance, setProcessInstance] = useState<HistoryProcess>(
+    {} as HistoryProcess
   );
-  const [variables, setVariables] = useState<Variable>({
-    name: "Nom de la variable",
-    type: "Type de la variable",
-    value: '{"Value": "Valeur de la variable"}',
-  } as Variable);
   const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>(
     [] as ReactNode[][]
   );
@@ -49,28 +45,6 @@ const Visualize = () => {
 
   useQueries({
     queries: [
-      {
-        queryKey: ["executionActivity", processDefinitionId],
-        queryFn: async () => {
-          return await api.getExecutionActivities(id).then((res: any) => {
-            //console.log("executionActivity", res);
-            const overlays = (viewer as any).get("overlays");
-            res.forEach((element: any) => {
-              overlays.add(element, "note", {
-                position: {
-                  bottom: 18,
-                  right: 18,
-                },
-                scale: {
-                  min: 1.2,
-                },
-                html: `<div class="diagram-note">🦊</div>`,
-              });
-            });
-            return res;
-          });
-        },
-      },
       {
         queryKey: ["history", id],
         queryFn: async () => {
@@ -93,13 +67,28 @@ const Visualize = () => {
         },
       },
       {
+        queryKey: ["getProcessDefinitionById", processDefinitionId],
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        queryFn: async () => {
+          //console.log("fetching getProcessDefinitionById...");
+          return await api
+            .getProcessDefinitionById(processDefinitionId)
+            .then((res: any) => {
+              //console.log("getProcessDefinitionByIds result: ", res);
+              setProcessDefinitionData(res);
+              return res;
+            });
+        },
+      },
+      {
         queryKey: ["bpmnXml", processDefinitionId],
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         queryFn: () => {
           //console.log("fetching bpmnXml...");
           return api.getBpmnXml(processDefinitionId).then((res: string) => {
-            //console.log("Got a diagram ");
+            //console.log("Got a diagram : ", res);
             viewer
               .importXML(res)
               .then(() => {
@@ -128,51 +117,13 @@ const Visualize = () => {
         },
       },
       {
-        queryKey: ["getProcessDefinitionById", processDefinitionId],
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        queryFn: async () => {
-          //console.log("fetching getProcessDefinitionById...");
-          return await api
-            .getProcessDefinitionById(processDefinitionId)
-            .then((res: any) => {
-              //console.log("getProcessDefinitionByIds result: ", res);
-              setProcessDefinitionData(res);
-              return res;
-            });
-        },
-      },
-      {
         queryKey: ["processInstance", id],
         queryFn: async () => {
-          //console.log("fetching processInstance of id: ", id);
-          return await api.getProcessInstanceById(id).then((res: any) => {
-            console.log("processQuery result: ", res);
-            setProcessInstance({
-              id: res.id,
-              businessKey: res.businessKey,
-              processKey: res.processDefinitionName,
-              documentation: res.processDefinitionDescription,
-              startDate: new Date(res.startTime),
-              state: true,
-              group: "",
-              ids: {
-                id: res.id,
-                processDefinitionId: res.processDefinitionId,
-              },
-            });
+          return await api.getHistoryProcessInstance(id).then((res: any) => {
+            setProcessInstance(res);
+            //setVariables(res.variables);
 
             //setProcesses(res);
-            return res;
-          });
-        },
-      },
-      {
-        queryKey: ["variables", id],
-        queryFn: () => {
-          //console.log("fetching variables of id: ", id);
-          return api.getVariables(id).then((res: any) => {
-            setVariables(res);
             return res;
           });
         },
@@ -190,7 +141,6 @@ const Visualize = () => {
               const bpmnElements: ReactNode[][] = [];
               res.forEach((element: FlowElements) => {
                 //console.log("element: ", element);
-
                 bpmnElements.push([
                   element.id,
                   element.name,
@@ -236,25 +186,20 @@ const Visualize = () => {
               />
             ),
           },
-          {
-            label: "Contexte",
-            iconId: "fr-icon-article-line",
-            content: <Variables variables={variables} />,
-          },
+          // {
+          //   label: "Contexte",
+          //   iconId: "fr-icon-article-line",
+          //   content: <Variables variables={variables} />,
+          // },
           {
             label: "Tâches (Description)",
             iconId: "fr-icon-terminal-box-line",
             content: (
               <Tasks
                 bpmnElements={bpmnElements!}
-                processName={processInstance.processKey}
+                processName={processInstance.processDefinitionName}
               />
             ),
-          },
-          {
-            label: "Tâches manuelles",
-            iconId: "fr-icon-user-line",
-            content: <TasksManual tasks={tasks} />,
           },
           {
             label: "Historique",
@@ -266,4 +211,4 @@ const Visualize = () => {
     </Stack>
   );
 };
-export default Visualize;
+export default VisualizeHistory;

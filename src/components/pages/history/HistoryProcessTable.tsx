@@ -7,6 +7,8 @@ import {
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
+import { FiChevronRight } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 interface HistoryProcessTableProps {
   history: HistoryProcess[];
@@ -39,7 +41,7 @@ const columns: GridColDef[] = [
     flex: 0.22,
   },
   {
-    field: "startTime",
+    field: "startDate",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
         Date de lancement
@@ -79,6 +81,25 @@ const columns: GridColDef[] = [
       return <Typography>{formattedDuration}</Typography>;
     },
   },
+  {
+    field: "ids",
+    headerName: " ",
+    headerClassName: "columns--header",
+    flex: 0.08,
+    align: "center",
+    renderCell: (params: GridRenderCellParams) => {
+      //console.log("params", params);
+      return (
+        <Link
+          to={`/history/${params.row.id}/${params.row.processDefinitionId}`}
+          style={{ textDecoration: "none" }}
+        //state={{ ids: params.value }}
+        >
+          <FiChevronRight fontSize={24} />
+        </Link>
+      );
+    }
+  }
 ];
 const HistoryProcessTable = (props: HistoryProcessTableProps) => {
   const { history } = props;

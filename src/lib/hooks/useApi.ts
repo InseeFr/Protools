@@ -4,6 +4,7 @@ import { ConfigContext } from "../utils/provider/configProvider";
 import { useConstCallback } from "./useConstCallback";
 import { processExecutionApi } from "../api/remote/processExecution";
 import { processInfoApi } from "../api/remote/processInfo";
+import { processHistoryApi } from "../api/remote/processHistory";
 
 export const useApi = () => {
   const oidcClient = useContext(AuthContext);
@@ -117,7 +118,7 @@ export const useApi = () => {
   );
 
   const getHistoricActivity: Function = useConstCallback((processInstanceId) =>
-    processInfoApi.getHistoricActivity(
+    processHistoryApi.getHistoricActivity(
       processInstanceId,
       apiUrl,
       oidcClient ? oidcClient.accessToken : ""
@@ -125,14 +126,22 @@ export const useApi = () => {
   );
 
   const getAllHistoricActivity: Function = useConstCallback(() =>
-    processInfoApi.getAllHistoricActivity(
+    processHistoryApi.getAllHistoricActivity(
       apiUrl,
       oidcClient ? oidcClient.accessToken : ""
     )
   );
 
-  const getHistoryProcessInstance: Function = useConstCallback(() =>
-    processInfoApi.getHistoryProcessInstance(
+  const getHistoryProcessInstance: Function = useConstCallback(
+    (processInstanceId) =>
+      processHistoryApi.getHistoryProcessInstance(
+        processInstanceId,
+        apiUrl,
+        oidcClient ? oidcClient.accessToken : ""
+      )
+  );
+  const getAllHistoryProcessInstance: Function = useConstCallback(() =>
+    processHistoryApi.getAllHistoryProcessInstance(
       apiUrl,
       oidcClient ? oidcClient.accessToken : ""
     )
@@ -163,6 +172,15 @@ export const useApi = () => {
       )
   );
 
+  const getHistoricVariablesInstances: Function = useConstCallback(
+    (processInstanceId) =>
+      processHistoryApi.getHistoricVariablesInstances(
+        processInstanceId,
+        apiUrl,
+        oidcClient ? oidcClient.accessToken : ""
+      )
+  );
+
   return {
     executeTaskContext,
     startProcess,
@@ -178,9 +196,11 @@ export const useApi = () => {
     getBpmnElements,
     getHistoricActivity,
     getAllHistoricActivity,
-    getHistoryProcessInstance,
+    getAllHistoryProcessInstance,
     stopProcess,
     executeTask,
     getExecutionActivities,
+    getHistoricVariablesInstances,
+    getHistoryProcessInstance
   };
 };

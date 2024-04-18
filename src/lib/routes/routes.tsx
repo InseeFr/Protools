@@ -8,6 +8,7 @@ import UploadFile from '../../components/shared/tasks/UploadFile/UploadFile';
 import ValidateTask from '../../components/shared/tasks/ValidationTask/ValidationTask';
 import History from "../../components/pages/history/History";
 import NotFound from "../../components/pages/notFound/NotFound";
+import VisualizeHistory from '../../components/pages/visualize/VisualizeHistory';
 
 // Temp routing
 const routes: RouteObject[] = [
@@ -34,6 +35,10 @@ const routes: RouteObject[] = [
   {
     path: "/history",
     element: <History />,
+  },
+  {
+    path: "/history/:id/:processDefinitionId",
+    element: <VisualizeHistory />,
   },
   {
     path: "*",

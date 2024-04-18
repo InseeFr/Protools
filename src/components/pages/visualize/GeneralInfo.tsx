@@ -17,10 +17,11 @@ import ProcessInfo from "../../../lib/model/processInfo";
 import moment from "moment";
 import { MutationFunction, useMutation } from "@tanstack/react-query";
 import { useApi } from "../../../lib/hooks/useApi";
+import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 
 interface GeneralInfoProps {
   processDefinitionData: ProcessDefinitionDataApi;
-  processInstance: ProcessInfo;
+  processInstance: ProcessInfo | HistoryProcess;
 }
 const modal = createModal({
   id: "delete-modal",
@@ -40,6 +41,8 @@ const GeneralInfo = (props: GeneralInfoProps) => {
   const api = useApi();
   const navigate = useNavigate();
   const { processDefinitionData, processInstance } = props;
+
+  //console.log("ProcessInfo: ", processInstance)
 
   const deleteProcessMutationFunction: MutationFunction<any> = async (
     id: unknown
@@ -120,11 +123,10 @@ const GeneralInfo = (props: GeneralInfoProps) => {
                   : "..."}
               </Typography>
               <NoMaxWidthTooltip
-                title={`Version: ${
-                  processDefinitionData.version
+                title={`Version: ${processDefinitionData.version
                     ? processDefinitionData.version
                     : "..."
-                }`}
+                  }`}
                 enterTouchDelay={0}
                 leaveTouchDelay={2000}
                 arrow
@@ -143,9 +145,8 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               sx={{ marginLeft: 1 }}
               align="left"
             >
-              {processInstance.documentation
-                ? processInstance.documentation
-                : "Aucune documentation"}
+              {processInstance instanceof ProcessInfo ? (processInstance.documentation ? processInstance.documentation : "Aucune documentation") : 'N/A'}
+
             </Typography>
           </Grid>
         </Stack>
@@ -156,10 +157,11 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               État:
             </Typography>
             <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
-              {processInstance.state ? "Actif" : "Inactif"}
+              {processInstance instanceof ProcessInfo ? (processInstance.state ? "Actif" : "Inactif") : 'Arrêté'}
+
             </Typography>
           </Grid>
-          <Grid item container xs={12} direction="row" alignItems="baseline">
+          {processInstance instanceof ProcessInfo ? <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
               Actions:
             </Typography>
@@ -177,7 +179,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
             >
               Arrêter
             </Button>
-          </Grid>
+          </Grid> : null}
         </Stack>
       </Stack>
 

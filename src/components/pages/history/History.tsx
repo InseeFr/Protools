@@ -29,7 +29,7 @@ const History = () => {
     queryKey: ["historyProcess"],
     queryFn: async () => {
       const response = await api
-        .getHistoryProcessInstance()
+        .getAllHistoryProcessInstance()
         .then((res: any) => {
           setHistoryProcessProcesses(res);
 

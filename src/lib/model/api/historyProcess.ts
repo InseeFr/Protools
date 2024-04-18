@@ -3,7 +3,8 @@ export interface HistoryProcess {
   businessKey: string
   processDefinitionId: string
   processDefinitionUrl: string
-  startTime: string
+  processDefinitionName: string
+  startDate: string
   endTime: string
   durationInMillis: number
   startUserId: string
