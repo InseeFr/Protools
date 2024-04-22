@@ -16,7 +16,7 @@ import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
 import FlowElements from "../../../lib/model/flowElements";
-import Task from "../../../lib/model/tasks";
+//import Task from "../../../lib/model/tasks";
 import GeneralInfo from "./GeneralInfo";
 import HistoryActivity from "./History";
 import Tasks from "./Tasks";
@@ -25,7 +25,7 @@ import OtherVariable from "./OtherVariables";
 
 const VisualizeHistory = () => {
   const { id, processDefinitionId } = useParams();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  //const [tasks, setTasks] = useState<Task[]>([]);
   const [processInstance, setProcessInstance] = useState<HistoryProcess>(
     {} as HistoryProcess
   );
@@ -115,16 +115,16 @@ const VisualizeHistory = () => {
           });
         },
       },
-      {
-        queryKey: ["tasks", id],
-        queryFn: async () => {
-          //console.log("fetching tasks...");
-          return await api.getAllTasks(id).then((res: Task[]) => {
-            setTasks(res);
-            return res;
-          });
-        },
-      },
+      // {
+      //   queryKey: ["tasks", id],
+      //   queryFn: async () => {
+      //     //console.log("fetching tasks...");
+      //     return await api.getAllTasks(id).then((res: Task[]) => {
+      //       setTasks(res);
+      //       return res;
+      //     });
+      //   },
+      // },
       {
         queryKey: ["processInstance", id],
         queryFn: async () => {

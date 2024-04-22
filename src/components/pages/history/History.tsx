@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 import HistoryProcessTable from "./HistoryProcessTable";
 import Tabs from "@codegouvfr/react-dsfr/Tabs";
-import HistoricActivity from "../../../lib/model/api/historicActivity";
-import HistoryActivityTable from "./HistoryActivityTable";
+// import HistoricActivity from "../../../lib/model/api/historicActivity";
+// import HistoryActivityTable from "./HistoryActivityTable";
 // import { useNavigate } from 'react-router-dom';
 
 const History = () => {
@@ -18,9 +18,9 @@ const History = () => {
     HistoryProcess[]
   >([]);
 
-  const [historyActivities, setHistoryProcessActivities] = useState<
-    HistoricActivity[]
-  >([]);
+  // const [historyActivities, setHistoryProcessActivities] = useState<
+  //   HistoricActivity[]
+  // >([]);
   // TODO: Parsing des processus en cours
 
   const api = useApi();
