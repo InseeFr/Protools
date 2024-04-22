@@ -39,16 +39,16 @@ const History = () => {
     },
   });
 
-  useQuery({
-    queryKey: ["historyActivity"],
-    queryFn: async () => {
-      const response = await api.getAllHistoricActivity().then((res: any) => {
-        setHistoryProcessActivities(res);
-        return res;
-      });
-      return response;
-    },
-  });
+  // useQuery({
+  //   queryKey: ["historyActivity"],
+  //   queryFn: async () => {
+  //     const response = await api.getAllHistoricActivity().then((res: any) => {
+  //       setHistoryProcessActivities(res);
+  //       return res;
+  //     });
+  //     return response;
+  //   },
+  // });
 
   return (
     <Stack
@@ -61,7 +61,7 @@ const History = () => {
     >
       <Typography variant="h1">Historique des Processus</Typography>
       <Tabs
-        style={{ width: "120%" }}
+        style={{ width: "150%" }}
         tabs={[
           {
             label: "Processus",

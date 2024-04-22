@@ -43,7 +43,7 @@ const getAllHistoricActivity = (
         `${apiUrl}history/historic-activity-instances?size=10000`,
         accessToken || ''
     ).then((res) => {
-        console.log('res', res);
+
         res.data && res.data.data.forEach((historicActivity: any) => {
             if (historicActivity.activityType !== "sequenceFlow") {
                 historicActivities.push({
@@ -77,6 +77,7 @@ const getAllHistoryProcessInstance = (
                     businessKey: historicProcess.businessKey,
                     processDefinitionId: historicProcess.processDefinitionId,
                     processDefinitionUrl: historicProcess.processDefinitionUrl,
+                    processDefinitionName: historicProcess.processDefinitionName,
                     startDate: historicProcess.startTime,
                     endTime: historicProcess.endTime,
                     durationInMillis: historicProcess.durationInMillis,
@@ -106,7 +107,7 @@ const getHistoryProcessInstance = (
         `${apiUrl}history/historic-process-instances/${processInstanceId}`,
         accessToken || ''
     ).then((res) => {
-        //console.log('res', res);
+        console.log('res', res);
         return Promise.resolve({
             id: res.data.id,
             businessKey: res.data.businessKey,

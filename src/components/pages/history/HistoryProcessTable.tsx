@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
       <Typography>{params.value}</Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.22,
+    flex: 0.16,
   },
   {
     field: "processDefinitionId",
@@ -42,27 +42,46 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: "startDate",
+    field: "processDefinitionName",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Date de lancement
+        Nom
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.2,
+    flex: 0.35,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
+      <Typography>{params.value}</Typography>
+    ),
+  },
+  {
+    field: "startDate",
+    renderHeader: () => (
+      <Typography variant="h6" fontWeight={600}>
+        Début
+      </Typography>
+    ),
+    headerClassName: "columns--header",
+    flex: 0.15,
+    renderCell: (params: GridRenderCellParams) => (
+      <Typography>
+        {params.value < 60
+          ? `${params.value} sec`
+          : params.value < 3600
+            ? `${Math.floor(params.value / 60)} min`
+            : moment(params.value).format("DD/MM/YYYY HH:mm")}
+      </Typography>
     ),
   },
   {
     field: "endTime",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Date de fin
+        Fin
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.2,
+    flex: 0.15,
     renderCell: (params: GridRenderCellParams) => (
       <Typography>{moment(params.value).format("DD/MM/YYYY HH:mm")}</Typography>
     ),
@@ -75,10 +94,21 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     headerClassName: "columns--header",
-    flex: 0.08,
+    flex: 0.06,
     renderCell: (params: GridRenderCellParams) => {
       const duration = moment.duration(params.value);
-      const formattedDuration = `${Math.floor(duration.asHours())} h`;
+      let formattedDuration = '';
+
+      if (duration.asHours() < 1) {
+        if (duration.asMinutes() < 1) {
+          formattedDuration = `${Math.floor(duration.asSeconds())} sec`;
+        } else {
+          formattedDuration = `${Math.floor(duration.asMinutes())} min`;
+        }
+      } else {
+        formattedDuration = `${Math.floor(duration.asHours())} h`;
+      }
+
       return <Typography>{formattedDuration}</Typography>;
     },
   },
@@ -104,7 +134,7 @@ const columns: GridColDef[] = [
 ];
 const HistoryProcessTable = (props: HistoryProcessTableProps) => {
   const { history } = props;
-  console.log("history", history);
+  //console.log("history", history);
   return (
     <Box
       sx={{
