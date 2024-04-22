@@ -14,19 +14,7 @@ interface HistoryProcessTableProps {
   history: HistoryProcess[];
 }
 const columns: GridColDef[] = [
-  {
-    field: "processDefinitionId",
-    renderHeader: () => (
-      <Typography variant="h6" fontWeight={600}>
-        Id
-      </Typography>
-    ),
-    headerClassName: "columns--header",
-    flex: 0.35,
-    renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
-    ),
-  },
+
   {
     field: "businessKey",
     renderHeader: () => (
@@ -39,6 +27,19 @@ const columns: GridColDef[] = [
     ),
     headerClassName: "columns--header",
     flex: 0.22,
+  },
+  {
+    field: "processDefinitionId",
+    renderHeader: () => (
+      <Typography variant="h6" fontWeight={600}>
+        Id
+      </Typography>
+    ),
+    headerClassName: "columns--header",
+    flex: 0.35,
+    renderCell: (params: GridRenderCellParams) => (
+      <Typography>{params.value}</Typography>
+    ),
   },
   {
     field: "startDate",

@@ -61,15 +61,11 @@ const GeneralInfo = (props: GeneralInfoProps) => {
   });
 
   return (
-    <Stack
-      direction="row"
-      alignItems="flex-start"
-      justifyContent="space-between"
-    >
+    <>
       <Stack
         direction="row"
         alignItems="flex-start"
-        spacing={{ xl: 10, md: 6, lg: 5, xs: 0.5, sm: 1.5 }}
+        spacing={{ xl: 2, md: 2, lg: 2, xs: 0.5, sm: 1.5 }}
       >
         <Stack spacing={1} alignItems="center">
           <Grid item container xs={12} direction="row" alignItems="baseline">
@@ -179,7 +175,33 @@ const GeneralInfo = (props: GeneralInfoProps) => {
             >
               Arrêter
             </Button>
-          </Grid> : null}
+          </Grid> : <Grid item container xs={12} direction="row" alignItems="baseline">
+            <Typography color="primary" variant="h6">
+              Date de fin:
+            </Typography>
+            <Typography
+              color="primary"
+              variant="body1"
+            //sx={{ marginLeft: 1 }}
+            >
+              {processInstance.endTime
+                ? moment(processInstance.endTime).format("DD/MM/YYYY HH:mm")
+                : "..."}
+            </Typography>
+            <NoMaxWidthTooltip
+              title={`Durée: ${processInstance.durationInMillis
+                ? moment.duration(processInstance.durationInMillis).humanize()
+                : "..."
+                }`}
+              enterTouchDelay={0}
+              leaveTouchDelay={2000}
+              arrow
+            >
+              <IconButton>
+                <FiInfo size={18} />
+              </IconButton>
+            </NoMaxWidthTooltip>
+          </Grid>}
         </Stack>
       </Stack>
 
@@ -201,7 +223,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
       >
         Vous allez arrêter le processus en cours. Etes-vous sûr ?
       </modal.Component>
-    </Stack>
+    </>
   );
 };
 export default GeneralInfo;

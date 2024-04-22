@@ -69,11 +69,11 @@ const History = () => {
             content: <HistoryProcessTable history={historyProcesses} />,
           },
 
-          {
-            label: "Activités",
-            iconId: "fr-icon-window-line",
-            content: <HistoryActivityTable history={historyActivities} />,
-          },
+          // {
+          //   label: "Activités",
+          //   iconId: "fr-icon-window-line",
+          //   content: <HistoryActivityTable history={historyActivities} />,
+          // },
         ]}
       />
 

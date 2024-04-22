@@ -13,8 +13,6 @@ const getHistoricActivity = async (
         `${apiUrl}history/historic-activity-instances?processInstanceId=${processInstanceId}&size=10000`,
         accessToken || ""
     );
-    //console.log("History result", historyResponseExec);
-
     historyResponseExec.data &&
         historyResponseExec.data.data.forEach((historicActivity: any) => {
             if (historicActivity.activityType !== "sequenceFlow") {
@@ -65,35 +63,35 @@ const getAllHistoricActivity = (
 const getAllHistoryProcessInstance = (
     apiUrl: string,
     accessToken: string
-
 ): Promise<HistoryProcess[]> => {
-    const historyProcess: HistoryProcess[] = [];
     return getRequest(
         `${apiUrl}history/historic-process-instances?size=10000`,
         accessToken || ''
     ).then((res) => {
+        const historyProcess: HistoryProcess[] = [];
 
         res.data && res.data.data.forEach((historicProcess: any) => {
-
-            historyProcess.push({
-                id: historicProcess.id,
-                businessKey: historicProcess.businessKey,
-                processDefinitionId: historicProcess.processDefinitionId,
-                processDefinitionUrl: historicProcess.processDefinitionUrl,
-                startDate: historicProcess.startTime,
-                endTime: historicProcess.endTime,
-                durationInMillis: historicProcess.durationInMillis,
-                startUserId: historicProcess.startUserId,
-                startActivityId: historicProcess.startActivityId,
-                endActivityId: historicProcess.endActivityId,
-                deleteReason: historicProcess.deleteReason,
-                superProcessInstanceId: historicProcess.superProcessInstanceId,
-                url: historicProcess.url,
-                variables: historicProcess.variables,
-                tenantId: historicProcess.tenantId
-            } as HistoryProcess);
+            if (historicProcess.endTime) { // Check if process has ended
+                historyProcess.push({
+                    id: historicProcess.id,
+                    businessKey: historicProcess.businessKey,
+                    processDefinitionId: historicProcess.processDefinitionId,
+                    processDefinitionUrl: historicProcess.processDefinitionUrl,
+                    startDate: historicProcess.startTime,
+                    endTime: historicProcess.endTime,
+                    durationInMillis: historicProcess.durationInMillis,
+                    startUserId: historicProcess.startUserId,
+                    startActivityId: historicProcess.startActivityId,
+                    endActivityId: historicProcess.endActivityId,
+                    deleteReason: historicProcess.deleteReason,
+                    superProcessInstanceId: historicProcess.superProcessInstanceId,
+                    url: historicProcess.url,
+                    variables: historicProcess.variables,
+                    tenantId: historicProcess.tenantId
+                } as HistoryProcess);
+            }
         });
-        //console.log('historyProcess', historyProcess)
+
         return Promise.resolve(historyProcess);
     });
 }

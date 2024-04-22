@@ -20,7 +20,7 @@ const Layout = ({ children }: LayoutProps) => {
         <Header
           brandTop={false}
           homeLinkProps={{
-            href: "/",
+            href: "/home",
             target: "_self",
             title: "Protools - Accueil",
           }}

@@ -5,8 +5,6 @@ import { getRequest } from '../fetcher/requests';
 import { fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
 import FlowElements from '../../model/flowElements';
-import HistoricActivity from '../../model/api/historicActivity';
-import { HistoryProcess } from '../../model/api/historyProcess';
 import ProcessInfo from '../../model/processInfo';
 
 export function getProcessDefinitions(
@@ -119,28 +117,35 @@ export function getBpmnXml(
      });
 }
 
-export function getVariables(
+export async function getVariables(
   processInstanceId: string,
   apiUrl: string,
   accessToken: string
-): Promise<Variable> {
-  return getRequest(
+): Promise<any> {
+  const variables: String[][] = [];
+  let context: Variable | undefined;
+
+  const res = await getRequest(
     `${apiUrl}runtime/process-instances/${processInstanceId}/variables`,
     accessToken || ''
-  ).then((res) => {
-    //console.log('res variables', res)
-    if (res.data.length > 0) {
-      console.log('res.data', res.data)
-      if (res.data.find((variable: any) => variable.name === "context")) {
-        return res.data.find((variable: any) => variable.name === "context")
-      };
-    }
-    return Promise.resolve({
-    name: "Nom de la variable",
-    type: "Type de la variable",
-    value: '{"Value": "Aucune variable de contexte n\'a été renseignée"}',
-  } as Variable);
-  });
+  );
+
+  if (res.data.length > 0) {
+    context = res.data.find((element: Variable) => element.name === "context");
+
+    res.data.forEach((variable: any) => {
+      if (variable.name !== "context") {
+        variables.push([
+          variable.name,
+          variable.value,
+          variable.type,
+          variable.scope,
+        ]);
+      }
+    });
+  }
+
+  return [context, variables];
 }
 
 export function getBpmnElements(

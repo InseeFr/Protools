@@ -22,6 +22,7 @@ import HistoryActivity from "./History";
 import moment from "moment";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
+import OtherVariable from "./OtherVariables";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -29,11 +30,14 @@ const Visualize = () => {
   const [processInstance, setProcessInstance] = useState<ProcessInfo>(
     {} as ProcessInfo
   );
-  const [variables, setVariables] = useState<Variable>({
+  const [context, setContext] = useState<Variable>({
     name: "Nom de la variable",
     type: "Type de la variable",
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
+  const [otherVariables, setOtherVariables] = useState<ReactNode[][]>(
+    [] as ReactNode[][]
+  );
   const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>(
     [] as ReactNode[][]
   );
@@ -147,7 +151,7 @@ const Visualize = () => {
         queryFn: async () => {
           //console.log("fetching processInstance of id: ", id);
           return await api.getProcessInstanceById(id).then((res: any) => {
-            console.log("processQuery result: ", res);
+            //console.log("processQuery result: ", res);
             setProcessInstance({
               id: res.id,
               businessKey: res.businessKey,
@@ -172,7 +176,9 @@ const Visualize = () => {
         queryFn: () => {
           //console.log("fetching variables of id: ", id);
           return api.getVariables(id).then((res: any) => {
-            setVariables(res);
+            //console.log('variables', res)
+            setContext(res[0]);
+            setOtherVariables(res[1]);
             return res;
           });
         },
@@ -239,7 +245,12 @@ const Visualize = () => {
           {
             label: "Contexte",
             iconId: "fr-icon-article-line",
-            content: <Variables variables={variables} />,
+            content: <Variables variables={context} />,
+          },
+          {
+            label: "Autres Variables",
+            iconId: "fr-icon-article-line",
+            content: <OtherVariable variables={otherVariables} />,
           },
           {
             label: "Tâches (Description)",

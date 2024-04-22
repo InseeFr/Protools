@@ -17,6 +17,10 @@ const routes: RouteObject[] = [
     element: <Home />,
   },
   {
+    path: "/home",
+    element: <Home />,
+  },
+  {
     path: "/visualize/:id/:processDefinitionId",
     element: <Visualize />,
   },
