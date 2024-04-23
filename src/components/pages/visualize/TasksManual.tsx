@@ -79,7 +79,7 @@ const TasksManual = (props: TasksManualProps) => {
         </div>
       )}
       {tasks.length === 0 && (
-        <Typography variant="body1">Aucune tâche manuelle</Typography>
+        <Typography variant="body1">Aucune action utilisateur</Typography>
       )}
     </Box>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
@@ -50,6 +50,8 @@ const Visualize = () => {
   const viewer = new NavigatedViewer({
     additionalModules: [minimapModule],
   });
+
+  const [userActions, setUserActions] = useState<ReactNode[][]>([] as ReactNode[][]);
 
   useQueries({
     queries: [
@@ -212,6 +214,28 @@ const Visualize = () => {
     ],
   });
 
+  useEffect(() => {
+    api.getHistoryUserActions(id).then((res: Variable[]) => {
+      const nodes: ReactNode[][] = [];
+      let repositoryId = '';
+      let directoryAccessIdContact = '';
+      let directoryAccessPwdContact = '';
+
+      res.forEach((element: Variable) => {
+        if (element.name === 'rem_survey_unit') {
+          repositoryId = element.value;
+        } else if (element.name === 'directory_access_id_contact') {
+          directoryAccessIdContact = element.value;
+        } else if (element.name === 'directory_access_pwd_contact') {
+          directoryAccessPwdContact = element.value;
+        }
+      });
+      nodes.push([repositoryId, directoryAccessIdContact, directoryAccessPwdContact]);
+      console.log('Nodes', nodes);
+      setUserActions(nodes);
+    });
+  }, [history])
+
   return (
     <Stack
       spacing={2}
@@ -263,7 +287,7 @@ const Visualize = () => {
             ),
           },
           {
-            label: "Tâches manuelles",
+            label: "Actions utilisateur",
             iconId: "fr-icon-user-line",
             content: <TasksManual tasks={tasks} />,
           },

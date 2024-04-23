@@ -151,11 +151,49 @@ const getHistoricVariablesInstances = (
         return Promise.resolve(variables);
     });
 }
+const getHistoryUserActions = (
+    processInstanceId: string,
+    apiUrl: string,
+    accessToken: string
+): Promise<Variable[]> => {
+    const variables: Variable[] = [];
+    return getRequest(
+        `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}&size=10000`,
+        accessToken || ''
+    ).then((res) => {
+        console.log('res getHistoricVariablesInstances', res);
+        if (res.data && res.data.data.some((element: any) => element.variable.name === 'directory_access_pwd_contact')) {
+            res.data.data.forEach((element: any) => {
+                if (
+                    element.variable.name === 'directory_access_id_contact' ||
+                    element.variable.name === 'directory_access_pwd_contact'
+                ) {
+                    variables.push({
+                        name: element.variable.name,
+                        type: element.variable.type,
+                        value: element.variable.value,
+                        scope: element.variable.scope
+                    } as Variable);
+                } else if (element.variable.name === 'rem_survey_unit') {
+                    const value = JSON.parse(element.variable.value);
+                    variables.push({
+                        name: element.variable.name,
+                        type: element.variable.type,
+                        value: value.repositoryId,
+                        scope: element.variable.scope
+                    } as Variable);
+                }
+            });
+        }
+        return Promise.resolve(variables);
+    });
+}
 
 export const processHistoryApi = {
     getHistoricActivity,
     getAllHistoricActivity,
     getAllHistoryProcessInstance,
     getHistoricVariablesInstances,
-    getHistoryProcessInstance
+    getHistoryProcessInstance,
+    getHistoryUserActions
 }
