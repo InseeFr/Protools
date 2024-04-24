@@ -1,6 +1,7 @@
 import HistoricActivity from "../../model/api/historicActivity";
 import { HistoryProcess } from "../../model/api/historyProcess";
 import Variable from "../../model/api/variable";
+import UserCredentials from "../../model/userCredentials";
 import { getRequest } from "../fetcher/requests";
 
 const getHistoricActivity = async (
@@ -139,12 +140,19 @@ const getHistoricVariablesInstances = (
         `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}&size=10000`,
         accessToken || ''
     ).then((res) => {
-        console.log('res getHistoricVariablesInstances', res);
+        //console.log('res getHistoricVariablesInstances', res);
         res.data && res.data.data.forEach((element: any) => {
             variables.push({
                 name: element.variable.name,
                 type: element.variable.type,
-                value: element.variable.value,
+                value: (() => {
+                    try {
+                        const parsedValue = typeof element.variable.value === 'string' ? JSON.parse(element.variable.value) : element.variable.value;
+                        return JSON.stringify(parsedValue);
+                    } catch (e) {
+                        return String(element.variable.value);
+                    }
+                })(),
                 scope: element.variable.scope
             } as Variable);
         });
@@ -155,35 +163,42 @@ const getHistoryUserActions = (
     processInstanceId: string,
     apiUrl: string,
     accessToken: string
-): Promise<Variable[]> => {
-    const variables: Variable[] = [];
+): Promise<UserCredentials[]> => {
+    let variables: UserCredentials[] = [];
     return getRequest(
         `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}&size=10000`,
         accessToken || ''
     ).then((res) => {
-        console.log('res getHistoricVariablesInstances', res);
+        //console.log('res getHistoricVariablesInstances', res);
         if (res.data && res.data.data.some((element: any) => element.variable.name === 'directory_access_pwd_contact')) {
+            const userCredentials: { [key: string]: UserCredentials } = {};
+
             res.data.data.forEach((element: any) => {
+                //console.log("element searching for user credentials", element.variable.name, element.variable.value)
+
+                if (!userCredentials[element.executionId]) {
+                    userCredentials[element.executionId] = {
+                        id: '',
+                        idLogin: '',
+                        password: ''
+                    };
+                }
+
                 if (
-                    element.variable.name === 'directory_access_id_contact' ||
-                    element.variable.name === 'directory_access_pwd_contact'
+                    element.variable.name === 'directory_access_id_contact'
                 ) {
-                    variables.push({
-                        name: element.variable.name,
-                        type: element.variable.type,
-                        value: element.variable.value,
-                        scope: element.variable.scope
-                    } as Variable);
+                    userCredentials[element.executionId]['idLogin'] = element.variable.value;
+                } else if (element.variable.name === 'directory_access_pwd_contact') {
+                    userCredentials[element.executionId]['password'] = element.variable.value;
                 } else if (element.variable.name === 'rem_survey_unit') {
-                    const value = JSON.parse(element.variable.value);
-                    variables.push({
-                        name: element.variable.name,
-                        type: element.variable.type,
-                        value: value.repositoryId,
-                        scope: element.variable.scope
-                    } as Variable);
+                    //console.log('element.variable.value', element.variable.value)
+                    userCredentials[element.executionId]['id'] = element.variable.value.repositoryId;
                 }
             });
+
+            variables = Object.values(userCredentials);
+            variables = variables.filter(variable => variable.id !== "");
+            //console.log('variables', variables)
         }
         return Promise.resolve(variables);
     });

@@ -1,12 +1,43 @@
-import { Table } from "@codegouvfr/react-dsfr/Table";
-import { ReactNode } from "react";
+
+import FlowElements from "../../../lib/model/flowElements";
+import { Typography } from "@mui/material";
+import { GridColDef, DataGrid } from "@mui/x-data-grid";
 
 interface TasksProps {
-  bpmnElements: ReactNode[][];
+  bpmnElements: FlowElements[];
   processName: string;
 }
+
+const columns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "Identifiant",
+    flex: 0.3,
+    minWidth: 100,
+    description: "Identifiant de la tâche",
+  },
+  {
+    field: "name",
+    headerName: "Nom",
+    flex: 0.3,
+    minWidth: 200,
+    description: "Nom de la tâche",
+  },
+  {
+    field: "documentation",
+    headerName: "Documentation",
+    flex: 0.3,
+    minWidth: 150,
+  },
+  {
+    field: "eventDefinitions",
+    headerName: "Nature",
+    flex: 0.1,
+    valueGetter: (params) => params.value.length > 0 ? "Event" : "Tâche",
+  }
+];
 const Tasks = (props: TasksProps) => {
-  const { bpmnElements, processName } = props;
+  const { bpmnElements } = props;
   //console.log("bpmnElement result:", bpmnElements);
   return (
     <div
@@ -17,12 +48,20 @@ const Tasks = (props: TasksProps) => {
         height: "100%",
       }}
     >
-      <Table
-        caption={processName}
-        data={bpmnElements}
-        fixed
-        headers={["id", "Libellé", "Type", "Documentation"]}
-      />
+      {bpmnElements.length > 0 ? (
+        <DataGrid
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          rows={bpmnElements}
+          columns={columns}
+          autoHeight
+          pagination
+          getRowClassName={() => "row--style"}
+        />
+      ) : (
+        <Typography>Aucune tâche</Typography>
+      )}
     </div>
   );
 };

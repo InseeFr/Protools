@@ -29,9 +29,8 @@ const VisualizeHistory = () => {
   const [processInstance, setProcessInstance] = useState<HistoryProcess>(
     {} as HistoryProcess
   );
-  const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>(
-    [] as ReactNode[][]
-  );
+  const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
+    []);
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
@@ -48,8 +47,8 @@ const VisualizeHistory = () => {
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
 
-  const [otherVariables, setOtherVariables] = useState<ReactNode[][]>(
-    [] as ReactNode[][]
+  const [otherVariables, setOtherVariables] = useState<Variable[]>(
+    []
   );
 
   useQueries({
@@ -139,15 +138,15 @@ const VisualizeHistory = () => {
         queryFn: async () => {
           return await api.getHistoricVariablesInstances(id).then((res: any) => {
             const context = res.find((element: Variable) => element.name === "context");
-            console.log("context: ", context);
+            //console.log("context: ", context);
             setContext(context);
-            const nodes: ReactNode[][] = [];
+            const variables: Variable[] = [];
             res.forEach((element: Variable) => {
               if (element.name !== "context") {
-                nodes.push([element.name, element.value, element.type, element.scope]);
+                variables.push(element);
               }
             });
-            setOtherVariables(nodes);
+            setOtherVariables(variables);
             return res;
           });
         },
@@ -161,18 +160,7 @@ const VisualizeHistory = () => {
           return await api
             .getBpmnElements(processDefinitionId)
             .then((res: FlowElements[]) => {
-              //console.log("bpmnElement raw: ", res);
-              const bpmnElements: ReactNode[][] = [];
-              res.forEach((element: FlowElements) => {
-                //console.log("element: ", element);
-                bpmnElements.push([
-                  element.id,
-                  element.name,
-                  element.eventDefinitions.length > 0 ? "Event" : "Tâche",
-                  element.documentation,
-                ]);
-              });
-              setBpmnElements(bpmnElements);
+              setBpmnElements(res);
               return res;
             });
         },
@@ -206,7 +194,7 @@ const VisualizeHistory = () => {
             content: (
               <GeneralInfo
                 processDefinitionData={processDefinitionData}
-                processInstance={processInstance}
+                historyProcess={processInstance}
               />
             ),
           },

@@ -122,7 +122,7 @@ export async function getVariables(
   apiUrl: string,
   accessToken: string
 ): Promise<any> {
-  const variables: String[][] = [];
+  const variables: Variable[] = [];
   let context: Variable | undefined;
 
   const res = await getRequest(
@@ -135,12 +135,12 @@ export async function getVariables(
 
     res.data.forEach((variable: any) => {
       if (variable.name !== "context") {
-        variables.push([
-          variable.name,
-          variable.value,
-          variable.type,
-          variable.scope,
-        ]);
+        variables.push({
+          name: variable.name,
+          value: variable.value,
+          type: variable.type,
+          scope: variable.scope,
+        } as Variable);
       }
     });
   }

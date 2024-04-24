@@ -21,7 +21,8 @@ import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 
 interface GeneralInfoProps {
   processDefinitionData: ProcessDefinitionDataApi;
-  processInstance: ProcessInfo | HistoryProcess;
+  processInstance?: ProcessInfo;
+  historyProcess?: HistoryProcess;
 }
 const modal = createModal({
   id: "delete-modal",
@@ -40,9 +41,8 @@ const NoMaxWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
 const GeneralInfo = (props: GeneralInfoProps) => {
   const api = useApi();
   const navigate = useNavigate();
-  const { processDefinitionData, processInstance } = props;
+  const { processDefinitionData, processInstance, historyProcess } = props;
 
-  //console.log("ProcessInfo: ", processInstance)
 
   const deleteProcessMutationFunction: MutationFunction<any> = async (
     id: unknown
@@ -78,12 +78,10 @@ const GeneralInfo = (props: GeneralInfoProps) => {
                 variant="body1"
                 sx={{ marginLeft: 1 }}
               >
-                {processInstance.businessKey
-                  ? processInstance.businessKey
-                  : "Aucun nom d'enquête"}
+                {processInstance?.businessKey || historyProcess?.businessKey || '...'}
               </Typography>
               <NoMaxWidthTooltip
-                title={`Identifiant Technique: ${processInstance.id ? processInstance.id : "..."}`}
+                title={`Identifiant Technique: ${processInstance?.id || historyProcess?.id || '...'}`}
                 enterTouchDelay={0}
                 leaveTouchDelay={2000}
                 arrow
@@ -102,7 +100,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
                 variant="body1"
                 sx={{ marginLeft: 1 }}
               >
-                {moment(processInstance.startDate).format("DD/MM/YYYY HH:mm")}
+                {moment(processInstance?.startDate || historyProcess?.startDate).format("DD/MM/YYYY HH:mm")}
               </Typography>
             </Grid>
             <Grid item container xs={12} direction="row" alignItems="baseline">
@@ -141,7 +139,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               sx={{ marginLeft: 1 }}
               align="left"
             >
-              {processInstance instanceof ProcessInfo ? (processInstance.documentation ? processInstance.documentation : "Aucune documentation") : 'N/A'}
+              {processInstance ? (processInstance.documentation ? processInstance.documentation : "Aucune documentation") : 'N/A'}
 
             </Typography>
           </Grid>
@@ -153,11 +151,11 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               État:
             </Typography>
             <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
-              {processInstance instanceof ProcessInfo ? (processInstance.state ? "Actif" : "Inactif") : 'Arrêté'}
+              {processInstance ? (processInstance?.state ? "Actif" : "Inactif") : 'Arrêté'}
 
             </Typography>
           </Grid>
-          {processInstance instanceof ProcessInfo ? <Grid item container xs={12} direction="row" alignItems="baseline">
+          {processInstance ? <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
               Actions:
             </Typography>
@@ -184,13 +182,13 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               variant="body1"
             //sx={{ marginLeft: 1 }}
             >
-              {processInstance.endTime
-                ? moment(processInstance.endTime).format("DD/MM/YYYY HH:mm")
+                {historyProcess?.endTime
+                  ? moment(historyProcess?.endTime).format("DD/MM/YYYY HH:mm")
                 : "..."}
             </Typography>
             <NoMaxWidthTooltip
-              title={`Durée: ${processInstance.durationInMillis
-                ? moment.duration(processInstance.durationInMillis).humanize()
+                title={`Durée: ${historyProcess?.durationInMillis
+                  ? moment.duration(historyProcess?.durationInMillis).humanize()
                 : "..."
                 }`}
               enterTouchDelay={0}
@@ -216,7 +214,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
           },
           {
             iconId: "ri-check-line",
-            onClick: () => mutate.mutate(processInstance.id),
+            onClick: () => mutate.mutate(processInstance?.id),
             children: "Valider",
           },
         ]}

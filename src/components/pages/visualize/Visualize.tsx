@@ -23,6 +23,7 @@ import moment from "moment";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import OtherVariable from "./OtherVariables";
+import UserCredentials from "../../../lib/model/userCredentials";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -35,11 +36,11 @@ const Visualize = () => {
     type: "Type de la variable",
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
-  const [otherVariables, setOtherVariables] = useState<ReactNode[][]>(
-    [] as ReactNode[][]
+  const [otherVariables, setOtherVariables] = useState<Variable[]>(
+    []
   );
-  const [bpmnElements, setBpmnElements] = useState<ReactNode[][]>(
-    [] as ReactNode[][]
+  const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
+    []
   );
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
@@ -50,8 +51,8 @@ const Visualize = () => {
   const viewer = new NavigatedViewer({
     additionalModules: [minimapModule],
   });
-
-  const [userActions, setUserActions] = useState<ReactNode[][]>([] as ReactNode[][]);
+  Node
+  const [userActions, setUserActions] = useState<UserCredentials[]>([]);
 
   useQueries({
     queries: [
@@ -166,7 +167,7 @@ const Visualize = () => {
                 id: res.id,
                 processDefinitionId: res.processDefinitionId,
               },
-            });
+            } as ProcessInfo);
 
             //setProcesses(res);
             return res;
@@ -190,23 +191,10 @@ const Visualize = () => {
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         queryFn: async () => {
-          //console.log("fetching bpmnElement of id: ", id);
           return await api
             .getBpmnElements(processDefinitionId)
             .then((res: FlowElements[]) => {
-              //console.log("bpmnElement raw: ", res);
-              const bpmnElements: ReactNode[][] = [];
-              res.forEach((element: FlowElements) => {
-                //console.log("element: ", element);
-
-                bpmnElements.push([
-                  element.id,
-                  element.name,
-                  element.eventDefinitions.length > 0 ? "Event" : "Tâche",
-                  element.documentation,
-                ]);
-              });
-              setBpmnElements(bpmnElements);
+              setBpmnElements(res);
               return res;
             });
         },
@@ -215,24 +203,9 @@ const Visualize = () => {
   });
 
   useEffect(() => {
-    api.getHistoryUserActions(id).then((res: Variable[]) => {
-      const nodes: ReactNode[][] = [];
-      let repositoryId = '';
-      let directoryAccessIdContact = '';
-      let directoryAccessPwdContact = '';
-
-      res.forEach((element: Variable) => {
-        if (element.name === 'rem_survey_unit') {
-          repositoryId = element.value;
-        } else if (element.name === 'directory_access_id_contact') {
-          directoryAccessIdContact = element.value;
-        } else if (element.name === 'directory_access_pwd_contact') {
-          directoryAccessPwdContact = element.value;
-        }
-      });
-      nodes.push([repositoryId, directoryAccessIdContact, directoryAccessPwdContact]);
-      console.log('Nodes', nodes);
-      setUserActions(nodes);
+    api.getHistoryUserActions(id).then((res: UserCredentials[]) => {
+      //console.log('UserCredentials : ', res)
+      setUserActions(res);
     });
   }, [history])
 
@@ -289,7 +262,7 @@ const Visualize = () => {
           {
             label: "Actions utilisateur",
             iconId: "fr-icon-user-line",
-            content: <TasksManual tasks={tasks} />,
+            content: <TasksManual userActions={userActions} tasks={tasks} />,
           },
           {
             label: "Historique",
