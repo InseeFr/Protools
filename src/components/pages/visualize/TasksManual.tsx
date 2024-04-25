@@ -4,6 +4,7 @@ import Task from "../../../lib/model/tasks";
 import UserCredentials from "../../../lib/model/userCredentials";
 import { useState } from "react";
 import Button from "@codegouvfr/react-dsfr/Button";
+import AddContextDialog from "../../shared/dialogs/AddContext";
 
 interface TasksManualProps {
   userActions: UserCredentials[];
@@ -61,7 +62,7 @@ const TasksManual = (props: TasksManualProps) => {
   const [uploadState, setUploadState] = useState(false);
 
   return (
-    <Box
+    <><Box
       sx={{
         width: "100%",
         "& .columns--header": {
@@ -69,7 +70,7 @@ const TasksManual = (props: TasksManualProps) => {
         },
         //p: 2,
       }}
-    >  
+    >
       <div
         style={{
           display: "flex",
@@ -123,28 +124,26 @@ const TasksManual = (props: TasksManualProps) => {
                 columns={columns}
                 autoHeight
                 pagination
-                getRowClassName={() => "row--style"}
-              />
+                getRowClassName={() => "row--style"} />
           </div>
         )
       )}
 
-      {
-        tasks.length > 0 && (
+      {tasks.length > 0 && (
 
-          <div style={{ margin: '5px 0' }}>
-            <Typography variant="h6">Liste des tâches</Typography>
-            <DataGrid
-              rows={tasks}
-              columns={columnsTasks}
-              autoHeight
-              pagination
-              getRowClassName={() => "row--style"}
-            />
-          </div>
-        )
-      }
+        <div style={{ margin: '5px 0' }}>
+          <Typography variant="h6">Liste des tâches</Typography>
+          <DataGrid
+            rows={tasks}
+            columns={columnsTasks}
+            autoHeight
+            pagination
+            getRowClassName={() => "row--style"} />
+        </div>
+      )}
     </Box>
+      <AddContextDialog uploadContext={uploadState} setUploadContext={setUploadState} />
+    </>
   );
 };
 

@@ -14,7 +14,6 @@ import { useApi } from '../../../lib/hooks/useApi';
 
 interface AddContextDialogDialogProps {
   uploadContext: boolean;
-  id?: string;
   taskId?: string;
   setUploadContext: (value: boolean) => void;
 }
@@ -22,7 +21,6 @@ interface AddContextDialogDialogProps {
 const AddContextDialog = (props: AddContextDialogDialogProps) => {
   const {
     uploadContext,
-    id,
     taskId,
     setUploadContext,
   } = props;
@@ -63,15 +61,13 @@ const AddContextDialog = (props: AddContextDialogDialogProps) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: 'left',
+          alignItems: 'left',
         }}
       >
-
-
         <Stack
           spacing={0.1}
-          sx={{ textAlign: "start", marginTop: 3, marginBottom: 1 }}
+          sx={{ textAlign: "start", marginTop: 1, marginBottom: 1 }}
         >
           <Typography variant="body1">
             Déposer ici le fichier de contexte
@@ -113,6 +109,7 @@ const AddContextDialog = (props: AddContextDialogDialogProps) => {
         <Button
           iconId="fr-icon-checkbox-circle-line"
           onClick={handleSubmit}
+          disabled
         >
           Valider
         </Button>
@@ -122,7 +119,6 @@ const AddContextDialog = (props: AddContextDialogDialogProps) => {
 };
 
 AddContextDialog.defaultProps = {
-  id: null,
   taskId: null
 };
 
