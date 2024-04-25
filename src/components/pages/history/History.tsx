@@ -61,7 +61,7 @@ const History = () => {
     >
       <Typography variant="h1">Historique des Processus</Typography>
       <Tabs
-        style={{ width: "150%" }}
+        style={{ width: "130%" }}
         tabs={[
           {
             label: "Processus",

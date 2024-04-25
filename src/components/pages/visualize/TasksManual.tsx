@@ -2,6 +2,8 @@ import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
 import Task from "../../../lib/model/tasks";
 import UserCredentials from "../../../lib/model/userCredentials";
+import { useState } from "react";
+import Button from "@codegouvfr/react-dsfr/Button";
 
 interface TasksManualProps {
   userActions: UserCredentials[];
@@ -55,6 +57,9 @@ const columnsTasks: GridColDef[] = [
 ];
 const TasksManual = (props: TasksManualProps) => {
   const { userActions, tasks } = props;
+  const [exportState, setExportState] = useState(false);
+  const [uploadState, setUploadState] = useState(false);
+
   return (
     <Box
       sx={{
@@ -62,45 +67,73 @@ const TasksManual = (props: TasksManualProps) => {
         "& .columns--header": {
           fontWeight: "700",
         },
-        p: 2,
+        //p: 2,
       }}
-    >
-      {userActions.length === 0 ? (
-        <Typography variant="body1">Aucune action utilisateur</Typography>
-      ) : <div
+    >  
+      <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: "left",
+          alignItems: "left ",
           height: "100%",
+          //margin: "2px 0",
         }}
       >
-          <DataGrid
-          disableColumnFilter
-          disableColumnSelector
-          disableDensitySelector
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: {
-                inputProps: {
-                  placeholder: "Recherche",
-                },
-              },
-            },
-          }}
-          rows={userActions}
-          columns={columns}
-          autoHeight
-          pagination
-          getRowClassName={() => "row--style"}
-        />
-      </div>}
+
+        <Box sx={{ '& > :not(style)': { m: 1 } }}>
+          <Button priority="primary" onClick={() => setExportState(!exportState)}>
+            Récupérer les comptes de connexion
+          </Button>
+
+          <Button priority="primary" onClick={() => setUploadState(!uploadState)} disabled>
+            Récupérer les métadonnées de processus
+          </Button>
+        </Box>
+      </div>
+
+      {exportState && (
+        userActions.length === 0 ? (
+          <Typography variant="body1">Aucune action utilisateur</Typography>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+                margin: "2px 0",
+              }}
+            >
+              <DataGrid
+                disableColumnFilter
+                disableColumnSelector
+                disableDensitySelector
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                    quickFilterProps: {
+                      inputProps: {
+                        placeholder: "Recherche",
+                      },
+                    },
+                  },
+                }}
+                rows={userActions}
+                columns={columns}
+                autoHeight
+                pagination
+                getRowClassName={() => "row--style"}
+              />
+          </div>
+        )
+      )}
 
       {
         tasks.length > 0 && (
+
           <div style={{ margin: '5px 0' }}>
+            <Typography variant="h6">Liste des tâches</Typography>
             <DataGrid
               rows={tasks}
               columns={columnsTasks}
