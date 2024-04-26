@@ -24,6 +24,7 @@ import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import OtherVariable from "./OtherVariables";
 import UserCredentials from "../../../lib/model/userCredentials";
+import { getHistoryUserActions } from "../../../lib/api/remote/processHistory";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -51,7 +52,6 @@ const Visualize = () => {
   const viewer = new NavigatedViewer({
     additionalModules: [minimapModule],
   });
-  Node
   const [userActions, setUserActions] = useState<UserCredentials[]>([]);
 
   useQueries({
@@ -176,12 +176,18 @@ const Visualize = () => {
       },
       {
         queryKey: ["variables", id],
-        queryFn: () => {
-          //console.log("fetching variables of id: ", id);
-          return api.getVariables(id).then((res: any) => {
-            //console.log('variables', res)
-            setContext(res[0]);
-            setOtherVariables(res[1]);
+        queryFn: async () => {
+          return await api.getHistoricVariablesInstances(id).then((res: any) => {
+            const context = res.find((element: Variable) => element.name === "context");
+            //console.log("context: ", context);
+            setContext(context);
+            const variables: Variable[] = [];
+            res.forEach((element: Variable) => {
+              if (element.name !== "context") {
+                variables.push(element);
+              }
+            });
+            setOtherVariables(variables);
             return res;
           });
         },
@@ -203,11 +209,10 @@ const Visualize = () => {
   });
 
   useEffect(() => {
-    api.getHistoryUserActions(id).then((res: UserCredentials[]) => {
-      //console.log('UserCredentials : ', res)
-      setUserActions(res);
-    });
-  }, [history])
+    const res = getHistoryUserActions(otherVariables);
+    setUserActions(res);
+  }, [otherVariables]);
+
 
   return (
     <Stack

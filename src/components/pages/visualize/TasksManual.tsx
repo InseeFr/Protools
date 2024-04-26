@@ -70,63 +70,55 @@ const TasksManual = (props: TasksManualProps) => {
         },
         //p: 2,
       }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "left",
-          alignItems: "left ",
-          height: "100%",
-          //margin: "2px 0",
-        }}
-      >
+    > 
+      {userActions.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            height: "100%",
+          }}
+        >
+          <Box sx={{ '& > :not(style)': { m: 1 } }}>
+            <Button priority="primary" onClick={() => setExportState(!exportState)}>
+              Récupérer les comptes de connexion
+            </Button>
+          </Box>
+        </div>)}
 
-        <Box sx={{ '& > :not(style)': { m: 1 } }}>
-          <Button priority="primary" onClick={() => setExportState(!exportState)}>
-            Récupérer les comptes de connexion
-          </Button>
-
-          <Button priority="primary" onClick={() => setUploadState(!uploadState)} disabled>
-            Récupérer les métadonnées de processus
-          </Button>
-        </Box>
-      </div>
 
       {exportState && (
-        userActions.length === 0 ? (
-          <Typography variant="body1">Aucune action utilisateur</Typography>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-                margin: "2px 0",
-              }}
-            >
-              <DataGrid
-                disableColumnFilter
-                disableColumnSelector
-                disableDensitySelector
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                  toolbar: {
-                    showQuickFilter: true,
-                    quickFilterProps: {
-                      inputProps: {
-                        placeholder: "Recherche",
-                      },
-                    },
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            margin: "2px 0",
+          }}
+        >
+          <DataGrid
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: {
+                  inputProps: {
+                    placeholder: "Recherche",
                   },
-                }}
-                rows={userActions}
-                columns={columns}
-                autoHeight
-                pagination
-                getRowClassName={() => "row--style"} />
-          </div>
-        )
+                },
+              },
+            }}
+            rows={userActions}
+            columns={columns}
+            autoHeight
+            pagination
+            getRowClassName={() => "row--style"} />
+        </div>
       )}
 
       {tasks.length > 0 && (
@@ -141,6 +133,11 @@ const TasksManual = (props: TasksManualProps) => {
             getRowClassName={() => "row--style"} />
         </div>
       )}
+      {
+        (tasks.length === 0 && userActions.length === 0) && (
+          <Typography>Aucune tâche</Typography>
+        )
+      }
     </Box>
       <AddContextDialog uploadContext={uploadState} setUploadContext={setUploadState} />
     </>

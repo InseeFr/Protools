@@ -8,7 +8,7 @@ import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import minimapModule from "diagram-js-minimap";
 import "diagram-js-minimap/assets/diagram-js-minimap.css";
 import moment from "moment";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../lib/hooks/useApi";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
@@ -22,6 +22,9 @@ import HistoryActivity from "./History";
 import Tasks from "./Tasks";
 import Variables from "./Variables";
 import OtherVariable from "./OtherVariables";
+import UserCredentials from "../../../lib/model/userCredentials";
+import TasksManual from "./TasksManual";
+import { getHistoryUserActions } from "../../../lib/api/remote/processHistory";
 
 const VisualizeHistory = () => {
   const { id, processDefinitionId } = useParams();
@@ -50,6 +53,8 @@ const VisualizeHistory = () => {
   const [otherVariables, setOtherVariables] = useState<Variable[]>(
     []
   );
+
+  const [userActions, setUserActions] = useState<UserCredentials[]>([]);
 
   useQueries({
     queries: [
@@ -168,6 +173,12 @@ const VisualizeHistory = () => {
     ],
   });
 
+  useEffect(() => {
+    const res = getHistoryUserActions(otherVariables);
+    setUserActions(res);
+  }, [otherVariables]);
+
+
   return (
     <Stack
       spacing={2}
@@ -217,6 +228,11 @@ const VisualizeHistory = () => {
                 processName={processInstance.processDefinitionName}
               />
             ),
+          },
+          {
+            label: "Actions utilisateur",
+            iconId: "fr-icon-user-line",
+            content: <TasksManual userActions={userActions} tasks={[]} />,
           },
           {
             label: "Historique",

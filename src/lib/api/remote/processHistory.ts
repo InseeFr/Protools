@@ -159,49 +159,35 @@ const getHistoricVariablesInstances = (
         return Promise.resolve(variables);
     });
 }
-const getHistoryUserActions = (
-    processInstanceId: string,
-    apiUrl: string,
-    accessToken: string
-): Promise<UserCredentials[]> => {
-    let variables: UserCredentials[] = [];
-    return getRequest(
-        `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}&size=10000`,
-        accessToken || ''
-    ).then((res) => {
-        //console.log('res getHistoricVariablesInstances', res);
-        if (res.data && res.data.data.some((element: any) => element.variable.name === 'directory_access_pwd_contact')) {
-            const userCredentials: { [key: string]: UserCredentials } = {};
+export const getHistoryUserActions = (
+    variables: Variable[]
+): UserCredentials[] => {
+    let userCredentials: UserCredentials[] = [];
+    if (variables.some((variable) => variable.name === 'directory_access_pwd_contact')) {
+        const userCredentialsMap: { [key: string]: UserCredentials } = {};
 
-            res.data.data.forEach((element: any) => {
-                //console.log("element searching for user credentials", element.variable.name, element.variable.value)
+        variables.forEach((variable) => {
+            if (!userCredentialsMap[variable.scope]) {
+                userCredentialsMap[variable.scope] = {
+                    id: '',
+                    idLogin: '',
+                    password: ''
+                };
+            }
 
-                if (!userCredentials[element.executionId]) {
-                    userCredentials[element.executionId] = {
-                        id: '',
-                        idLogin: '',
-                        password: ''
-                    };
-                }
+            if (variable.name === 'directory_access_id_contact') {
+                userCredentialsMap[variable.scope]['idLogin'] = variable.value;
+            } else if (variable.name === 'directory_access_pwd_contact') {
+                userCredentialsMap[variable.scope]['password'] = variable.value;
+            } else if (variable.name === 'rem_survey_unit') {
+                userCredentialsMap[variable.scope]['id'] = JSON.parse(variable.value).repositoryId;
+            }
+        });
 
-                if (
-                    element.variable.name === 'directory_access_id_contact'
-                ) {
-                    userCredentials[element.executionId]['idLogin'] = element.variable.value;
-                } else if (element.variable.name === 'directory_access_pwd_contact') {
-                    userCredentials[element.executionId]['password'] = element.variable.value;
-                } else if (element.variable.name === 'rem_survey_unit') {
-                    //console.log('element.variable.value', element.variable.value)
-                    userCredentials[element.executionId]['id'] = element.variable.value.repositoryId;
-                }
-            });
-
-            variables = Object.values(userCredentials);
-            variables = variables.filter(variable => variable.id !== "");
-            //console.log('variables', variables)
-        }
-        return Promise.resolve(variables);
-    });
+        userCredentials = Object.values(userCredentialsMap);
+        userCredentials = userCredentials.filter(userCredential => userCredential.id !== "");
+    }
+    return userCredentials;
 }
 
 export const processHistoryApi = {
@@ -210,5 +196,4 @@ export const processHistoryApi = {
     getAllHistoryProcessInstance,
     getHistoricVariablesInstances,
     getHistoryProcessInstance,
-    getHistoryUserActions
 }
