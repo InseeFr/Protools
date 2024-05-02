@@ -155,17 +155,84 @@ const getHistoricVariablesInstances = (
                 })(),
                 scope: element.variable.scope
             } as Variable);
+
         });
         return Promise.resolve(variables);
     });
 }
+
 export const getHistoryUserActions = (
+    processInstanceId: string,
+    apiUrl: string,
+    accessToken: string
+): Promise<UserCredentials[]> => {
+    return getRequest(
+        `${apiUrl}history/historic-variable-instances?processInstanceId=${processInstanceId}&size=10000`,
+        accessToken || ''
+    ).then((res) => {
+        //console.log('res getHistoricVariablesInstances', res);
+        const variablesMap: { [executionId: string]: Variable[] } = {};
+        const userCredentialsMap: { [executionId: string]: UserCredentials[] } = {};
+
+        res.data && res.data.data.forEach((element: any) => {
+            if (!variablesMap[element.executionId]) {
+                variablesMap[element.executionId] = [];
+            }
+
+            variablesMap[element.executionId].push({
+                name: element.variable.name,
+                type: element.variable.type,
+                value: (() => {
+                    try {
+                        const parsedValue = typeof element.variable.value === 'string' ? JSON.parse(element.variable.value) : element.variable.value;
+                        return JSON.stringify(parsedValue);
+                    } catch (e) {
+                        return String(element.variable.value);
+                    }
+                })(),
+                scope: element.variable.scope
+            } as Variable);
+        });
+
+        console.log('variablesMap', variablesMap);
+
+        Object.entries(variablesMap).forEach(([executionId, variables]) => {
+            if (variables.some((variable) => variable.name === 'directory_access_pwd_contact')) {
+                console.log('variables has pwd_contact');
+                userCredentialsMap[executionId] = [];
+                let userCredentials = {
+                    id: '',
+                    idLogin: '',
+                    password: ''
+                } as UserCredentials;
+                variables.forEach((variable) => {
+                    console.log('variable', variable);
+                    if (variable.name === 'directory_access_id_contact') {
+                        userCredentials.idLogin = variable.value;
+                    } else if (variable.name === 'directory_access_pwd_contact') {
+                        userCredentials.password = variable.value;
+                    } else if (variable.name === 'rem_survey_unit') {
+                        userCredentials.id = JSON.parse(variable.value).repositoryId;
+                    }
+
+                });
+                userCredentialsMap[executionId].push(userCredentials);
+                console.log('userCredentialsMap', userCredentialsMap);
+                userCredentialsMap[executionId] = userCredentialsMap[executionId].filter(userCredential => userCredential.id !== "");
+            }
+        });
+        const combinedUserCredentials: UserCredentials[] = Object.values(userCredentialsMap).flat();
+        console.log('final userAction', combinedUserCredentials);
+        return Promise.resolve(combinedUserCredentials);
+    });
+}
+export const getHistoryUserActionsTest = (
     variables: Variable[]
 ): UserCredentials[] => {
     let userCredentials: UserCredentials[] = [];
     if (variables.some((variable) => variable.name === 'directory_access_pwd_contact')) {
         const userCredentialsMap: { [key: string]: UserCredentials } = {};
-
+        //console.log('variables', variables);
         variables.forEach((variable) => {
             if (!userCredentialsMap[variable.scope]) {
                 userCredentialsMap[variable.scope] = {
@@ -183,7 +250,7 @@ export const getHistoryUserActions = (
                 userCredentialsMap[variable.scope]['id'] = JSON.parse(variable.value).repositoryId;
             }
         });
-
+        console.log('final userAction', userCredentialsMap);
         userCredentials = Object.values(userCredentialsMap);
         userCredentials = userCredentials.filter(userCredential => userCredential.id !== "");
     }
@@ -193,6 +260,7 @@ export const getHistoryUserActions = (
 export const processHistoryApi = {
     getHistoricActivity,
     getAllHistoricActivity,
+    getHistoryUserActions,
     getAllHistoryProcessInstance,
     getHistoricVariablesInstances,
     getHistoryProcessInstance,

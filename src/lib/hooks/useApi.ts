@@ -181,6 +181,14 @@ export const useApi = () => {
       )
   );
 
+  const getHistoryUserActions = useConstCallback((processInstanceId) =>
+    processHistoryApi.getHistoryUserActions(
+      processInstanceId,
+      apiUrl,
+      oidcClient ? oidcClient.accessToken : ""
+    )
+  );
+
 
 
   return {
@@ -204,6 +212,7 @@ export const useApi = () => {
     getExecutionActivities,
     getHistoricVariablesInstances,
     getHistoryProcessInstance,
+    getHistoryUserActions
 
   };
 };

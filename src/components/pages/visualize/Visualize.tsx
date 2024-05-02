@@ -205,13 +205,18 @@ const Visualize = () => {
             });
         },
       },
+      {
+        queryKey: ["userActions", id],
+        queryFn: async () => {
+          return await api.getHistoryUserActions(id).then((res: UserCredentials[]) => {
+            setUserActions(res);
+            return res;
+          });
+        },
+      },
     ],
   });
 
-  useEffect(() => {
-    const res = getHistoryUserActions(otherVariables);
-    setUserActions(res);
-  }, [otherVariables]);
 
 
   return (
