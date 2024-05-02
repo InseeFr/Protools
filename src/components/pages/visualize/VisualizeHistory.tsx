@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { ReactNode, useState } from "react";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Stack } from "@mui/material";
 import { useQueries } from "@tanstack/react-query";
@@ -8,7 +9,6 @@ import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import minimapModule from "diagram-js-minimap";
 import "diagram-js-minimap/assets/diagram-js-minimap.css";
 import moment from "moment";
-import { ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../lib/hooks/useApi";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
@@ -24,7 +24,7 @@ import Variables from "./Variables";
 import OtherVariable from "./OtherVariables";
 import UserCredentials from "../../../lib/model/userCredentials";
 import TasksManual from "./TasksManual";
-import { getHistoryUserActions } from "../../../lib/api/remote/processHistory";
+
 
 const VisualizeHistory = () => {
   const { id, processDefinitionId } = useParams();
@@ -170,13 +170,18 @@ const VisualizeHistory = () => {
             });
         },
       },
+      {
+        queryKey: ["userActions", id],
+        queryFn: async () => {
+          return await api.getHistoryUserActions(id).then((res: UserCredentials[]) => {
+            setUserActions(res);
+            return res;
+          });
+        },
+      },
     ],
   });
 
-  useEffect(() => {
-    const res = getHistoryUserActions(otherVariables);
-    setUserActions(res);
-  }, [otherVariables]);
 
 
   return (

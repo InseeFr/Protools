@@ -226,36 +226,7 @@ export const getHistoryUserActions = (
         return Promise.resolve(combinedUserCredentials);
     });
 }
-export const getHistoryUserActionsTest = (
-    variables: Variable[]
-): UserCredentials[] => {
-    let userCredentials: UserCredentials[] = [];
-    if (variables.some((variable) => variable.name === 'directory_access_pwd_contact')) {
-        const userCredentialsMap: { [key: string]: UserCredentials } = {};
-        //console.log('variables', variables);
-        variables.forEach((variable) => {
-            if (!userCredentialsMap[variable.scope]) {
-                userCredentialsMap[variable.scope] = {
-                    id: '',
-                    idLogin: '',
-                    password: ''
-                };
-            }
 
-            if (variable.name === 'directory_access_id_contact') {
-                userCredentialsMap[variable.scope]['idLogin'] = variable.value;
-            } else if (variable.name === 'directory_access_pwd_contact') {
-                userCredentialsMap[variable.scope]['password'] = variable.value;
-            } else if (variable.name === 'rem_survey_unit') {
-                userCredentialsMap[variable.scope]['id'] = JSON.parse(variable.value).repositoryId;
-            }
-        });
-        console.log('final userAction', userCredentialsMap);
-        userCredentials = Object.values(userCredentialsMap);
-        userCredentials = userCredentials.filter(userCredential => userCredential.id !== "");
-    }
-    return userCredentials;
-}
 
 export const processHistoryApi = {
     getHistoricActivity,

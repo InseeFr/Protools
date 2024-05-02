@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode } from "react";
 import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
@@ -24,7 +24,6 @@ import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import OtherVariable from "./OtherVariables";
 import UserCredentials from "../../../lib/model/userCredentials";
-import { getHistoryUserActions } from "../../../lib/api/remote/processHistory";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
