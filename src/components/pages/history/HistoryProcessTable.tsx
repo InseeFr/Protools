@@ -164,7 +164,7 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
         }}
         initialState={{
           sorting: {
-            sortModel: [{ field: "startTime", sort: "desc" }],
+            sortModel: [{ field: "endTime", sort: "desc" }], 
           },
           pagination: { paginationModel: { pageSize: 10 } },
         }}
