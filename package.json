@@ -46,7 +46,8 @@
     "sort-by": "^1.2.0",
     "tsafe": "^1.6.5",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-tsconfig-paths": "^4.2.0"
+    "vite-tsconfig-paths": "^4.2.0", 
+    "react-refresh": "0.14.0"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.29.9",
