@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, ReactNode } from "react";
+import { useState } from "react";
 import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
@@ -19,10 +19,10 @@ import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionDa
 import Variable from "../../../lib/model/api/variable";
 import FlowElements from "../../../lib/model/displayModels/flowElements";
 import HistoryActivity from "./History";
-import moment from "moment";
+
 import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
-import OtherVariable from "./OtherVariables";
+
 import UserCredentials from "../../../lib/model/displayModels/userCredentials";
 import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
 
@@ -37,9 +37,7 @@ const Visualize = () => {
     type: "Type de la variable",
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
-  const [otherVariables, setOtherVariables] = useState<Variable[]>(
-    []
-  );
+
   const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
     []
   );
@@ -178,7 +176,7 @@ const Visualize = () => {
                 variables.push(element);
               }
             });
-            setOtherVariables(variables);
+            //setOtherVariables(variables);
             return res;
           });
         },

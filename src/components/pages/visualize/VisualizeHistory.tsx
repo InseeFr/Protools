@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Stack } from "@mui/material";
 import { useQueries } from "@tanstack/react-query";
@@ -8,7 +8,6 @@ import "bpmn-js/dist/assets/diagram-js.css";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import minimapModule from "diagram-js-minimap";
 import "diagram-js-minimap/assets/diagram-js-minimap.css";
-import moment from "moment";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../lib/hooks/useApi";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
@@ -49,9 +48,7 @@ const VisualizeHistory = () => {
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
 
-  const [otherVariables, setOtherVariables] = useState<Variable[]>(
-    []
-  );
+
 
   const [userActions, setUserActions] = useState<UserCredentials[]>([]);
 
@@ -141,7 +138,7 @@ const VisualizeHistory = () => {
                 variables.push(element);
               }
             });
-            setOtherVariables(variables);
+
             return res;
           });
         },
