@@ -2,7 +2,7 @@
 
 import getProcessDefinition from "../../../assets/mockData/getProcessDefinition.json"
 import getTasks from "../../../assets/mockData/getTasks.json"
-import Task from "../../model/tasks";
+import Task from "../../model/displayModels/tasks";
 import { deleteDuplicatesByKey } from "../../utils/processUtils";
 
 

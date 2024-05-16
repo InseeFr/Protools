@@ -23,6 +23,7 @@
     "@tanstack/react-query-devtools": "^5.20.5",
     "@types/node": "^20.3.1",
     "bpmn-js": "^17.0.0",
+    "date-fns": "^3.6.0",
     "diagram-js-minimap": "^4.1.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -42,12 +43,12 @@
     "react-icons": "^5.0.1",
     "react-json-view": "^1.21.3",
     "react-query": "^3.39.3",
+    "react-refresh": "0.14.0",
     "react-router-dom": "^6.13.0",
     "sort-by": "^1.2.0",
     "tsafe": "^1.6.5",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-tsconfig-paths": "^4.2.0", 
-    "react-refresh": "0.14.0"
+    "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.29.9",

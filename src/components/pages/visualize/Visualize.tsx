@@ -12,18 +12,19 @@ import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import "diagram-js-minimap/assets/diagram-js-minimap.css";
 import minimapModule from "diagram-js-minimap";
-import Task from "../../../lib/model/tasks";
+import Task from "../../../lib/model/displayModels/tasks";
 import { useApi } from "../../../lib/hooks/useApi";
-import ProcessInfo from "../../../lib/model/processInfo";
+import ProcessInfo from "../../../lib/model/displayModels/processInfo";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
-import FlowElements from "../../../lib/model/flowElements";
+import FlowElements from "../../../lib/model/displayModels/flowElements";
 import HistoryActivity from "./History";
 import moment from "moment";
 import HistoricActivity from "../../../lib/model/api/historicActivity";
 import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 import OtherVariable from "./OtherVariables";
-import UserCredentials from "../../../lib/model/userCredentials";
+import UserCredentials from "../../../lib/model/displayModels/userCredentials";
+import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -45,7 +46,7 @@ const Visualize = () => {
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
-  const [history, setHistory] = useState<ReactNode[][]>([] as ReactNode[][]);
+  const [history, setHistory] = useState<HistoryActivitiesGrouped[]>([] as HistoryActivitiesGrouped[]);
 
   const api = useApi();
   const viewer = new NavigatedViewer({
@@ -83,17 +84,8 @@ const Visualize = () => {
           return await api
             .getHistoricActivity(id)
             .then((res: HistoricActivity[]) => {
-              const historicActivity: ReactNode[][] = [];
-              res.forEach((element: HistoricActivity) => {
-                historicActivity.push([
-                  element.activityId,
-                  element.activityName,
-                  element.activityType,
-                  moment(element.endTime).format("DD/MM/YYYY HH:mm"),
-                  element.durationInMillis,
-                ]);
-              });
-              setHistory(historicActivity);
+              const dataTable = HistoryActivitiesGrouped.convertToGrouped(res);
+              setHistory(dataTable);
               return res;
             });
         },
@@ -253,11 +245,11 @@ const Visualize = () => {
             iconId: "fr-icon-article-line",
             content: <Variables variables={context} />,
           },
-          {
-            label: "Autres Variables",
-            iconId: "fr-icon-article-line",
-            content: <OtherVariable variables={otherVariables} />,
-          },
+          // {
+          //   label: "Autres Variables",
+          //   iconId: "fr-icon-article-line",
+          //   content: <OtherVariable variables={otherVariables} />,
+          // },
           {
             label: "Tâches (Description)",
             iconId: "fr-icon-terminal-box-line",

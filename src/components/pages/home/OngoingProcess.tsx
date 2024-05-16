@@ -8,7 +8,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import ProcessInfo from "../../../lib/model/processInfo";
+import ProcessInfo from "../../../lib/model/displayModels/processInfo";
 
 interface OnGoingProcessProps {
   processes: ProcessInfo[];

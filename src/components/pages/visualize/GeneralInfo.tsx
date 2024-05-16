@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
-import ProcessInfo from "../../../lib/model/processInfo";
+import ProcessInfo from "../../../lib/model/displayModels/processInfo";
 import moment from "moment";
 import { MutationFunction, useMutation } from "@tanstack/react-query";
 import { useApi } from "../../../lib/hooks/useApi";

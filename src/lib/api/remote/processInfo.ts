@@ -1,11 +1,11 @@
 import ProcessDefinitionDataApi from '../../model/api/processDefinitionData';
-import Task from '../../model/tasks';
+import Task from '../../model/displayModels/tasks';
 import { deleteDuplicatesByKey } from '../../utils/processUtils';
 import { getRequest } from '../fetcher/requests';
 import { fetcherXml } from '../fetcher/fetcher';
 import Variable from '../../model/api/variable';
-import FlowElements from '../../model/flowElements';
-import ProcessInfo from '../../model/processInfo';
+import FlowElements from '../../model/displayModels/flowElements';
+import ProcessInfo from '../../model/displayModels/processInfo';
 
 export function getProcessDefinitions(
   apiUrl: string,

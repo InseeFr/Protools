@@ -1,5 +1,5 @@
 
-import FlowElements from "../../../lib/model/flowElements";
+import FlowElements from "../../../lib/model/displayModels/flowElements";
 import { Typography } from "@mui/material";
 import { GridColDef, DataGrid } from "@mui/x-data-grid";
 

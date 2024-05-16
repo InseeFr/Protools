@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
-import Task from "../../../lib/model/tasks";
-import UserCredentials from "../../../lib/model/userCredentials";
+import Task from "../../../lib/model/displayModels/tasks";
+import UserCredentials from "../../../lib/model/displayModels/userCredentials";
 import { useState } from "react";
 import Button from "@codegouvfr/react-dsfr/Button";
 import AddContextDialog from "../../shared/dialogs/AddContext";

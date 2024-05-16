@@ -15,15 +15,15 @@ import HistoricActivity from "../../../lib/model/api/historicActivity";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
-import FlowElements from "../../../lib/model/flowElements";
+import FlowElements from "../../../lib/model/displayModels/flowElements";
 //import Task from "../../../lib/model/tasks";
 import GeneralInfo from "./GeneralInfo";
 import HistoryActivity from "./History";
 import Tasks from "./Tasks";
 import Variables from "./Variables";
-import OtherVariable from "./OtherVariables";
-import UserCredentials from "../../../lib/model/userCredentials";
+import UserCredentials from "../../../lib/model/displayModels/userCredentials";
 import TasksManual from "./TasksManual";
+import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
 
 
 const VisualizeHistory = () => {
@@ -37,8 +37,7 @@ const VisualizeHistory = () => {
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
-  const [history, setHistory] = useState<ReactNode[][]>([] as ReactNode[][]);
-
+  const [history, setHistory] = useState<HistoryActivitiesGrouped[]>([] as HistoryActivitiesGrouped[]);
   const api = useApi();
   const viewer = new NavigatedViewer({
     additionalModules: [minimapModule],
@@ -64,17 +63,8 @@ const VisualizeHistory = () => {
           return await api
             .getHistoricActivity(id)
             .then((res: HistoricActivity[]) => {
-              const historicActivity: ReactNode[][] = [];
-              res.forEach((element: HistoricActivity) => {
-                historicActivity.push([
-                  element.activityId,
-                  element.activityName,
-                  element.activityType,
-                  moment(element.endTime).format("DD/MM/YYYY HH:mm"),
-                  element.durationInMillis,
-                ]);
-              });
-              setHistory(historicActivity);
+              const dataTable = HistoryActivitiesGrouped.convertToGrouped(res);
+              setHistory(dataTable);
               return res;
             });
         },
@@ -219,11 +209,11 @@ const VisualizeHistory = () => {
             iconId: "fr-icon-article-line",
             content: <Variables variables={context} />,
           },
-          {
-            label: "Autres Variables",
-            iconId: "fr-icon-article-line",
-            content: <OtherVariable variables={otherVariables} />,
-          },
+          // {
+          //   label: "Autres Variables",
+          //   iconId: "fr-icon-article-line",
+          //   content: <OtherVariable variables={otherVariables} />,
+          // },
           {
             label: "Tâches (Description)",
             iconId: "fr-icon-terminal-box-line",

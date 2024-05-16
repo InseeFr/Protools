@@ -1,7 +1,7 @@
 import HistoricActivity from "../../model/api/historicActivity";
 import { HistoryProcess } from "../../model/api/historyProcess";
 import Variable from "../../model/api/variable";
-import UserCredentials from "../../model/userCredentials";
+import UserCredentials from "../../model/displayModels/userCredentials";
 import { getRequest } from "../fetcher/requests";
 
 const getHistoricActivity = async (
@@ -16,7 +16,7 @@ const getHistoricActivity = async (
     );
     historyResponseExec.data &&
         historyResponseExec.data.data.forEach((historicActivity: any) => {
-            if (historicActivity.activityType !== "sequenceFlow") {
+            if (historicActivity.activityType === "userTask" || historicActivity.activityType === "serviceTask" || historicActivity.activityType === "subProcess") {
                 historicActivities.push({
                     activityId:
                         historicActivity.activityId.length > 30
@@ -25,6 +25,7 @@ const getHistoricActivity = async (
                     activityName: historicActivity.activityName,
                     activityType: historicActivity.activityType,
                     executionId: historicActivity.executionId,
+                    startTime: historicActivity.startTime,
                     endTime: historicActivity.endTime,
                     durationInMillis: historicActivity.durationInMillis / 1000,
                 } as HistoricActivity);
@@ -52,11 +53,13 @@ const getAllHistoricActivity = (
                     activityName: historicActivity.activityName,
                     activityType: historicActivity.activityType,
                     executionId: historicActivity.executionId,
+                    startTime: historicActivity.startTime,
                     endTime: historicActivity.endTime,
                     durationInMillis: historicActivity.durationInMillis / 1000
                 } as HistoricActivity);
             }
         });
+        console.log('historicActivities', historicActivities)
         return Promise.resolve(historicActivities);
     });
 }
@@ -194,7 +197,7 @@ export const getHistoryUserActions = (
             } as Variable);
         });
 
-        console.log('variablesMap', variablesMap);
+        //console.log('variablesMap', variablesMap);
 
         Object.entries(variablesMap).forEach(([executionId, variables]) => {
             if (variables.some((variable) => variable.name === 'directory_access_pwd_contact')) {
@@ -222,7 +225,7 @@ export const getHistoryUserActions = (
             }
         });
         const combinedUserCredentials: UserCredentials[] = Object.values(userCredentialsMap).flat();
-        console.log('final userAction', combinedUserCredentials);
+        //console.log('final userAction', combinedUserCredentials);
         return Promise.resolve(combinedUserCredentials);
     });
 }
