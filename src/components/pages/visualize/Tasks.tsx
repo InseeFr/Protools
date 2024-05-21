@@ -1,6 +1,6 @@
 
-import { Typography } from "@mui/material";
-import { GridColDef, DataGrid } from "@mui/x-data-grid";
+import { Box, Typography } from "@mui/material";
+import { GridColDef, DataGrid, gridClasses } from "@mui/x-data-grid";
 import TasksBpmnElements from "../../../lib/model/displayModels/tasksBpmnElements";
 
 interface TasksProps {
@@ -12,35 +12,37 @@ const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Identifiant",
-    flex: 0.3,
+    flex: 0.1,
     minWidth: 100,
     description: "Identifiant de la tâche",
+    renderCell: (params) => (
+      <div style={{ textAlign: 'left', margin: '2px 0' }}>{params.value}</div>
+    ),
   },
   {
     field: "name",
     headerName: "Nom",
-    flex: 0.3,
+    flex: 0.15,
     minWidth: 200,
     description: "Nom de la tâche",
+    renderCell: (params) => (
+      <div style={{ textAlign: 'left', margin: '2px 0' }}>{params.value}</div>
+    ),
   },
   {
     field: "documentation",
     headerName: "Documentation",
-    flex: 0.1,
+    flex: 0.2,
+    renderCell: (params) => (
+      <div style={{ textAlign: 'left', margin: '2px 0' }}>{params.value}</div>
+    ),
   },
 ];
 const Tasks = (props: TasksProps) => {
   const { bpmnElements } = props;
   //console.log("bpmnElement result:", bpmnElements);
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
+    <Box sx={{ width: '100%' }}>
       {bpmnElements.length > 0 ? (
         <DataGrid
           disableColumnFilter
@@ -50,12 +52,13 @@ const Tasks = (props: TasksProps) => {
           columns={columns}
           autoHeight
           pagination
-          getRowClassName={() => "row--style"}
+          getRowHeight={() => 'auto'}
+
         />
       ) : (
         <Typography>Aucune tâche</Typography>
       )}
-    </div>
+    </Box>
   );
 };
 
