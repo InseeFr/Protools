@@ -1,6 +1,6 @@
 
 import { Box, Typography } from "@mui/material";
-import { GridColDef, DataGrid, gridClasses } from "@mui/x-data-grid";
+import { GridColDef, DataGrid } from "@mui/x-data-grid";
 import TasksBpmnElements from "../../../lib/model/displayModels/tasksBpmnElements";
 
 interface TasksProps {
