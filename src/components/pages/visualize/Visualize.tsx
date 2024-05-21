@@ -17,7 +17,6 @@ import { useApi } from "../../../lib/hooks/useApi";
 import ProcessInfo from "../../../lib/model/displayModels/processInfo";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
-import FlowElements from "../../../lib/model/displayModels/flowElements";
 import HistoryActivity from "./History";
 
 import HistoricActivity from "../../../lib/model/api/historicActivity";
@@ -25,6 +24,7 @@ import NavigatedViewer from "bpmn-js/lib/NavigatedViewer";
 
 import UserCredentials from "../../../lib/model/displayModels/userCredentials";
 import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
+import TasksBpmnElements from "../../../lib/model/displayModels/tasksBpmnElements";
 
 const Visualize = () => {
   const { id, processDefinitionId } = useParams();
@@ -38,13 +38,14 @@ const Visualize = () => {
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
 
-  const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
-    []
-  );
+  // const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
+  //   []
+  // );
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
   const [history, setHistory] = useState<HistoryActivitiesGrouped[]>([] as HistoryActivitiesGrouped[]);
+  const [model, setModel] = useState<TasksBpmnElements[]>([]);
 
   const api = useApi();
   const viewer = new NavigatedViewer({
@@ -181,19 +182,19 @@ const Visualize = () => {
           });
         },
       },
-      {
-        queryKey: ["bpmnElements", processDefinitionId],
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        queryFn: async () => {
-          return await api
-            .getBpmnElements(processDefinitionId)
-            .then((res: FlowElements[]) => {
-              setBpmnElements(res);
-              return res;
-            });
-        },
-      },
+      // {
+      //   queryKey: ["bpmnElements", processDefinitionId],
+      //   refetchOnWindowFocus: false,
+      //   refetchOnReconnect: false,
+      //   queryFn: async () => {
+      //     return await api
+      //       .getBpmnElements(processDefinitionId)
+      //       .then((res: FlowElements[]) => {
+      //         setBpmnElements(res);
+      //         return res;
+      //       });
+      //   },
+      // },
       {
         queryKey: ["userActions", id],
         queryFn: async () => {
@@ -203,6 +204,18 @@ const Visualize = () => {
           });
         },
       },
+      {
+        queryKey: ["bpmnModel", processDefinitionId],
+        queryFn: async () => {
+          return await api.getBpmnModel(processDefinitionId)
+            .then((res: any) => {
+              const model = TasksBpmnElements.createTableData(res)
+              setModel(model)
+              console.log("model: ", model)
+              return model
+            })
+        }
+      }
     ],
   });
 
@@ -253,7 +266,7 @@ const Visualize = () => {
             iconId: "fr-icon-terminal-box-line",
             content: (
               <Tasks
-                bpmnElements={bpmnElements!}
+                bpmnElements={model}
                 processName={processInstance.processKey}
               />
             ),

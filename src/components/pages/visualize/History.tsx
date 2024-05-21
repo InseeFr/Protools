@@ -33,16 +33,19 @@ const columns: GridColDef[] = [
     field: "count",
     headerName: "Nombre d'exécutions",
     flex: 0.08,
+    align: 'center'
   },
   {
     field: "avgDuration",
     headerName: "Durée moyenne (sec)",
     flex: 0.08,
+    align: 'center'
   },
   {
     field: "lastExecution",
     headerName: "Dernière exécution",
     flex: 0.08,
+    align: 'center'
   },
 ];
 const HistoryActivity = (props: HistoryProps) => {
@@ -67,6 +70,13 @@ const HistoryActivity = (props: HistoryProps) => {
           autoHeight
           pagination
           getRowClassName={() => "row--style"}
+          sx={{
+            '& .MuiDataGrid-columnHeaderTitle': {
+              textOverflow: "clip",
+              whiteSpace: "break-spaces",
+              lineHeight: 1
+            }
+          }}
         />
       ) : (
         <p>Historique vide</p>

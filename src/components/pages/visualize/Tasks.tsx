@@ -1,10 +1,10 @@
 
-import FlowElements from "../../../lib/model/displayModels/flowElements";
 import { Typography } from "@mui/material";
 import { GridColDef, DataGrid } from "@mui/x-data-grid";
+import TasksBpmnElements from "../../../lib/model/displayModels/tasksBpmnElements";
 
 interface TasksProps {
-  bpmnElements: FlowElements[];
+  bpmnElements: TasksBpmnElements[];
   processName: string;
 }
 
@@ -26,15 +26,8 @@ const columns: GridColDef[] = [
   {
     field: "documentation",
     headerName: "Documentation",
-    flex: 0.3,
-    minWidth: 150,
-  },
-  {
-    field: "eventDefinitions",
-    headerName: "Nature",
     flex: 0.1,
-    valueGetter: (params) => params.value.length > 0 ? "Event" : "Tâche",
-  }
+  },
 ];
 const Tasks = (props: TasksProps) => {
   const { bpmnElements } = props;

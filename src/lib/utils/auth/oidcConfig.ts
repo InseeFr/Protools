@@ -94,8 +94,13 @@ export const createOidcClient = async (evtUserActivity: any ,
 
         if (error) {
           console.log("can't refresh oidc access token, getting a new one");
-          //note: never resolves (?)
-          await login();
+          if (error.message.includes('CSP frame ancestor violation')) {
+
+            window.location.href = keycloakInstance.createLoginUrl();
+          } else {
+
+            await login();
+          }
         }
 
         oidcClient.accessToken = keycloakInstance.token;

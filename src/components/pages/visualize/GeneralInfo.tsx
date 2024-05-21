@@ -175,7 +175,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
             </Button>
           </Grid> : <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
-              Date de fin:
+                Date de fin: 
             </Typography>
             <Typography
               color="primary"
@@ -183,7 +183,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
             //sx={{ marginLeft: 1 }}
             >
                 {historyProcess?.endTime
-                  ? moment(historyProcess?.endTime).format("DD/MM/YYYY HH:mm")
+                  ? " " + moment(historyProcess?.endTime).format("DD/MM/YYYY HH:mm")
                 : "..."}
             </Typography>
             <NoMaxWidthTooltip

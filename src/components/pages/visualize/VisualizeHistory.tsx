@@ -14,7 +14,6 @@ import HistoricActivity from "../../../lib/model/api/historicActivity";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import Variable from "../../../lib/model/api/variable";
-import FlowElements from "../../../lib/model/displayModels/flowElements";
 //import Task from "../../../lib/model/tasks";
 import GeneralInfo from "./GeneralInfo";
 import HistoryActivity from "./History";
@@ -23,6 +22,7 @@ import Variables from "./Variables";
 import UserCredentials from "../../../lib/model/displayModels/userCredentials";
 import TasksManual from "./TasksManual";
 import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
+import TasksBpmnElements from "../../../lib/model/displayModels/tasksBpmnElements";
 
 
 const VisualizeHistory = () => {
@@ -31,12 +31,13 @@ const VisualizeHistory = () => {
   const [processInstance, setProcessInstance] = useState<HistoryProcess>(
     {} as HistoryProcess
   );
-  const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
-    []);
+  // const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
+  //   []);
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
   const [history, setHistory] = useState<HistoryActivitiesGrouped[]>([] as HistoryActivitiesGrouped[]);
+  const [model, setModel] = useState<TasksBpmnElements[]>([]);
   const api = useApi();
   const viewer = new NavigatedViewer({
     additionalModules: [minimapModule],
@@ -143,20 +144,20 @@ const VisualizeHistory = () => {
           });
         },
       },
-      {
-        queryKey: ["bpmnElements", processDefinitionId],
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        queryFn: async () => {
-          //console.log("fetching bpmnElement of id: ", id);
-          return await api
-            .getBpmnElements(processDefinitionId)
-            .then((res: FlowElements[]) => {
-              setBpmnElements(res);
-              return res;
-            });
-        },
-      },
+      // {
+      //   queryKey: ["bpmnElements", processDefinitionId],
+      //   refetchOnWindowFocus: false,
+      //   refetchOnReconnect: false,
+      //   queryFn: async () => {
+      //     //console.log("fetching bpmnElement of id: ", id);
+      //     return await api
+      //       .getBpmnElements(processDefinitionId)
+      //       .then((res: FlowElements[]) => {
+      //         setBpmnElements(res);
+      //         return res;
+      //       });
+      //   },
+      // },
       {
         queryKey: ["userActions", id],
         queryFn: async () => {
@@ -166,6 +167,18 @@ const VisualizeHistory = () => {
           });
         },
       },
+      {
+        queryKey: ["bpmnModel", processDefinitionId],
+        queryFn: async () => {
+          return await api.getBpmnModel(processDefinitionId)
+            .then((res: any) => {
+              const model = TasksBpmnElements.createTableData(res)
+              setModel(model)
+              console.log("model: ", model)
+              return model
+            })
+        }
+      }
     ],
   });
 
@@ -216,7 +229,7 @@ const VisualizeHistory = () => {
             iconId: "fr-icon-terminal-box-line",
             content: (
               <Tasks
-                bpmnElements={bpmnElements!}
+                bpmnElements={model}
                 processName={processInstance.processDefinitionName}
               />
             ),

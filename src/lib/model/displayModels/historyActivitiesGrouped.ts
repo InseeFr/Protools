@@ -15,10 +15,14 @@ class HistoryActivitiesGrouped {
 
     static convertToGrouped = (histActivities: HistoricActivity[]): HistoryActivitiesGrouped[] => {
         const grouped = histActivities.reduce((acc, curr) => {
-            if (!acc[curr.activityId]) {
-                acc[curr.activityId] = [];
+            const date = moment(curr.startTime).format('DD/MM/YYYY');
+            const key = `${curr.activityId}-${date}`;
+
+            if (!acc[key]) {
+                acc[key] = [];
             }
-            acc[curr.activityId].push(curr);
+
+            acc[key].push(curr);
             return acc;
         }, {} as Record<string, HistoricActivity[]>);
         const typeMap: { [key: string]: string } = {

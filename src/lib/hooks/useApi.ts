@@ -189,6 +189,14 @@ export const useApi = () => {
     )
   );
 
+  const getBpmnModel = useConstCallback((processDefinitionId) =>
+    processInfoApi.getBpmnModel(
+      processDefinitionId,
+      apiUrl,
+      oidcClient ? oidcClient.accessToken : ""
+    )
+  );
+
 
 
   return {
@@ -212,7 +220,8 @@ export const useApi = () => {
     getExecutionActivities,
     getHistoricVariablesInstances,
     getHistoryProcessInstance,
-    getHistoryUserActions
+    getHistoryUserActions,
+    getBpmnModel
 
   };
 };

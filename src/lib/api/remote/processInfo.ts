@@ -179,6 +179,20 @@ export function getBpmnElements(
   //return Promise.resolve(flowElements);
 }
 
+export async function getBpmnModel(
+  processDefinitionId: string,
+  apiUrl: string,
+  accessToken: string
+): Promise<any> {
+  return await getRequest(
+    `${apiUrl}repository/process-definitions/${processDefinitionId}/model`,
+    accessToken || ''
+  ).then((res) => {
+    return Promise.resolve(res.data);
+  });
+}
+
+
 const getExecutionActivities = async (
   processInstanceId: string,
   apiUrl: string,
@@ -205,7 +219,6 @@ const getExecutionActivities = async (
 
 
 
-
 export const processInfoApi = {
   getProcessDefinitions,
   getProcessDefinitionById,
@@ -215,5 +228,6 @@ export const processInfoApi = {
   getBpmnXml,
   getVariables,
   getBpmnElements,
-  getExecutionActivities
+  getExecutionActivities,
+  getBpmnModel
 };
