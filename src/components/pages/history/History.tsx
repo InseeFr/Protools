@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
 import HistoryProcessTable from "./HistoryProcessTable";
-import Tabs from "@codegouvfr/react-dsfr/Tabs";
+//import Tabs from "@codegouvfr/react-dsfr/Tabs";
 // import HistoricActivity from "../../../lib/model/api/historicActivity";
 // import HistoryActivityTable from "./HistoryActivityTable";
 // import { useNavigate } from 'react-router-dom';
@@ -60,7 +60,8 @@ const History = () => {
       }}
     >
       <Typography variant="h1">Historique des Processus</Typography>
-      <Tabs
+      <HistoryProcessTable history={historyProcesses} />
+      {/* <Tabs
         style={{ width: "130%" }}
         tabs={[
           {
@@ -69,13 +70,13 @@ const History = () => {
             content: <HistoryProcessTable history={historyProcesses} />,
           },
 
-          // {
-          //   label: "Activités",
-          //   iconId: "fr-icon-window-line",
-          //   content: <HistoryActivityTable history={historyActivities} />,
-          // },
+          {
+            label: "Activités",
+            iconId: "fr-icon-window-line",
+            content: <HistoryActivityTable history={historyActivities} />,
+          },
         ]}
-      />
+      /> */}
 
       <Link to={`/launch`} style={{ textDecoration: "none" }}>
         <Button>Lancer un processus</Button>

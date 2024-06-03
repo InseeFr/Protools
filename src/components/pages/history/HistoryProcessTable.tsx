@@ -28,24 +28,24 @@ const columns: GridColDef[] = [
     headerClassName: "columns--header",
     flex: 0.16,
   },
-  {
-    field: "processDefinitionId",
-    renderHeader: () => (
-      <Typography variant="h6" fontWeight={600}>
-        Id
-      </Typography>
-    ),
-    headerClassName: "columns--header",
-    flex: 0.35,
-    renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
-    ),
-  },
+  // {
+  //   field: "processDefinitionId",
+  //   renderHeader: () => (
+  //     <Typography variant="h6" fontWeight={600}>
+  //       Id
+  //     </Typography>
+  //   ),
+  //   headerClassName: "columns--header",
+  //   flex: 0.35,
+  //   renderCell: (params: GridRenderCellParams) => (
+  //     <Typography>{params.value}</Typography>
+  //   ),
+  // },
   {
     field: "processDefinitionName",
     renderHeader: () => (
       <Typography variant="h6" fontWeight={600}>
-        Nom
+        Modèle de processus
       </Typography>
     ),
     headerClassName: "columns--header",
@@ -138,7 +138,7 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
   return (
     <Box
       sx={{
-        width: "100%",
+        width: "120%",
         "& .columns--header": {
           fontWeight: "700",
         },

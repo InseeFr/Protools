@@ -76,7 +76,7 @@ const VisualizeHistory = () => {
           return await api
             .getProcessDefinitionById(processDefinitionId)
             .then((res: any) => {
-              //console.log("getProcessDefinitionByIds result: ", res);
+              //console.log("getProcessDefinitionByIds result: ", res.description);
               setProcessDefinitionData(res);
               return res;
             });
@@ -174,7 +174,7 @@ const VisualizeHistory = () => {
             .then((res: any) => {
               const model = TasksBpmnElements.createTableData(res)
               setModel(model)
-              console.log("model: ", model)
+              //console.log("model: ", model)
               return model
             })
         }

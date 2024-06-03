@@ -59,7 +59,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
       console.log("onError");
     },
   });
-
+  //console.log("description", processDefinitionData.description);
   return (
     <>
       <Stack
@@ -139,7 +139,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               sx={{ marginLeft: 1 }}
               align="left"
             >
-              {processInstance ? (processInstance.documentation ? processInstance.documentation : "Aucune documentation") : 'N/A'}
+              {processDefinitionData ? (processDefinitionData.description ? processDefinitionData.description : "Aucune documentation") : 'N/A'}
 
             </Typography>
           </Grid>
@@ -151,7 +151,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               État:
             </Typography>
             <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
-              {processInstance ? (processInstance?.state ? "Actif" : "Inactif") : 'Arrêté'}
+              {processInstance ? (processInstance?.state ? "Actif" : "Inactif") : 'Terminé'}
 
             </Typography>
           </Grid>

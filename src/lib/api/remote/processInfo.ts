@@ -37,7 +37,7 @@ export function getProcessDefinitionById(
   accessToken: string
 ): Promise<ProcessDefinitionDataApi> {
   return getRequest(`${apiUrl}repository/process-definitions/${processDefinitionId}`, accessToken || '').then((response) => {
-
+    //console.log('getProcessDefinitionById: ', response.data);
     return Promise.resolve(response.data);
   });}
 

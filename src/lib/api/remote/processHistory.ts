@@ -73,7 +73,6 @@ const getAllHistoryProcessInstance = (
         accessToken || ''
     ).then((res) => {
         const historyProcess: HistoryProcess[] = [];
-
         res.data && res.data.data.forEach((historicProcess: any) => {
             if (historicProcess.endTime) { // Check if process has ended
                 historyProcess.push({
@@ -111,7 +110,7 @@ const getHistoryProcessInstance = (
         `${apiUrl}history/historic-process-instances/${processInstanceId}`,
         accessToken || ''
     ).then((res) => {
-        console.log('res', res);
+        //console.log('getHistoryProcessInstance: ', res);
         return Promise.resolve({
             id: res.data.id,
             businessKey: res.data.businessKey,
