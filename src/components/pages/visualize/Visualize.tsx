@@ -272,7 +272,7 @@ const Visualize = () => {
             ),
           },
           {
-            label: "Actions utilisateur",
+            label: "Actions utilisateurs",
             iconId: "fr-icon-user-line",
             content: <TasksManual userActions={userActions} tasks={tasks} />,
           },

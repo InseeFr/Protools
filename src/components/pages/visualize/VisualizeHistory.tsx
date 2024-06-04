@@ -235,7 +235,7 @@ const VisualizeHistory = () => {
             ),
           },
           {
-            label: "Actions utilisateur",
+            label: "Actions utilisateurs",
             iconId: "fr-icon-user-line",
             content: <TasksManual userActions={userActions} tasks={[]} />,
           },
