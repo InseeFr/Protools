@@ -3,12 +3,14 @@ import { Header } from "@codegouvfr/react-dsfr/Header";
 import ErrorBoundary from "./ErrorBoundary";
 import { AuthContext } from "../../../lib/utils/provider/authProvider";
 import Footer from "./Footer";
+import { useColorScheme } from "../../../lib/utils/theme/colorScheme";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const { colorScheme, toggleColorScheme } = useColorScheme();
   const oidcClient = useContext(AuthContext);
   const user = oidcClient?.oidcUser;
   return (
@@ -30,6 +32,20 @@ const Layout = ({ children }: LayoutProps) => {
             orientation: "vertical",
           }}
           quickAccessItems={[
+            {
+              iconId: "fr-icon-admin-line",
+              linkProps: {
+                href: "#",
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  toggleColorScheme();
+                },
+                style: {
+                  cursor: "pointer",
+                },
+              },
+              text: "Change color scheme",
+            },
             {
               iconId: "fr-icon-admin-line",
               linkProps: {
