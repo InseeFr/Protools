@@ -60,6 +60,30 @@ const GeneralInfo = (props: GeneralInfoProps) => {
     },
   });
   //console.log("description", processDefinitionData.description);
+
+  const InfoRow = ({ title, value, tooltip }: { title: string, value: string, tooltip?: string }) => (
+    <Grid item container xs={12} direction="row" alignItems="baseline">
+      <Typography color="primary" variant="h6">
+        {title}:
+      </Typography>
+      <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
+        {value}
+      </Typography>
+      {tooltip && (
+        <NoMaxWidthTooltip
+          title={tooltip}
+          enterTouchDelay={0}
+          leaveTouchDelay={2000}
+          arrow
+        >
+          <IconButton>
+            <FiInfo size={18} />
+          </IconButton>
+        </NoMaxWidthTooltip>
+      )}
+    </Grid>
+  );
+
   return (
     <>
       <Stack
@@ -69,79 +93,24 @@ const GeneralInfo = (props: GeneralInfoProps) => {
       >
         <Stack spacing={1} alignItems="center">
           <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Grid item container xs={12} direction="row" alignItems="baseline">
-              <Typography color="primary" variant="h6">
-                Identifiant:
-              </Typography>
-              <Typography
-                color="primary"
-                variant="body1"
-                sx={{ marginLeft: 1 }}
-              >
-                {processInstance?.businessKey || historyProcess?.businessKey || '...'}
-              </Typography>
-              <NoMaxWidthTooltip
-                title={`Identifiant Technique: ${processInstance?.id || historyProcess?.id || '...'}`}
-                enterTouchDelay={0}
-                leaveTouchDelay={2000}
-                arrow
-              >
-                <IconButton>
-                  <FiInfo size={18} />
-                </IconButton>
-              </NoMaxWidthTooltip>
-            </Grid>
-            <Grid item container xs={12} direction="row" alignItems="baseline">
-              <Typography color="primary" variant="h6">
-                Date de création:
-              </Typography>
-              <Typography
-                color="primary"
-                variant="body1"
-                sx={{ marginLeft: 1 }}
-              >
-                {moment(processInstance?.startDate || historyProcess?.startDate).format("DD/MM/YYYY HH:mm")}
-              </Typography>
-            </Grid>
-            <Grid item container xs={12} direction="row" alignItems="baseline">
-              <Typography color="primary" variant="h6">
-                Modèle de processus:
-              </Typography>
-              <Typography
-                color="primary"
-                variant="body1"
-                sx={{ marginLeft: 1 }}
-              >
-                {processDefinitionData.name
-                  ? processDefinitionData.name
-                  : "..."}
-              </Typography>
-              <NoMaxWidthTooltip
-                title={`Version: ${processDefinitionData.version
-                    ? processDefinitionData.version
-                    : "..."
-                  }`}
-                enterTouchDelay={0}
-                leaveTouchDelay={2000}
-                arrow
-              >
-                <IconButton>
-                  <FiInfo size={18} />
-                </IconButton>
-              </NoMaxWidthTooltip>
-            </Grid>
-            <Typography color="primary" variant="h6">
-              Description:
-            </Typography>
-            <Typography
-              color="primary"
-              variant="body1"
-              sx={{ marginLeft: 1 }}
-              align="left"
-            >
-              {processDefinitionData ? (processDefinitionData.description ? processDefinitionData.description : "Aucune documentation") : 'N/A'}
-
-            </Typography>
+            <InfoRow
+              title="Identifiant"
+              value={processInstance?.businessKey || historyProcess?.businessKey || '...'}
+              tooltip={`Identifiant Technique: ${processInstance?.id || historyProcess?.id || '...'}`}
+            />
+            <InfoRow
+              title="Date de création"
+              value={moment(processInstance?.startDate || historyProcess?.startDate).format("DD/MM/YYYY HH:mm")}
+            />
+            <InfoRow
+              title="Modèle de processus"
+              value={processDefinitionData.name ? processDefinitionData.name : "..."}
+              tooltip={`Version: ${processDefinitionData.version ? processDefinitionData.version : "..."}`}
+            />
+            <InfoRow
+              title="Description"
+              value={processDefinitionData ? (processDefinitionData.description ? processDefinitionData.description : "Aucune documentation") : 'N/A'}
+            />
           </Grid>
         </Stack>
 
