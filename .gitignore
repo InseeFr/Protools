@@ -31,9 +31,12 @@ yarn-error.log*
 config.json
 .env
 /.vscode
+.husky/_
 
 /public/configuration.json
 /public/oidc.json
 
 
 /public/dsfr/
+
+
