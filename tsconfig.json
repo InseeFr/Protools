@@ -16,10 +16,15 @@
 
     /* Linting */
     "strict": true,
+    "plugins": [
+      {
+        "name": "typescript-strict-plugin"
+      }
+    ],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    /* TO BE REMOVED */ 
+    /* TO BE REMOVED */
     "strictNullChecks": true
   },
   "include": ["src", ".eslintrc.cjs"],
