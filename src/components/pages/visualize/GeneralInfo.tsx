@@ -15,6 +15,7 @@ import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import ProcessDefinitionDataApi from "../../../lib/model/api/processDefinitionData";
 import ProcessInfo from "../../../lib/model/displayModels/processInfo";
 import moment from "moment";
+import "moment/locale/fr";
 import { MutationFunction, useMutation } from "@tanstack/react-query";
 import { useApi } from "../../../lib/hooks/useApi";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
@@ -43,9 +44,8 @@ const GeneralInfo = (props: GeneralInfoProps) => {
   const navigate = useNavigate();
   const { processDefinitionData, processInstance, historyProcess } = props;
 
-
   const deleteProcessMutationFunction: MutationFunction<any> = async (
-    id: unknown
+    id: unknown,
   ) => {
     return await api.stopProcess(id as string);
   };
@@ -61,7 +61,15 @@ const GeneralInfo = (props: GeneralInfoProps) => {
   });
   //console.log("description", processDefinitionData.description);
 
-  const InfoRow = ({ title, value, tooltip }: { title: string, value: string, tooltip?: string }) => (
+  const InfoRow = ({
+    title,
+    value,
+    tooltip,
+  }: {
+    title: string;
+    value: string;
+    tooltip?: string;
+  }) => (
     <Grid item container xs={12} direction="row" alignItems="baseline">
       <Typography color="primary" variant="h6">
         {title}:
@@ -95,21 +103,35 @@ const GeneralInfo = (props: GeneralInfoProps) => {
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <InfoRow
               title="Identifiant"
-              value={processInstance?.businessKey || historyProcess?.businessKey || '...'}
-              tooltip={`Identifiant Technique: ${processInstance?.id || historyProcess?.id || '...'}`}
+              value={
+                processInstance?.businessKey ||
+                historyProcess?.businessKey ||
+                "..."
+              }
+              tooltip={`Identifiant Technique: ${processInstance?.id || historyProcess?.id || "..."}`}
             />
             <InfoRow
               title="Date de création"
-              value={moment(processInstance?.startDate || historyProcess?.startDate).format("DD/MM/YYYY HH:mm")}
+              value={moment(
+                processInstance?.startDate || historyProcess?.startDate,
+              ).format("DD/MM/YYYY HH:mm")}
             />
             <InfoRow
               title="Modèle de processus"
-              value={processDefinitionData.name ? processDefinitionData.name : "..."}
+              value={
+                processDefinitionData.name ? processDefinitionData.name : "..."
+              }
               tooltip={`Version: ${processDefinitionData.version ? processDefinitionData.version : "..."}`}
             />
             <InfoRow
               title="Description"
-              value={processDefinitionData ? (processDefinitionData.description ? processDefinitionData.description : "Aucune documentation") : 'N/A'}
+              value={
+                processDefinitionData
+                  ? processDefinitionData.description
+                    ? processDefinitionData.description
+                    : "Aucune documentation"
+                  : "N/A"
+              }
             />
           </Grid>
         </Stack>
@@ -120,55 +142,67 @@ const GeneralInfo = (props: GeneralInfoProps) => {
               État:
             </Typography>
             <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
-              {processInstance ? (processInstance?.state ? "Actif" : "Inactif") : 'Terminé'}
-
+              {processInstance
+                ? processInstance?.state
+                  ? "Actif"
+                  : "Inactif"
+                : "Terminé"}
             </Typography>
           </Grid>
-          {processInstance ? <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
-              Actions:
-            </Typography>
-            {/* <Button
+          {processInstance ? (
+            <Grid item container xs={12} direction="row" alignItems="baseline">
+              <Typography color="primary" variant="h6" sx={{ marginTop: 1 }}>
+                Actions:
+              </Typography>
+              {/* <Button
           iconId="fr-icon-pause-circle-line"
           disabled
           onClick={() => console.log("clicked")}
         >
           {processInstance.state ? "Suspendre" : "Relancer"}
         </Button> */}
-            <Button
-              iconId="fr-icon-delete-line"
-              priority="secondary"
-              nativeButtonProps={modal.buttonProps}
-            >
-              Arrêter
-            </Button>
-          </Grid> : <Grid item container xs={12} direction="row" alignItems="baseline">
-            <Typography color="primary" variant="h6">
-                Date de fin: 
-            </Typography>
-            <Typography
-              color="primary"
-              variant="body1"
-            //sx={{ marginLeft: 1 }}
-            >
+              <Button
+                iconId="fr-icon-delete-line"
+                priority="secondary"
+                nativeButtonProps={modal.buttonProps}
+              >
+                Arrêter
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item container xs={12} direction="row" alignItems="baseline">
+              <Typography color="primary" variant="h6">
+                Date de fin:
+              </Typography>
+              <Typography
+                color="primary"
+                variant="body1"
+                //sx={{ marginLeft: 1 }}
+              >
                 {historyProcess?.endTime
-                  ? " " + moment(historyProcess?.endTime).format("DD/MM/YYYY HH:mm")
-                : "..."}
-            </Typography>
-            <NoMaxWidthTooltip
-                title={`Durée: ${historyProcess?.durationInMillis
-                  ? moment.duration(historyProcess?.durationInMillis).humanize()
-                : "..."
+                  ? " " +
+                    moment(historyProcess?.endTime).format("DD/MM/YYYY HH:mm")
+                  : "..."}
+              </Typography>
+              <NoMaxWidthTooltip
+                title={`Durée: ${
+                  historyProcess?.durationInMillis
+                    ? moment
+                        .duration(historyProcess?.durationInMillis)
+                        .locale("fr")
+                        .humanize()
+                    : "..."
                 }`}
-              enterTouchDelay={0}
-              leaveTouchDelay={2000}
-              arrow
-            >
-              <IconButton>
-                <FiInfo size={18} />
-              </IconButton>
-            </NoMaxWidthTooltip>
-          </Grid>}
+                enterTouchDelay={0}
+                leaveTouchDelay={2000}
+                arrow
+              >
+                <IconButton>
+                  <FiInfo size={18} />
+                </IconButton>
+              </NoMaxWidthTooltip>
+            </Grid>
+          )}
         </Stack>
       </Stack>
 
