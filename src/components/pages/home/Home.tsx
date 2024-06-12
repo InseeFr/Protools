@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material';
-import { Button } from '@codegouvfr/react-dsfr/Button';
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import ProcessInfo from '../../../lib/model/displayModels/processInfo';
 import OnGoingProcess from './OngoingProcess';
 import { useState } from "react";
