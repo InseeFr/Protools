@@ -1,0 +1,7 @@
+{
+  "realm": "agents-insee-mock",
+  "auth-server-url": "http://localhost:8080/auth/",
+  "ssl-required": "none",
+  "resource": "mock-localhost-frontend",
+  "clientId": "mock-client"
+}

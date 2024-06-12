@@ -5,9 +5,9 @@ import {
   createContext,
   useMemo,
   useContext,
-} from 'react';
-import { createOidcClient } from '../auth/oidcConfig';
-import { evtUserActivity } from '../events/evtUserActivity';
+} from "react";
+import { createOidcClient } from "../auth/oidcConfig";
+import { evtUserActivity } from "../events/evtUserActivity";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { ConfigContext } from "./configProvider";
 import Layout from "../../../components/shared/layout/Layout";
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const loadOidcConf = async () => {
       const oidcClientKC = await createOidcClient(
         evtUserActivity,
-        config.identityProvider
+        config.identityProvider,
       );
       return oidcClientKC;
     };
@@ -54,7 +54,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
   return config.authType === "none" ? (
-    <NoAuthProvider>{children}</NoAuthProvider>
+    <Layout>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Stack spacing={2} direction="column" sx={{ padding: "2rem" }}>
+          <Typography variant="h2">
+            Le serveur d'authentification n'est pas configuré
+          </Typography>
+          <Typography variant="subtitle1">
+            L'application n'est pas disponible
+          </Typography>
+        </Stack>
+      </Box>
+    </Layout>
   ) : oidcClient === null ? (
     <Layout>
       <Box display="flex" justifyContent="center" alignItems="center">
@@ -83,6 +94,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={
         contextOidc || {
           isUserLoggedIn: false,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           login: () => {},
           accessToken: "",
           oidcUser: {

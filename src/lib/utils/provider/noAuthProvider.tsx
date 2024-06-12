@@ -35,10 +35,9 @@ export const NoAuthProvider = (props: NoAuthProps) => {
       {children}
       <Typography
         variant="subtitle1"
-        fontStyle={"italic"}
-        // sx={{
-        //   padding: '1rem',
-        // }}
+        sx={{
+          margin: "-1rem",
+        }}
       >
         Cas sans oidc
       </Typography>
