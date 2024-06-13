@@ -11,7 +11,6 @@ import { evtUserActivity } from "../events/evtUserActivity";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { ConfigContext } from "./configProvider";
 import Layout from "../../../components/shared/layout/Layout";
-import { NoAuthProvider } from "./noAuthProvider";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -60,8 +59,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           <Typography variant="h2">
             Le serveur d'authentification n'est pas configuré
           </Typography>
+          <Typography variant="caption">Erreur 400</Typography>
           <Typography variant="subtitle1">
-            L'application n'est pas disponible
+            Vous n'êtes pas autorisé à accéder à cette application
           </Typography>
         </Stack>
       </Box>
@@ -78,7 +78,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   ) : !oidcClient.isUserLoggedIn ? (
     (() => {
       oidcClient.login();
-      return (
+      const [showError, setShowError] = useState(false);
+
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setShowError(true);
+        }, 60000); // 1 minute
+
+        return () => clearTimeout(timer); // Clear the timer if the component is unmounted
+      }, []);
+
+      return showError ? (
+        <Layout>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <Typography variant="h2">Erreur d'authentification</Typography>
+          </Box>
+        </Layout>
+      ) : (
         <Layout>
           <Box display="flex" justifyContent="center" alignItems="center">
             <Stack spacing={2} direction="row" sx={{ padding: "2rem" }}>
