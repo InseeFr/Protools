@@ -40,3 +40,5 @@ config.json
 /public/dsfr/
 
 
+public/oidc.json
+public/configuration.json
