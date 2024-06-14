@@ -44,7 +44,6 @@ function humanizeDuration(duration: moment.Duration) {
   const days = duration.days();
   const hours = duration.hours();
   const minutes = duration.minutes();
-  const seconds = duration.seconds();
 
   let result = '';
   if (days > 0) {
