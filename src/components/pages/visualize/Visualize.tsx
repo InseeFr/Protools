@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from "react";
 import { Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -30,7 +29,7 @@ const Visualize = () => {
   const { id, processDefinitionId } = useParams();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [processInstance, setProcessInstance] = useState<ProcessInfo>(
-    {} as ProcessInfo
+    {} as ProcessInfo,
   );
   const [context, setContext] = useState<Variable>({
     name: "Nom de la variable",
@@ -44,7 +43,9 @@ const Visualize = () => {
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
-  const [history, setHistory] = useState<HistoryActivitiesGrouped[]>([] as HistoryActivitiesGrouped[]);
+  const [history, setHistory] = useState<HistoryActivitiesGrouped[]>(
+    [] as HistoryActivitiesGrouped[],
+  );
   const [model, setModel] = useState<TasksBpmnElements[]>([]);
 
   const api = useApi();
@@ -102,7 +103,7 @@ const Visualize = () => {
               .then(() => {
                 //console.log("diagram loaded");
                 const canvasElement = document.querySelector(
-                  "#canvas"
+                  "#canvas",
                 ) as HTMLElement;
                 viewer.attachTo(canvasElement);
                 (viewer as any).get("canvas").zoom("fit-viewport");
@@ -167,19 +168,23 @@ const Visualize = () => {
       {
         queryKey: ["variables", id],
         queryFn: async () => {
-          return await api.getHistoricVariablesInstances(id).then((res: any) => {
-            const context = res.find((element: Variable) => element.name === "context");
-            //console.log("context: ", context);
-            setContext(context);
-            const variables: Variable[] = [];
-            res.forEach((element: Variable) => {
-              if (element.name !== "context") {
-                variables.push(element);
-              }
+          return await api
+            .getHistoricVariablesInstances(id)
+            .then((res: any) => {
+              const context = res.find(
+                (element: Variable) => element.name === "context",
+              );
+              //console.log("context: ", context);
+              setContext(context);
+              const variables: Variable[] = [];
+              res.forEach((element: Variable) => {
+                if (element.name !== "context") {
+                  variables.push(element);
+                }
+              });
+              //setOtherVariables(variables);
+              return res;
             });
-            //setOtherVariables(variables);
-            return res;
-          });
         },
       },
       // {
@@ -198,28 +203,29 @@ const Visualize = () => {
       {
         queryKey: ["userActions", id],
         queryFn: async () => {
-          return await api.getHistoryUserActions(id).then((res: UserCredentials[]) => {
-            setUserActions(res);
-            return res;
-          });
+          return await api
+            .getHistoryUserActions(id)
+            .then((res: UserCredentials[]) => {
+              setUserActions(res);
+              return res;
+            });
         },
       },
       {
         queryKey: ["bpmnModel", processDefinitionId],
         queryFn: async () => {
-          return await api.getBpmnModel(processDefinitionId)
+          return await api
+            .getBpmnModel(processDefinitionId)
             .then((res: any) => {
-              const model = TasksBpmnElements.createTableData(res)
-              setModel(model)
-              console.log("model: ", model)
-              return model
-            })
-        }
-      }
+              const model = TasksBpmnElements.createTableData(res);
+              setModel(model);
+              console.log("model: ", model);
+              return model;
+            });
+        },
+      },
     ],
   });
-
-
 
   return (
     <Stack

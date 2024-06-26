@@ -32,6 +32,7 @@ export default [
       "@typescript-eslint/ban-ts-comment": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }],
+      "react/no-unescaped-entities": "off",
     },
   },
 ];

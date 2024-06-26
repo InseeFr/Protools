@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from "react";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Stack } from "@mui/material";
@@ -24,19 +23,20 @@ import TasksManual from "./TasksManual";
 import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
 import TasksBpmnElements from "../../../lib/model/displayModels/tasksBpmnElements";
 
-
 const VisualizeHistory = () => {
   const { id, processDefinitionId } = useParams();
   //const [tasks, setTasks] = useState<Task[]>([]);
   const [processInstance, setProcessInstance] = useState<HistoryProcess>(
-    {} as HistoryProcess
+    {} as HistoryProcess,
   );
   // const [bpmnElements, setBpmnElements] = useState<FlowElements[]>(
   //   []);
   const [processDefinitionData, setProcessDefinitionData] =
     useState<ProcessDefinitionDataApi>({} as ProcessDefinitionDataApi);
 
-  const [history, setHistory] = useState<HistoryActivitiesGrouped[]>([] as HistoryActivitiesGrouped[]);
+  const [history, setHistory] = useState<HistoryActivitiesGrouped[]>(
+    [] as HistoryActivitiesGrouped[],
+  );
   const [model, setModel] = useState<TasksBpmnElements[]>([]);
   const api = useApi();
   const viewer = new NavigatedViewer({
@@ -48,8 +48,6 @@ const VisualizeHistory = () => {
     type: "Type de la variable",
     value: '{"Value": "Valeur de la variable"}',
   } as Variable);
-
-
 
   const [userActions, setUserActions] = useState<UserCredentials[]>([]);
 
@@ -95,7 +93,7 @@ const VisualizeHistory = () => {
               .then(() => {
                 //console.log("diagram loaded");
                 const canvasElement = document.querySelector(
-                  "#canvas"
+                  "#canvas",
                 ) as HTMLElement;
                 viewer.attachTo(canvasElement);
                 (viewer as any).get("canvas").zoom("fit-viewport");
@@ -129,19 +127,23 @@ const VisualizeHistory = () => {
       {
         queryKey: ["variables", id],
         queryFn: async () => {
-          return await api.getHistoricVariablesInstances(id).then((res: any) => {
-            const context = res.find((element: Variable) => element.name === "context");
-            //console.log("context: ", context);
-            setContext(context);
-            const variables: Variable[] = [];
-            res.forEach((element: Variable) => {
-              if (element.name !== "context") {
-                variables.push(element);
-              }
-            });
+          return await api
+            .getHistoricVariablesInstances(id)
+            .then((res: any) => {
+              const context = res.find(
+                (element: Variable) => element.name === "context",
+              );
+              //console.log("context: ", context);
+              setContext(context);
+              const variables: Variable[] = [];
+              res.forEach((element: Variable) => {
+                if (element.name !== "context") {
+                  variables.push(element);
+                }
+              });
 
-            return res;
-          });
+              return res;
+            });
         },
       },
       // {
@@ -161,28 +163,29 @@ const VisualizeHistory = () => {
       {
         queryKey: ["userActions", id],
         queryFn: async () => {
-          return await api.getHistoryUserActions(id).then((res: UserCredentials[]) => {
-            setUserActions(res);
-            return res;
-          });
+          return await api
+            .getHistoryUserActions(id)
+            .then((res: UserCredentials[]) => {
+              setUserActions(res);
+              return res;
+            });
         },
       },
       {
         queryKey: ["bpmnModel", processDefinitionId],
         queryFn: async () => {
-          return await api.getBpmnModel(processDefinitionId)
+          return await api
+            .getBpmnModel(processDefinitionId)
             .then((res: any) => {
-              const model = TasksBpmnElements.createTableData(res)
-              setModel(model)
+              const model = TasksBpmnElements.createTableData(res);
+              setModel(model);
               //console.log("model: ", model)
-              return model
-            })
-        }
-      }
+              return model;
+            });
+        },
+      },
     ],
   });
-
-
 
   return (
     <Stack

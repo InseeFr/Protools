@@ -110,7 +110,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={
         contextOidc || {
           isUserLoggedIn: false,
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           login: () => {},
           accessToken: "",
           oidcUser: {

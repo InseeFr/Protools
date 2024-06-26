@@ -1,14 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const fetcher = async (url: string, method: string, token: string, body: any) => {
-   const headers = {
-    Accept: "application/json", 
-     "Content-Type": "application/json",
-    'Access-Control-Allow-Origin': '*',
+export const fetcher = async (
+  url: string,
+  method: string,
+  token: string,
+  body: any,
+) => {
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   };
 
   try {
     const response = await fetch(url, {
-      headers: token ? { ...headers, Authorization: `Bearer ${token}` } : headers,
+      headers: token
+        ? { ...headers, Authorization: `Bearer ${token}` }
+        : headers,
       method,
       body: body ? JSON.stringify(body) : null,
     });
@@ -29,16 +35,23 @@ export const fetcher = async (url: string, method: string, token: string, body: 
   }
 };
 
-export const fetcherXml = async (url: string, method: string, token: string, body: any) => {
+export const fetcherXml = async (
+  url: string,
+  method: string,
+  token: string,
+  body: any,
+) => {
   const headers = {
     Accept: "application/xml",
     "Content-Type": "application/json",
-    'Access-Control-Allow-Origin': '*',
+    "Access-Control-Allow-Origin": "*",
   };
 
   try {
     const response = await fetch(url, {
-      headers: token ? { ...headers, Authorization: `Bearer ${token}` } : headers,
+      headers: token
+        ? { ...headers, Authorization: `Bearer ${token}` }
+        : headers,
       method,
       body: body ? JSON.stringify(body) : null,
     });
@@ -62,7 +75,7 @@ export const fetcherMultipart = async (
   url: string,
   method: string,
   token: string,
-  body: { [key: string]: any }
+  body: { [key: string]: any },
 ) => {
   const json = JSON.stringify(body);
   const blob = new Blob([json], { type: "application/json" });
