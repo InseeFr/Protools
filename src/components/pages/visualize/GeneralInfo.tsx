@@ -44,6 +44,7 @@ function humanizeDuration(duration: moment.Duration) {
   const days = duration.days();
   const hours = duration.hours();
   const minutes = duration.minutes();
+  const seconds = duration.seconds();
 
   let result = '';
   if (days > 0) {
@@ -54,6 +55,10 @@ function humanizeDuration(duration: moment.Duration) {
   }
   if (minutes > 0) {
     result += minutes + ' minutes ';
+  }
+  // Add seconds only if less than an hour
+  if (hours === 0 && seconds > 0) {
+    result += seconds + ' secondes';
   }
 
   return result.trim();
