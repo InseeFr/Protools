@@ -38,7 +38,7 @@ const NoMaxWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
     fontSize: "1.1em",
   },
 });
-moment.locale('fr');
+moment.locale("fr");
 
 function humanizeDuration(duration: moment.Duration) {
   const days = duration.days();
@@ -46,26 +46,25 @@ function humanizeDuration(duration: moment.Duration) {
   const minutes = duration.minutes();
   const seconds = duration.seconds();
 
-  let result = '';
+  let result = "";
   if (days > 0) {
-    result += days + ' jours ';
+    result += days + " jours ";
   }
   if (hours > 0) {
-    result += hours + ' heures ';
+    result += hours + " heures ";
   }
   if (minutes > 0) {
-    result += minutes + ' minutes ';
+    result += minutes + " minutes ";
   }
   // Add seconds only if less than an hour
   if (hours === 0 && seconds > 0) {
-    result += seconds + ' secondes';
+    result += seconds + " secondes";
   }
 
   return result.trim();
 }
 
 const GeneralInfo = (props: GeneralInfoProps) => {
-
   const api = useApi();
   const navigate = useNavigate();
   const { processDefinitionData, processInstance, historyProcess } = props;
@@ -162,7 +161,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
           </Grid>
         </Stack>
 
-        <Stack spacing={1}>
+        <Stack spacing={1} style={{ minWidth: "200px" }}>
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
               État:
@@ -210,15 +209,18 @@ const GeneralInfo = (props: GeneralInfoProps) => {
                     moment(historyProcess?.endTime).format("DD/MM/YYYY HH:mm")
                   : "..."}
               </Typography>
-                <NoMaxWidthTooltip
-                  title={`Durée: ${historyProcess?.durationInMillis
-                    ? humanizeDuration(moment.duration(historyProcess?.durationInMillis))
+              <NoMaxWidthTooltip
+                title={`Durée: ${
+                  historyProcess?.durationInMillis
+                    ? humanizeDuration(
+                        moment.duration(historyProcess?.durationInMillis),
+                      )
                     : "..."
-                    }`}
-                  enterTouchDelay={0}
-                  leaveTouchDelay={2000}
-                  arrow
-                >
+                }`}
+                enterTouchDelay={0}
+                leaveTouchDelay={2000}
+                arrow
+              >
                 <IconButton>
                   <FiInfo size={18} />
                 </IconButton>
