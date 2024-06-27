@@ -1,5 +1,6 @@
 import {
   DataGrid,
+  frFR,
   GridColDef,
   GridRenderCellParams,
   GridToolbar,
@@ -126,6 +127,7 @@ const OnGoingProcess = (props: OnGoingProcessProps) => {
         }}
         pageSizeOptions={[5, 10, 25]}
         getRowClassName={() => "row--style"}
+        localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
       />
     </Box>
   );

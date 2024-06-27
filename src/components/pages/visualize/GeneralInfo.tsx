@@ -161,7 +161,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
           </Grid>
         </Stack>
 
-        <Stack spacing={1} style={{ minWidth: "200px" }}>
+        <Stack spacing={1} style={{ minWidth: "225px" }}>
           <Grid item container xs={12} direction="row" alignItems="baseline">
             <Typography color="primary" variant="h6">
               État:
@@ -186,13 +186,16 @@ const GeneralInfo = (props: GeneralInfoProps) => {
         >
           {processInstance.state ? "Suspendre" : "Relancer"}
         </Button> */}
-              <Button
-                iconId="fr-icon-delete-line"
-                priority="secondary"
-                nativeButtonProps={modal.buttonProps}
-              >
-                Arrêter
-              </Button>
+              <div style={{ margin: "0 1rem" }}>
+                <Button
+                  iconId="fr-icon-delete-line"
+                  priority="secondary"
+                  nativeButtonProps={modal.buttonProps}
+                  size="small"
+                >
+                  Arrêter
+                </Button>
+              </div>
             </Grid>
           ) : (
             <Grid item container xs={12} direction="row" alignItems="baseline">

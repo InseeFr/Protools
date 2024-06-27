@@ -1,5 +1,4 @@
-
-import { GridColDef, DataGrid } from "@mui/x-data-grid";
+import { GridColDef, DataGrid, frFR } from "@mui/x-data-grid";
 import HistoryActivitiesGrouped from "../../../lib/model/displayModels/historyActivitiesGrouped";
 
 interface HistoryProps {
@@ -13,7 +12,6 @@ const columns: GridColDef[] = [
     flex: 0.08,
     minWidth: 100,
     description: "Date de début",
-
   },
   {
     field: "label",
@@ -33,19 +31,19 @@ const columns: GridColDef[] = [
     field: "count",
     headerName: "Nombre d'exécutions",
     flex: 0.08,
-    align: 'center'
+    align: "center",
   },
   {
     field: "avgDuration",
     headerName: "Durée moyenne (sec)",
     flex: 0.08,
-    align: 'center'
+    align: "center",
   },
   {
     field: "lastExecution",
     headerName: "Dernière exécution",
     flex: 0.08,
-    align: 'center'
+    align: "center",
   },
 ];
 const HistoryActivity = (props: HistoryProps) => {
@@ -71,12 +69,13 @@ const HistoryActivity = (props: HistoryProps) => {
           pagination
           getRowClassName={() => "row--style"}
           sx={{
-            '& .MuiDataGrid-columnHeaderTitle': {
+            "& .MuiDataGrid-columnHeaderTitle": {
               textOverflow: "clip",
               whiteSpace: "break-spaces",
-              lineHeight: 1
-            }
+              lineHeight: 1,
+            },
           }}
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
         />
       ) : (
         <p>Historique vide</p>

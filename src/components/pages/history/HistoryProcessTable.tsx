@@ -4,6 +4,7 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
+import { frFR } from "@mui/x-data-grid/locales";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { HistoryProcess } from "../../../lib/model/api/historyProcess";
@@ -14,7 +15,6 @@ interface HistoryProcessTableProps {
   history: HistoryProcess[];
 }
 const columns: GridColDef[] = [
-
   {
     field: "businessKey",
     renderHeader: () => (
@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
       </Typography>
     ),
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
+      <Typography align="left">{params.value}</Typography>
     ),
     headerClassName: "columns--header",
     flex: 0.16,
@@ -51,7 +51,7 @@ const columns: GridColDef[] = [
     headerClassName: "columns--header",
     flex: 0.35,
     renderCell: (params: GridRenderCellParams) => (
-      <Typography>{params.value}</Typography>
+      <Typography align="left">{params.value}</Typography>
     ),
   },
   {
@@ -97,7 +97,7 @@ const columns: GridColDef[] = [
     flex: 0.06,
     renderCell: (params: GridRenderCellParams) => {
       const duration = moment.duration(params.value);
-      let formattedDuration = '';
+      let formattedDuration = "";
 
       if (duration.asHours() < 1) {
         if (duration.asMinutes() < 1) {
@@ -124,13 +124,13 @@ const columns: GridColDef[] = [
         <Link
           to={`/history/${params.row.id}/${params.row.processDefinitionId}`}
           style={{ textDecoration: "none" }}
-        //state={{ ids: params.value }}
+          //state={{ ids: params.value }}
         >
           <FiChevronRight fontSize={24} />
         </Link>
       );
-    }
-  }
+    },
+  },
 ];
 const HistoryProcessTable = (props: HistoryProcessTableProps) => {
   const { history } = props;
@@ -151,6 +151,7 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
+        getRowHeight={() => "auto"}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -164,12 +165,13 @@ const HistoryProcessTable = (props: HistoryProcessTableProps) => {
         }}
         initialState={{
           sorting: {
-            sortModel: [{ field: "endTime", sort: "desc" }], 
+            sortModel: [{ field: "endTime", sort: "desc" }],
           },
           pagination: { paginationModel: { pageSize: 10 } },
         }}
         pageSizeOptions={[5, 10, 25]}
         getRowClassName={() => "row--style"}
+        localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
       />
     </Box>
   );

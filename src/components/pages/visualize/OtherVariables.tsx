@@ -1,6 +1,5 @@
-
 import { Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, frFR, GridColDef } from "@mui/x-data-grid";
 import Variable from "../../../lib/model/api/variable";
 
 interface OtherVariableProps {
@@ -25,7 +24,6 @@ const columns: GridColDef[] = [
     field: "type",
     headerName: "Type",
     flex: 0.1,
-
   },
   {
     field: "scope",
@@ -56,6 +54,7 @@ const OtherVariable = (props: OtherVariableProps) => {
           pagination
           getRowClassName={() => "row--style"}
           getRowId={(row) => row.name}
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
         />
       ) : (
         <Typography>Aucune variable</Typography>

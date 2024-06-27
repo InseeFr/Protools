@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, frFR, GridColDef } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
 interface BpmnElementsProps {
@@ -53,6 +53,7 @@ const BpmnElements = (props: BpmnElementsProps) => {
           autoHeight
           pagination
           getRowClassName={() => "row--style"}
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
         />
       </div>
     </Box>
