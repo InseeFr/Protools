@@ -99,7 +99,7 @@ const GeneralInfo = (props: GeneralInfoProps) => {
       <Typography color="primary" variant="h6">
         {title}:
       </Typography>
-      <Typography color="primary" variant="body1" sx={{ marginLeft: 1 }}>
+      <Typography color="primary" variant="body1" sx={{ marginLeft: 1, textAlign: 'left' }}>
         {value}
       </Typography>
       {tooltip && (
